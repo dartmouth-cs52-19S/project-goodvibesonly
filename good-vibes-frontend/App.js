@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Profile from './src/containers/Profile';
+import Playlist from './src/containers/Playlist';
 
 export default class App extends React.Component {
   render() {
