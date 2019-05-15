@@ -3,7 +3,7 @@
 ![Team Photo](Insert a Team Photo URL here)
 [*how?*](https://help.github.com/articles/about-readmes/#relative-links-and-image-paths-in-readme-files)
 
-TODO: short project description, some sample screenshots or mockups
+A mobile app for creating location-based collaborative playlists.
 
 ## Architecture
 
@@ -15,7 +15,9 @@ Libraries:
 * Babel
 * Axios
 
-Linter:
+Linter/Testing:
+* Eslint with Airbnb Style Guide
+* Travis CI
 
 ## Setup
 
@@ -31,10 +33,10 @@ To run locally:
 TODO: how to deploy the project
 
 ## Authors
-Angi Li '20
-Danah Han '20
-Grace Dorgan '21
-Shoshana Geller '20
-Emma Langfitt '20
+* Angi Li '20
+* Danah Han '20
+* Grace Dorgan '21
+* Shoshana Geller '20
+* Emma Langfitt '20
 
 ## Acknowledgments
