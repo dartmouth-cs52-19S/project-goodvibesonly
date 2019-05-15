@@ -1,4 +1,4 @@
-# Project Name
+# Vibes
 
 ![Team Photo](Insert a Team Photo URL here)
 [*how?*](https://help.github.com/articles/about-readmes/#relative-links-and-image-paths-in-readme-files)
@@ -7,11 +7,24 @@ TODO: short project description, some sample screenshots or mockups
 
 ## Architecture
 
-TODO:  descriptions of code organization and tools and libraries used
+Framework:
+* React Native with Expo-CLI
+
+Libraries:
+* Redux
+* Babel
+* Axios
+
+Linter:
 
 ## Setup
 
-TODO: how to get the project dev environment up and running, npm install etc
+To run locally:
+1. Clone the repository and `cd good-vibes-frontend`
+2. `yarn`
+3. `expo start` (install expo if not yet installed with `yarn add expo-cli -g`)
+4. Press `i` to open up iPhone simulator on macOS
+5. Download Expo Client from the app store on iPhone or Android and scan the QR code
 
 ## Deployment
 
