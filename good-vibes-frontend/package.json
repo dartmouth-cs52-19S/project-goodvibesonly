@@ -10,12 +10,23 @@
   "dependencies": {
     "core-js": "^3.0.1",
     "expo": "^32.0.0",
+    "expo-cli": "^2.17.2",
     "react": "16.5.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz"
+    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-navigation": "^3.9.2"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "babel-preset-expo": "^5.0.0",
     "eslint": "^5.16.0",
+=======
+    "babel-eslint": "^10.0.1",
+    "babel-preset-expo": "^5.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+>>>>>>> a77af8f6a294d8bdb50763787963435ba69680f0
     "eslint-plugin-react": "^7.13.0"
   },
   "private": true
