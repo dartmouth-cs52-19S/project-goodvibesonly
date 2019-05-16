@@ -6,6 +6,17 @@ import {
   View, Text, Button, TextInput,
 } from 'react-native';
 
+const styles = StyleSheet.create({
+  button: {
+    flex: 1,
+    backgroundColor: '#1DB5E5',
+    fontFamily: '',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: '-4px 4px 0px #000000',
+  },
+});
+
 class AddSong extends Component {
   constructor(props) {
     super();
@@ -34,7 +45,7 @@ class AddSong extends Component {
     return (
       <View>
         <View id="top">
-          <Button title="back" onPress={this.onBackClick} />
+          <Button title="back" onPress={this.onBackClick} style={styles.button} />
           <Text>
                     Add a Song
           </Text>
@@ -50,7 +61,7 @@ class AddSong extends Component {
                     Results list here
           </Text>
         </View>
-        <Button title="add" onPress={this.onAddClick} />
+        <Button title="add" onPress={this.onAddClick} style={styles.button} />
       </View>
     );
   }

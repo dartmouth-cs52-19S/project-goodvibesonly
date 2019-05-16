@@ -18,9 +18,9 @@ class App extends React.Component {
 
 // These tabs are not the final ones, just to test each screen
 const TabNavigator = createBottomTabNavigator({
-  Playlist: Playlist,
-  Profile: Profile,
-  Login: Login,
+  Playlist,
+  Profile,
+  Login,
 });
 
 export default createAppContainer(TabNavigator);
