@@ -3,7 +3,7 @@
 
 import React, { Component } from 'react';
 import {
-  View, Text, Button,
+  View, Text, Button, StyleSheet,
 } from 'react-native';
 
 class Profile extends Component {
@@ -16,7 +16,7 @@ class Profile extends Component {
 
   onHomeClick() {
     console.log('onHomeClick');
-    console.log(this.state.playlists);
+    // console.log(this.state.playlists);
   }
 
   onUserClick() {
@@ -33,30 +33,24 @@ class Profile extends Component {
 
   render() {
     return (
-      <View>
-        <View id="top">
+      <View style={styles.container}>
+        <View style={styles.container2}>
           <Text>
                     My Playlists...
           </Text>
           <Button title="Add" onPress={this.createPlaylistClick} className="fas fa-pencil-alt" />
         </View>
-        <View id="playlist">
-          <Text>
-                    Playlist 1
-            {'\n'}
-            {'\n'}
-                    Playlist 2
-            {'\n'}
-            {'\n'}
-                    Playlist 3
-          </Text>
+        <View style={styles.container3}>
+          <Text> Playlist 1 </Text>
+          <Text> Playlist 2 </Text>
+          <Text> Playlist 3 </Text>
         </View>
         <View id="songBar">
           <Text>
                     Song Bar Here
           </Text>
         </View>
-        <View id="bottomButtons">
+        <View style={styles.container4}>
           <Button title="home" onPress={this.onHomeClick} />
           <Button title="user" onPress={this.onUserClick} />
           <Button title="settings" onPress={this.onSettingsClick} />
@@ -67,3 +61,32 @@ class Profile extends Component {
 }
 
 export default Profile;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  container2: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  container3: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  container4: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+});
