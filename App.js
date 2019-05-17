@@ -1,17 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+// import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware, compose } from 'redux';
 import Profile from './src/containers/Profile';
 import Playlist from './src/containers/Playlist';
 import Login from './src/containers/Login';
 
-class App extends React.Component {
+import reducers from './src/reducers';
+
+const store = createStore(reducers, {}, compose(
+  applyMiddleware(thunk),
+  window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
+));
+
+export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Good Vibes Only Main App Component!</Text>
-        <Text>Hello World!</Text>
-      </View>
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
     );
   }
 }
@@ -23,13 +32,4 @@ const TabNavigator = createBottomTabNavigator({
   Login,
 });
 
-export default createAppContainer(TabNavigator);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const AppContainer = createAppContainer(TabNavigator);
