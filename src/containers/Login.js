@@ -23,7 +23,7 @@ class Login extends React.Component {
   }
 
   render() {
-    console.log(this.props.message);
+    // console.log(this.props.message);
     return (
       <View style={styles.container}>
         <Text>welcome to vibes</Text>
