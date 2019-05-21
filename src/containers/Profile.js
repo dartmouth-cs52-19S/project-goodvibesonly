@@ -9,9 +9,9 @@ import {
 class Profile extends Component {
   constructor(props) {
     super();
-    this.state = {
-      playlists: [],
-    };
+    // this.state = {
+    //   playlists: [],
+    // };
   }
 
   onHomeClick() {
