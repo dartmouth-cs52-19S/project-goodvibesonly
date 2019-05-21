@@ -3,7 +3,7 @@
 
 import React, { Component } from 'react';
 import {
-  View, Text, Button,
+  View, Text, Button, StyleSheet,
 } from 'react-native';
 
 class Playlist extends Component {
@@ -25,16 +25,16 @@ class Playlist extends Component {
 
   render() {
     return (
-      <View>
-        <View id="top">
+      <View style={styles.container}>
+        <View style={styles.container2}>
           <Button title="back" onPress={this.onAddClick} />
-          <Text>
-                    Playlist Title
-            {'\n'}
-                    Location
-          </Text>
         </View>
-        <View id="songList">
+        <Text>
+                    Playlist Title
+          {'\n'}
+                    Location
+        </Text>
+        <View style={styles.container3}>
           <Text>
                     Song 1
             {'\n'}
@@ -57,3 +57,25 @@ class Playlist extends Component {
 }
 
 export default Playlist;
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  container2: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  container3: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
