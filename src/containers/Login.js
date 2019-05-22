@@ -64,11 +64,13 @@ class Login extends React.Component {
   render() {
     // console.log(this.props.message);
     const client_id = 'b4a7ad189bdb424aad1d1a4773a6ddf6'; // Your client id
-    const redirect_uri = 'https://good-vibes-only.herokuapp.com/api'; // Your redirect uri
+    const redirect_uri = 'https://good-vibes-only.herokuapp.com/api/auth'; // Your redirect uri
     const scopes = 'user-read-private user-read-email';
     if (this.state.loginPressed) {
       // Adapted from: https://facebook.github.io/react-native/docs/webview.
-      // This code creates a webview
+      // This code creates a webview.
+      // Also referenced https://stackoverflow.com/questions/35451139/react-native-webview-not-loading-any-url-react-native-web-view-not-working
+      // from which I learned that my webview wasn't rendering because I initially had the webview nested inside a view
       return (
         <WebView
           source={{
