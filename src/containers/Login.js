@@ -1,17 +1,29 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/destructuring-assignment */
 
 import React from 'react';
 import {
-  StyleSheet, Text, View, Button,
+  StyleSheet, Text, View, Button, WebView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { signin } from '../actions';
 
 class Login extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loginPressed: false,
+    };
+
+    // this.renderAuth = this.renderAuth.bind(this);
+  }
+
   onLoginPress = () => {
     console.log('login button pressed, do some axios call to our backend');
-    this.props.signin();
-    console.log(this.props.message);
+    this.setState({ loginPressed: true });
+    // this.props.signin();
+    // console.log(this.props.message);
   }
 
   renderMessage = () => {
@@ -22,15 +34,61 @@ class Login extends React.Component {
     }
   }
 
+  renderAuth = () => {
+    if (this.state.loginPressed) {
+    // Adapted from: https://facebook.github.io/react-native/docs/webview.
+    // This code creates a webview
+      return (
+        <WebView
+          source={{ uri: 'https://github.com/' }}
+          style={{ marginTop: 20 }}
+        />
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <Text>welcome to vibes</Text>
+          <Button title="login with spotify" onPress={this.onLoginPress} />
+        </View>
+      );
+    }
+  }
+
+  // old render function
+  /* <View style={styles.container}>
+        { this.renderMessage() }
+        {this.renderAuth()}
+      </View>
+  */
+
   render() {
     // console.log(this.props.message);
-    return (
-      <View style={styles.container}>
-        <Text>welcome to vibes</Text>
-        <Button title="login with spotify" onPress={this.onLoginPress} />
-        {this.renderMessage()}
-      </View>
-    );
+    const client_id = 'b4a7ad189bdb424aad1d1a4773a6ddf6'; // Your client id
+    const redirect_uri = 'https://good-vibes-only.herokuapp.com/api'; // Your redirect uri
+    const scopes = 'user-read-private user-read-email';
+    if (this.state.loginPressed) {
+      // Adapted from: https://facebook.github.io/react-native/docs/webview.
+      // This code creates a webview
+      return (
+        <WebView
+          source={{
+            uri: `${'https://accounts.spotify.com/authorize/'
+           + '?response_type=code'
+           + '&client_id='}${client_id
+            }${scopes ? `&scope=${encodeURIComponent(scopes)}` : ''
+            }&redirect_uri=${encodeURIComponent(redirect_uri)}`,
+          }}
+          style={{ marginTop: 20 }}
+        />
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <Text>welcome to vibes</Text>
+          <Button title="login with spotify" onPress={this.onLoginPress} />
+        </View>
+      );
+    }
   }
 }
 
