@@ -8,6 +8,7 @@ import { Constants, Location, Permissions } from 'expo';
 import { connect } from 'react-redux';
 import { fetchPlaylists } from '../actions';
 
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +17,8 @@ class Home extends React.Component {
       location: null,
       errorMessage: null,
     };
+
+    this.showPlaylist = this.showPlaylist.bind(this);
   }
 
   componentDidMount() {
@@ -69,6 +72,11 @@ class Home extends React.Component {
     }
   }
 
+  showPlaylist() {
+    // pass in video into this.props.navigation.state.params.video in navigated view
+    this.props.navigation.navigate('Playlist');
+  }
+
   renderPlaylistsInRange = () => {
     // will check playlists in this.props.all and render the ones in range of
     // this.state.location
@@ -88,6 +96,7 @@ class Home extends React.Component {
         <Text>Playlists Near Me</Text>
         <Text>Music Bar goes here eventually</Text>
         <Button onPress={this.onRefreshPress} title="Refresh Loc Manually" />
+        <Button onPress={this.showPlaylist} title="See Playlist" />
       </View>
     );
   }
