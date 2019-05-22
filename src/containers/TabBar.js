@@ -1,11 +1,11 @@
 import { createAppContainer, createBottomTabNavigator } from 'react-navigation';
 import Profile from './Profile';
-import Playlist from './Playlist';
+import CreatePlaylist from './CreatePlaylist';
 import Home from './Home';
 
 const TabBar = createBottomTabNavigator({
   Home,
-  Playlist,
+  CreatePlaylist,
   Profile,
 }, {
   initialRouteName: 'Home',

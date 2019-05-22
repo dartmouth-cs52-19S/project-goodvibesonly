@@ -27,7 +27,6 @@ class Main extends React.Component {
   }
 }
 
-// connecting currentPost prop to posts.current in global redux state
 function mapStateToProps(reduxState) {
   return {
     authenticated: reduxState.auth.authenticated,
