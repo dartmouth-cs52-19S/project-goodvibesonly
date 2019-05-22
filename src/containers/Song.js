@@ -50,7 +50,7 @@ class AddSong extends Component {
         <View id="searchbar">
           <TextInput
             placeholder="Search for a song"
-            onChangeText={this.onSearchChange}
+            onChange={this.onSearchChange}
           />
         </View>
         <View id="results">
