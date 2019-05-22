@@ -3,7 +3,7 @@
 
 import React, { Component } from 'react';
 import {
-  View, Text, Button, TextInput,
+  StyleSheet, View, Text, Button, TextInput,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     fontFamily: '',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: '-4px 4px 0px #000000',
+    // boxShadow: '-4px 4px 0px #000000',
   },
 });
 
