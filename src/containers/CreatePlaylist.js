@@ -27,6 +27,7 @@ class CreatePlaylist extends Component {
 
     this.onNameChange = this.onNameChange.bind(this);
     this.onGenreChange = this.onGenreChange.bind(this);
+    this.onAddClick = this.onAddClick.bind(this);
   }
 
   onBackClick() {
@@ -35,6 +36,7 @@ class CreatePlaylist extends Component {
 
   onAddClick() {
     console.log('onAddClick');
+    this.props.navigation.navigate('Playlist');
   }
 
   onNameChange(event) {
