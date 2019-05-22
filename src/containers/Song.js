@@ -3,7 +3,7 @@
 
 import React, { Component } from 'react';
 import {
-  View, Text, Button, TextInput,
+  View, Text, Button, TextInput, StyleSheet,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     fontFamily: '',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: '-4px 4px 0px #000000',
+    shadowColor: '#000000',
   },
 });
 
@@ -25,14 +25,12 @@ class AddSong extends Component {
     };
 
     this.onSearchChange = this.onSearchChange.bind(this);
-  }
-
-  onBackClick() {
-    console.log('onBackClick');
+    this.onAddClick = this.onAddClick.bind(this);
   }
 
   onAddClick() {
     console.log('onAddClick');
+    this.props.navigation.pop();
   }
 
   onSearchChange(event) {
@@ -45,7 +43,6 @@ class AddSong extends Component {
     return (
       <View>
         <View id="top">
-          <Button title="back" onPress={this.onBackClick} style={styles.button} />
           <Text>
                     Add a Song
           </Text>
@@ -53,7 +50,7 @@ class AddSong extends Component {
         <View id="searchbar">
           <TextInput
             placeholder="Search for a song"
-            onChangeText={this.onSearchChange}
+            onChange={this.onSearchChange}
           />
         </View>
         <View id="results">

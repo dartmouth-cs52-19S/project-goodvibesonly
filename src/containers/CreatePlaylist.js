@@ -3,7 +3,7 @@
 
 import React, { Component } from 'react';
 import {
-  View, Text, Button, TextInput,
+  StyleSheet, View, Text, Button, TextInput,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     fontFamily: '',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: '-4px 4px 0px #000000',
+    // boxShadow: '-4px 4px 0px #000000',
   },
 });
 
@@ -27,6 +27,7 @@ class CreatePlaylist extends Component {
 
     this.onNameChange = this.onNameChange.bind(this);
     this.onGenreChange = this.onGenreChange.bind(this);
+    this.onAddClick = this.onAddClick.bind(this);
   }
 
   onBackClick() {
@@ -35,6 +36,7 @@ class CreatePlaylist extends Component {
 
   onAddClick() {
     console.log('onAddClick');
+    this.props.navigation.navigate('Playlist');
   }
 
   onNameChange(event) {
@@ -61,11 +63,11 @@ class CreatePlaylist extends Component {
         <View id="info">
           <TextInput
             placeholder="playlistname"
-            onChangeText={this.onNameChange}
+            onChange={this.onNameChange}
           />
           <TextInput
             placeholder="playlistgenre"
-            onChangeText={this.onGenreChange}
+            onChange={this.onGenreChange}
           />
         </View>
 

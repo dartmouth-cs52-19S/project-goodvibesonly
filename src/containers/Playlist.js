@@ -12,6 +12,8 @@ class Playlist extends Component {
     this.state = {
       songs: [],
     };
+
+    this.onAddClick = this.onAddClick.bind(this);
   }
 
   onBackClick() {
@@ -21,14 +23,12 @@ class Playlist extends Component {
 
   onAddClick() {
     console.log('onAddClick');
+    this.props.navigation.navigate('Song');
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.container2}>
-          <Button title="back" onPress={this.onAddClick} />
-        </View>
         <Text>
                     Playlist Title
           {'\n'}

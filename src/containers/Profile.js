@@ -8,10 +8,11 @@ import {
 
 class Profile extends Component {
   constructor(props) {
-    super();
+    super(props);
     // this.state = {
     //   playlists: [],
     // };
+    this.viewPlaylist = this.viewPlaylist.bind(this);
   }
 
   onHomeClick() {
@@ -27,8 +28,8 @@ class Profile extends Component {
     console.log('onSettingsClick');
   }
 
-  createPlaylistClick() {
-    console.log('createPlaylistClick');
+  viewPlaylist() {
+    this.props.navigation.navigate('Playlist');
   }
 
   render() {
@@ -38,9 +39,9 @@ class Profile extends Component {
           <Text>
                     My Playlists...
           </Text>
-          <Button title="Add" onPress={this.createPlaylistClick} className="fas fa-pencil-alt" />
         </View>
         <View style={styles.container3}>
+          <Button title="playlist" onPress={this.viewPlaylist} />
           <Text> Playlist 1 </Text>
           <Text> Playlist 2 </Text>
           <Text> Playlist 3 </Text>
@@ -51,7 +52,6 @@ class Profile extends Component {
           </Text>
         </View>
         <View style={styles.container4}>
-          <Button title="home" onPress={this.onHomeClick} />
           <Button title="user" onPress={this.onUserClick} />
           <Button title="settings" onPress={this.onSettingsClick} />
         </View>

@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { signin } from '../actions';
-import TabBar from './TabBar';
+import TabBar from '../navigation/TabBar';
 import Login from './Login';
 
 class Main extends React.Component {
@@ -27,7 +27,6 @@ class Main extends React.Component {
   }
 }
 
-// connecting currentPost prop to posts.current in global redux state
 function mapStateToProps(reduxState) {
   return {
     authenticated: reduxState.auth.authenticated,
