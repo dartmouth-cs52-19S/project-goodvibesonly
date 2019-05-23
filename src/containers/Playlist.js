@@ -5,6 +5,8 @@ import React, { Component } from 'react';
 import {
   View, Text, Button, StyleSheet,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { fetchPlaylists } from '../actions';
 
 class Playlist extends Component {
   constructor(props) {
@@ -56,7 +58,17 @@ class Playlist extends Component {
   }
 }
 
-export default Playlist;
+function mapStateToProps(reduxState) {
+  return {
+    current: reduxState.playlists.current,
+  };
+}
+
+const mapDispatchToProps = {
+  fetchPlaylists,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
 
 
 const styles = StyleSheet.create({
