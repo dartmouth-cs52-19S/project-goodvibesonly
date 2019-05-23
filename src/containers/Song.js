@@ -1,21 +1,11 @@
+/* eslint-disable global-require */
 /* eslint-disable react/destructuring-assignment */
 // add song component
 
 import React, { Component } from 'react';
 import {
-  View, Text, Button, TextInput, StyleSheet,
+  View, Text, TouchableOpacity, TextInput, StyleSheet, ImageBackground,
 } from 'react-native';
-
-const styles = StyleSheet.create({
-  button: {
-    flex: 1,
-    backgroundColor: '#1DB5E5',
-    fontFamily: '',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000000',
-  },
-});
 
 class AddSong extends Component {
   constructor(props) {
@@ -42,26 +32,77 @@ class AddSong extends Component {
   render() {
     return (
       <View>
-        <View id="top">
-          <Text>
-                    Add a Song
-          </Text>
-        </View>
-        <View id="searchbar">
-          <TextInput
-            placeholder="Search for a song"
-            onChange={this.onSearchChange}
-          />
-        </View>
-        <View id="results">
-          <Text>
+        <ImageBackground source={require('../img/Create.png')} style={styles.backgroundImage}>
+          <View id="top">
+            <Text style={styles.top}>
+              Add a Song
+            </Text>
+          </View>
+          <View id="searchbar" style={styles.info}>
+            <TextInput
+              placeholder="Search for a song"
+              onChange={this.onSearchChange}
+              style={styles.input}
+            />
+          </View>
+          <View id="results">
+            {/* <Text>
                     Results list here
-          </Text>
-        </View>
-        <Button title="add" onPress={this.onAddClick} style={styles.button} />
+            </Text> */}
+          </View>
+          <TouchableOpacity onPress={this.onAddClick} style={styles.button}>
+            <Text>add</Text>
+          </TouchableOpacity>
+        </ImageBackground>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  top: {
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  button: {
+    backgroundColor: '#1DB5E5',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    width: 130,
+    height: 40,
+    padding: 10,
+  },
+  input: {
+    height: 60,
+    width: 200,
+    borderColor: '#000000',
+    borderWidth: 1,
+    margin: 30,
+    textAlign: 'center',
+    backgroundColor: 'white',
+    shadowColor: '#E31688',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+  },
+  info: {
+    padding: 30,
+  },
+});
 
 export default AddSong;

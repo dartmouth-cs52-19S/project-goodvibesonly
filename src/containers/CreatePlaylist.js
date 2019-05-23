@@ -1,21 +1,13 @@
+/* eslint-disable global-require */
 /* eslint-disable react/destructuring-assignment */
 // create playlist component
 
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, Button, TextInput,
+  StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground,
 } from 'react-native';
-
-const styles = StyleSheet.create({
-  button: {
-    flex: 1,
-    backgroundColor: '#1DB5E5',
-    fontFamily: '',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // boxShadow: '-4px 4px 0px #000000',
-  },
-});
+import { connect } from 'react-redux';
+import { createPlaylist } from '../actions';
 
 class CreatePlaylist extends Component {
   constructor(props) {
@@ -24,62 +16,126 @@ class CreatePlaylist extends Component {
       name: '',
       genre: '',
     };
-
-    this.onNameChange = this.onNameChange.bind(this);
-    this.onGenreChange = this.onGenreChange.bind(this);
-    this.onAddClick = this.onAddClick.bind(this);
   }
 
-  onBackClick() {
+  onBackClick = () => {
     console.log('onBackClick');
   }
 
-  onAddClick() {
+  onAddClick = () => {
     console.log('onAddClick');
-    this.props.navigation.navigate('Playlist');
+    console.log('name state var', this.state.name);
+    // this.props.navigation.navigate('Playlist');
+    this.props.createPlaylist('37i9dQZF1DXcBWIGoYBM5M', this.state.name);
   }
 
-  onNameChange(event) {
+  onNameChange = (text) => {
     console.log('onSearchChange');
-    this.setState({ name: event.target.value });
-    console.log(this.state.name);
+    this.setState({ name: text });
+    console.log(text);
   }
 
-  onGenreChange(event) {
+  onGenreChange = (text) => {
     console.log('onGenreChange');
-    this.setState({ genre: event.target.value });
+    this.setState({ genre: text });
+    console.log(text);
     console.log(this.state.genre);
   }
 
   render() {
-    return (
-      <View>
-        <View id="top">
-          <Button title="back" onPress={this.onBackClick} style={styles.button} />
-          <Text>
-                    Create a Playlist
-          </Text>
-        </View>
-        <View id="info">
-          <TextInput
-            placeholder="playlistname"
-            onChange={this.onNameChange}
-          />
-          <TextInput
-            placeholder="playlistgenre"
-            onChange={this.onGenreChange}
-          />
-        </View>
+    if (this.props.message !== undefined) {
+      console.log('message', this.props.message);
+    }
 
-        <View id="results">
-          <Text>
-                    Results list here
-          </Text>
-        </View>
-        <Button title="add" onPress={this.onAddClick} style={styles.button} />
+    return (
+      <View style={styles.container}>
+        <ImageBackground source={require('../img/Create.png')} style={styles.backgroundImage}>
+          <View id="top">
+            <Text style={styles.top}>
+                    Create a Playlist
+            </Text>
+          </View>
+          <View id="info">
+            <TextInput
+              placeholder="playlistname"
+              onChangeText={this.onNameChange}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="playlistgenre"
+              onChangeText={this.onGenreChange}
+              style={styles.input}
+            />
+          </View>
+
+          <View id="results">
+            {/* <Text>
+              Results list here
+            </Text> */}
+          </View>
+          <TouchableOpacity onPress={this.onAddClick} style={styles.button}>
+            <Text>add</Text>
+          </TouchableOpacity>
+        </ImageBackground>
       </View>
     );
   }
 }
 
-export default CreatePlaylist;
+function mapStateToProps(reduxState) {
+  return {
+    message: reduxState.playlists.message,
+  };
+}
+
+const mapDispatchToProps = {
+  createPlaylist,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePlaylist);
+
+const styles = StyleSheet.create({
+  top: {
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  button: {
+    backgroundColor: '#1DB5E5',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    width: 130,
+    height: 40,
+    padding: 10,
+  },
+  input: {
+    height: 60,
+    width: 200,
+    borderColor: '#000000',
+    borderWidth: 1,
+    margin: 30,
+    backgroundColor: 'white',
+    textAlign: 'center',
+    shadowColor: '#E31688',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+  },
+  info: {
+    padding: 30,
+  },
+});
