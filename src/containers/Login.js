@@ -1,15 +1,18 @@
 /* eslint-disable global-require */
 /* eslint-disable camelcase */
 /* eslint-disable react/destructuring-assignment */
+/* eslint-disable no-return-assign */
 
 import React from 'react';
 import {
   StyleSheet, Text, View, TouchableOpacity, ImageBackground, WebView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { signin } from '../actions';
+import { signin, authenticate } from '../actions';
 
 class Login extends React.Component {
+  webview = null;
+
   constructor(props) {
     super(props);
 
@@ -33,12 +36,18 @@ class Login extends React.Component {
     }
   }
 
-  // old render function
-  /* <View style={styles.container}>
-        { this.renderMessage() }
-        {this.renderAuth()}
-      </View>
-  */
+  handleWebViewNavigationStateChange = (newNavState) => {
+    const { url } = newNavState;
+    if (!url) return;
+
+    if (url.includes('?message=authSucces')) {
+      this.props.authenticate();
+      const tokenIndex = url.indexOf('token') + 6;
+      const token = url.substring(tokenIndex, url.length);
+      console.log(token);
+      this.webview.stopLoading();
+    }
+  }
 
   render() {
     const client_id = 'b4a7ad189bdb424aad1d1a4773a6ddf6'; // Your client id
@@ -51,6 +60,7 @@ class Login extends React.Component {
       // from which I learned that my webview wasn't rendering because I initially had the webview nested inside a view
       return (
         <WebView
+          ref={ref => (this.webview = ref)}
           source={{
             uri: `${'https://accounts.spotify.com/authorize/'
            + '?response_type=code'
@@ -59,6 +69,7 @@ class Login extends React.Component {
             }&redirect_uri=${encodeURIComponent(redirect_uri)}`,
           }}
           style={{ marginTop: 20 }}
+          onNavigationStateChange={this.handleWebViewNavigationStateChange}
         />
       );
     } else {
@@ -108,11 +119,13 @@ const styles = StyleSheet.create({
 function mapStateToProps(reduxState) {
   return {
     message: reduxState.auth.message,
+    authenticated: reduxState.auth.authenticated,
   };
 }
 
 const mapDispatchToProps = {
   signin,
+  authenticate,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

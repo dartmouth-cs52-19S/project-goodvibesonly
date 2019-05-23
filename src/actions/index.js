@@ -11,16 +11,24 @@ export const ActionTypes = {
   PAUSE: 'PAUSE',
 };
 
-// const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
-const ROOT_URL = 'http://localhost:9090/api';
+const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
+// const ROOT_URL = 'http://localhost:9090/api';
 
 export function signin() {
+  console.log('in sign in');
   return (dispatch) => {
     axios.post(`${ROOT_URL}/signin`).then((response) => {
+      console.log('response', response);
       dispatch({ type: ActionTypes.AUTH_USER, payload: response.data });
     }).catch((error) => {
       console.log(error);
     });
+  };
+}
+
+export function authenticate() {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.AUTH_USER, payload: 'user authenticated' });
   };
 }
 
