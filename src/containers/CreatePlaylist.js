@@ -6,6 +6,8 @@ import React, { Component } from 'react';
 import {
   StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { createPlaylist } from '../actions';
 
 class CreatePlaylist extends Component {
   constructor(props) {
@@ -14,30 +16,37 @@ class CreatePlaylist extends Component {
       name: '',
       genre: '',
     };
-
-    this.onNameChange = this.onNameChange.bind(this);
-    this.onGenreChange = this.onGenreChange.bind(this);
-    this.onAddClick = this.onAddClick.bind(this);
   }
 
-  onAddClick() {
+  onBackClick = () => {
+    console.log('onBackClick');
+  }
+
+  onAddClick = () => {
     console.log('onAddClick');
-    this.props.navigation.navigate('Playlist');
+    console.log('name state var', this.state.name);
+    // this.props.navigation.navigate('Playlist');
+    this.props.createPlaylist('37i9dQZF1DXcBWIGoYBM5M', this.state.name);
   }
 
-  onNameChange(event) {
+  onNameChange = (text) => {
     console.log('onSearchChange');
-    this.setState({ name: event.target.value });
-    console.log(this.state.name);
+    this.setState({ name: text });
+    console.log(text);
   }
 
-  onGenreChange(event) {
+  onGenreChange = (text) => {
     console.log('onGenreChange');
-    this.setState({ genre: event.target.value });
+    this.setState({ genre: text });
+    console.log(text);
     console.log(this.state.genre);
   }
 
   render() {
+    if (this.props.message !== undefined) {
+      console.log('message', this.props.message);
+    }
+
     return (
       <View style={styles.container}>
         <ImageBackground source={require('../img/Create.png')} style={styles.backgroundImage}>
@@ -46,16 +55,14 @@ class CreatePlaylist extends Component {
                     Create a Playlist
             </Text>
           </View>
-          <View id="info" style={styles.info}>
+          <View id="info">
             <TextInput
               placeholder="playlistname"
-              onChange={this.onNameChange}
-              style={styles.input}
+              onChangeText={this.onNameChange}
             />
             <TextInput
               placeholder="playlistgenre"
-              onChange={this.onGenreChange}
-              style={styles.input}
+              onChangeText={this.onGenreChange}
             />
           </View>
 
@@ -72,6 +79,18 @@ class CreatePlaylist extends Component {
     );
   }
 }
+
+function mapStateToProps(reduxState) {
+  return {
+    message: reduxState.playlists.message,
+  };
+}
+
+const mapDispatchToProps = {
+  createPlaylist,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePlaylist);
 
 const styles = StyleSheet.create({
   top: {
@@ -113,5 +132,3 @@ const styles = StyleSheet.create({
     padding: 30,
   },
 });
-
-export default CreatePlaylist;
