@@ -128,7 +128,12 @@ const styles = StyleSheet.create({
     borderColor: '#000000',
     borderWidth: 1,
     margin: 30,
+    backgroundColor: 'white',
     textAlign: 'center',
+    shadowColor: '#E31688',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
   },
   info: {
     padding: 30,
