@@ -94,6 +94,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     margin: 30,
     textAlign: 'center',
+    backgroundColor: 'white',
+    shadowColor: '#E31688',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
   },
   info: {
     padding: 30,
