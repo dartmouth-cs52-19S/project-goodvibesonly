@@ -1,9 +1,10 @@
+/* eslint-disable global-require */
 /* eslint-disable camelcase */
 /* eslint-disable react/destructuring-assignment */
 
 import React from 'react';
 import {
-  StyleSheet, Text, View, Button, WebView,
+  StyleSheet, Text, View, TouchableOpacity, ImageBackground, WebView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { signin } from '../actions';
@@ -63,8 +64,13 @@ class Login extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-          <Text>welcome to vibes</Text>
-          <Button title="login with spotify" onPress={this.onLoginPress} />
+          <ImageBackground source={require('../img/Login.png')} style={styles.backgroundImage}>
+            <Text>welcome to vibes</Text>
+            <TouchableOpacity onPress={this.onLoginPress} style={styles.button}>
+              <Text>login with spotify</Text>
+            </TouchableOpacity>
+            {this.renderMessage()}
+          </ImageBackground>
         </View>
       );
     }
@@ -77,6 +83,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    alignContent: 'center',
+  },
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  button: {
+    backgroundColor: '#1DB5E5',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    width: 175,
+    height: 40,
+    padding: 10,
+
   },
 });
 
