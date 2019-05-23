@@ -92,6 +92,7 @@ class Home extends React.Component {
     if (this.state.location !== null) {
       console.log(this.state.location);
     }
+    console.log('token', this.props.token);
     return (
       <View style={styles.container}>
         <View style={styles.top}>
@@ -200,6 +201,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(reduxState) {
   return {
     all: reduxState.playlists.all,
+    token: reduxState.auth.token,
   };
 }
 

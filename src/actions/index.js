@@ -26,9 +26,10 @@ export function signin() {
   };
 }
 
-export function authenticate() {
+export function authenticate(token) {
+  console.log('token in action creator', token);
   return (dispatch) => {
-    dispatch({ type: ActionTypes.AUTH_USER, payload: 'user authenticated' });
+    dispatch({ type: ActionTypes.AUTH_USER, payload: { message: 'user authenticated', token } });
   };
 }
 
