@@ -41,10 +41,9 @@ class Login extends React.Component {
     if (!url) return;
 
     if (url.includes('?message=authSucces')) {
-      this.props.authenticate();
       const tokenIndex = url.indexOf('token') + 6;
       const token = url.substring(tokenIndex, url.length);
-      console.log(token);
+      this.props.authenticate(token);
       this.webview.stopLoading();
     }
   }
@@ -120,6 +119,7 @@ function mapStateToProps(reduxState) {
   return {
     message: reduxState.auth.message,
     authenticated: reduxState.auth.authenticated,
+    token: reduxState.auth.token,
   };
 }
 
