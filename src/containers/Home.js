@@ -7,6 +7,7 @@ import {
 import { Constants, Location, Permissions } from 'expo';
 import { connect } from 'react-redux';
 import { fetchPlaylists } from '../actions';
+import Songbar from './Songbar';
 
 
 class Home extends React.Component {
@@ -97,6 +98,7 @@ class Home extends React.Component {
         <Text>Music Bar goes here eventually</Text>
         <Button onPress={this.onRefreshPress} title="Refresh Loc Manually" />
         <Button onPress={this.showPlaylist} title="See Playlist" />
+        <Songbar />
       </View>
     );
   }

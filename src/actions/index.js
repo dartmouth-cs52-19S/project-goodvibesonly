@@ -6,6 +6,9 @@ export const ActionTypes = {
   ACTIVATE_PLAYLIST: 'ACTIVATE_PLAYLIST',
   DELETE_PLAYLIST: 'DELETE_PLAYLIST',
   CREATE_PLAYLIST: 'CREATE_PLAYLIST',
+  PLAYSTATE: 'PLAYSTATE',
+  PLAY: 'PLAY',
+  PAUSE: 'PAUSE',
 };
 
 // const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
@@ -87,6 +90,37 @@ export function deletePlaylist(id) {
   return (dispatch) => {
     axios.delete(`${ROOT_URL}/playlists/${id}`).then((response) => {
       dispatch({ type: ActionTypes.DELETE_PLAYLIST, payload: { } });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
+export function getPlayState() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/playstate`).then((response) => {
+      console.log(response.data);
+      dispatch({ type: ActionTypes.PLAYSTATE, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
+export function sendPlay() {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/play`).then((response) => {
+      dispatch({ type: ActionTypes.PLAY, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
+export function sendPause() {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/pause`).then((response) => {
+      dispatch({ type: ActionTypes.PAUSE, payload: response.data });
     }).catch((error) => {
       console.log(error);
     });
