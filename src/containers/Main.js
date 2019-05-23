@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/destructuring-assignment */
 
 import React from 'react';
@@ -15,11 +16,11 @@ class Main extends React.Component {
 
   renderScreen() {
     console.log('logged in: ', this.props.authenticated);
-    if (this.props.authenticated) {
-      return <TabBar />;
-    } else {
-      return <Login />;
-    }
+    // if (this.props.authenticated) {
+    return <TabBar />;
+    // } else {
+    //   return <Login />;
+    // }
   }
 
   render() {

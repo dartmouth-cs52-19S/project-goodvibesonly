@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {
-  Platform, StyleSheet, Text, View, Button,
+  Platform, StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
 import { connect } from 'react-redux';
@@ -94,10 +94,26 @@ class Home extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <Text>Playlists Near Me</Text>
-        <Text>Music Bar goes here eventually</Text>
-        <Button onPress={this.onRefreshPress} title="Refresh Loc Manually" />
-        <Button onPress={this.showPlaylist} title="See Playlist" />
+        <View style={styles.top}>
+          <Text style={styles.topText}>Playlists Near Me...  </Text>
+          <TouchableOpacity onPress={this.onRefreshPress}>
+            <Text style={styles.topText}>↺</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity onPress={this.showPlaylist} style={styles.playlistButton1}>
+            <Text style={styles.buttonText}>Playlist 1</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.showPlaylist} style={styles.playlistButton2}>
+            <Text style={styles.buttonText}>Playlist 2</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.showPlaylist} style={styles.playlistButton3}>
+            <Text style={styles.buttonText}>Playlist 3</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.showPlaylist} style={styles.playlistButton4}>
+            <Text style={styles.buttonText}>Playlist 4</Text>
+          </TouchableOpacity>
+        </View>
         <Songbar />
       </View>
     );
@@ -110,6 +126,74 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  topText: {
+    fontSize: 30,
+    textAlign: 'left',
+  },
+  top: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  playlistButton1: {
+    flex: 0,
+    width: 300,
+    height: 50,
+    borderColor: '#000000',
+    borderWidth: 1,
+    margin: 15,
+    backgroundColor: '#1DB5E5',
+    shadowColor: 'black',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+  },
+  playlistButton2: {
+    flex: 0,
+    width: 300,
+    height: 50,
+    borderColor: '#000000',
+    borderWidth: 1,
+    margin: 15,
+    backgroundColor: '#E31688',
+    shadowColor: 'black',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+  },
+  playlistButton3: {
+    flex: 0,
+    width: 300,
+    height: 50,
+    borderColor: '#000000',
+    borderWidth: 1,
+    margin: 15,
+    backgroundColor: '#F7EB58',
+    shadowColor: 'black',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+  },
+  playlistButton4: {
+    flex: 0,
+    width: 300,
+    height: 50,
+    borderColor: '#000000',
+    borderWidth: 1,
+    margin: 15,
+    backgroundColor: '#907CFD',
+    shadowColor: 'black',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+  },
+  buttonText: {
+    margin: 5,
+    textAlign: 'justify',
+    fontWeight: 'bold',
+    fontSize: 20,
   },
 });
 
