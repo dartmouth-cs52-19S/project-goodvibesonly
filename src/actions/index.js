@@ -11,8 +11,8 @@ export const ActionTypes = {
   PAUSE: 'PAUSE',
 };
 
-const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
-// const ROOT_URL = 'http://localhost:9090/api';
+// const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
+const ROOT_URL = 'http://localhost:9090/api';
 
 export function signin() {
   console.log('in sign in');
@@ -105,9 +105,9 @@ export function deletePlaylist(id) {
   };
 }
 
-export function getPlayState() {
+export function getPlayState(token) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/playstate`).then((response) => {
+    axios.get(`${ROOT_URL}/playstate`, { token }).then((response) => {
       console.log(response.data);
       dispatch({ type: ActionTypes.PLAYSTATE, payload: response.data });
     }).catch((error) => {
@@ -116,9 +116,9 @@ export function getPlayState() {
   };
 }
 
-export function sendPlay() {
+export function sendPlay(token) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/play`).then((response) => {
+    axios.put(`${ROOT_URL}/play`, { token }).then((response) => {
       dispatch({ type: ActionTypes.PLAY, payload: response.data });
     }).catch((error) => {
       console.log(error);
@@ -126,9 +126,9 @@ export function sendPlay() {
   };
 }
 
-export function sendPause() {
+export function sendPause(token) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/pause`).then((response) => {
+    axios.put(`${ROOT_URL}/pause`, { token }).then((response) => {
       dispatch({ type: ActionTypes.PAUSE, payload: response.data });
     }).catch((error) => {
       console.log(error);
