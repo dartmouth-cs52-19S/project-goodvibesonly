@@ -37,12 +37,17 @@ class Login extends React.Component {
   }
 
   handleWebViewNavigationStateChange = (newNavState) => {
+    console.log('in nav state change');
     const { url } = newNavState;
+    console.log(url);
     if (!url) return;
 
-    if (url.includes('?message=authSucces')) {
+
+    if (url.includes('?message=authSuccess')) {
+      console.log('entered frontend');
       const tokenIndex = url.indexOf('token') + 6;
       const token = url.substring(tokenIndex, url.length);
+      console.log(token);
       this.props.authenticate(token);
       this.webview.stopLoading();
     }
