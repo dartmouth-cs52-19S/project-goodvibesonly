@@ -11,8 +11,8 @@ export const ActionTypes = {
   PAUSE: 'PAUSE',
 };
 
-// const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
-const ROOT_URL = 'http://localhost:9090/api';
+const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
+// const ROOT_URL = 'http://localhost:9090/api';
 
 export function signin() {
   console.log('in sign in');
