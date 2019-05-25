@@ -1,13 +1,15 @@
 import { ActionTypes } from '../actions';
 
 const AuthReducer = (state = {
-  authenticated: false, message: '', token: '', error: '',
+  authenticated: false, token: '', error: '', userId: '',
 }, action) => {
   switch (action.type) {
     case ActionTypes.AUTH_USER:
-      console.log('token in reducer', action.payload.token);
       return {
-        authenticated: true, error: '', message: action.payload.message, token: action.payload.token,
+        authenticated: true,
+        error: '',
+        token: action.payload.token,
+        userId: action.payload.userId,
       };
     case ActionTypes.DEAUTH_USER:
       return { authenticated: false, error: '' };

@@ -45,10 +45,16 @@ class Login extends React.Component {
 
     if (url.includes('?message=authSuccess')) {
       console.log('entered frontend');
-      const tokenIndex = url.indexOf('token') + 6;
-      const token = url.substring(tokenIndex, url.length);
-      console.log(token);
-      this.props.authenticate(token);
+      const tokenStartIndex = url.indexOf('token') + 6;
+      const data = url.substring(tokenStartIndex, url.length);
+      const dataArr = data.split('?');
+      const token = dataArr[0];
+      console.log('token', token);
+
+      const userid = dataArr[1].substring(7, dataArr[1].length);
+      console.log('userid', userid);
+
+      this.props.authenticate(token, userid);
       this.webview.stopLoading();
     }
   }
