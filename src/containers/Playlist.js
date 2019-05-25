@@ -6,7 +6,7 @@ import {
   View, Text, TouchableOpacity, StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchPlaylists } from '../actions';
+import { fetchPlaylist } from '../actions';
 import Songbar from './Songbar';
 
 class Playlist extends Component {
@@ -17,6 +17,10 @@ class Playlist extends Component {
     };
 
     this.onAddClick = this.onAddClick.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.fetchPlaylist(this.props.currentId);
   }
 
   onBackClick() {
@@ -30,6 +34,7 @@ class Playlist extends Component {
   }
 
   render() {
+    console.log('current playlist', this.props.current);
     return (
       <View style={styles.container}>
         <Text style={styles.top}>
@@ -75,12 +80,13 @@ class Playlist extends Component {
 
 function mapStateToProps(reduxState) {
   return {
+    currentId: reduxState.playlists.currentId,
     current: reduxState.playlists.current,
   };
 }
 
 const mapDispatchToProps = {
-  fetchPlaylists,
+  fetchPlaylist,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);

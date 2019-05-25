@@ -8,7 +8,7 @@ import {
   StyleSheet, Text, View, TouchableOpacity, ImageBackground, WebView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { signin, authenticate } from '../actions';
+import { authenticate } from '../actions';
 
 class Login extends React.Component {
   webview = null;
@@ -24,7 +24,6 @@ class Login extends React.Component {
   onLoginPress = () => {
     console.log('login button pressed, do some axios call to our backend');
     this.setState({ loginPressed: true });
-    // this.props.signin();
     // console.log(this.props.message);
   }
 
@@ -45,10 +44,16 @@ class Login extends React.Component {
 
     if (url.includes('?message=authSuccess')) {
       console.log('entered frontend');
-      const tokenIndex = url.indexOf('token') + 6;
-      const token = url.substring(tokenIndex, url.length);
-      console.log(token);
-      this.props.authenticate(token);
+      const tokenStartIndex = url.indexOf('token') + 6;
+      const data = url.substring(tokenStartIndex, url.length);
+      const dataArr = data.split('?');
+      const token = dataArr[0];
+      console.log('token', token);
+
+      const userid = dataArr[1].substring(7, dataArr[1].length);
+      console.log('userid', userid);
+
+      this.props.authenticate(token, userid);
       this.webview.stopLoading();
     }
   }
@@ -129,7 +134,6 @@ function mapStateToProps(reduxState) {
 }
 
 const mapDispatchToProps = {
-  signin,
   authenticate,
 };
 

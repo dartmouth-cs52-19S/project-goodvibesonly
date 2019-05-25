@@ -7,6 +7,7 @@ import {
   StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Location, Permissions } from 'expo';
 import { createPlaylist } from '../actions';
 
 class CreatePlaylist extends Component {
@@ -15,6 +16,7 @@ class CreatePlaylist extends Component {
     this.state = {
       name: '',
       genre: '',
+      errorMessage: null,
     };
   }
 
@@ -24,9 +26,25 @@ class CreatePlaylist extends Component {
 
   onAddClick = () => {
     console.log('onAddClick');
-    console.log('name state var', this.state.name);
-    // this.props.navigation.navigate('Playlist');
-    this.props.createPlaylist('37i9dQZF1DXcBWIGoYBM5M', this.state.name);
+    Permissions.askAsync(Permissions.LOCATION).then((response) => {
+      // if location services permissions are on, start watching position
+      // else, set error message state
+      if (response.status === 'granted') {
+        console.log('in granted ask async');
+        Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.High,
+        }).then((location) => {
+          console.log('creating playlist with location', location);
+          this.props.createPlaylist('37i9dQZF1DXcBWIGoYBM5M', this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
+          this.props.navigation.navigate('Playlist');
+        }).catch((error) => {
+          console.log(error);
+        });
+      } else {
+        console.log('permission denied');
+        this.setState({ errorMessage: 'app does not have location permissions' });
+      }
+    });
   }
 
   onNameChange = (text) => {
@@ -46,6 +64,8 @@ class CreatePlaylist extends Component {
     if (this.props.message !== undefined) {
       console.log('message', this.props.message);
     }
+
+    console.log(this.state.errorMessage);
 
     return (
       <View style={styles.container}>
@@ -85,6 +105,7 @@ class CreatePlaylist extends Component {
 function mapStateToProps(reduxState) {
   return {
     message: reduxState.playlists.message,
+    userId: reduxState.auth.userId,
   };
 }
 
