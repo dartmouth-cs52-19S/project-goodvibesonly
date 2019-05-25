@@ -8,7 +8,7 @@ import {
   StyleSheet, Text, View, TouchableOpacity, ImageBackground, WebView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { signin, authenticate } from '../actions';
+import { authenticate } from '../actions';
 
 class Login extends React.Component {
   webview = null;
@@ -24,7 +24,6 @@ class Login extends React.Component {
   onLoginPress = () => {
     console.log('login button pressed, do some axios call to our backend');
     this.setState({ loginPressed: true });
-    // this.props.signin();
     // console.log(this.props.message);
   }
 
@@ -135,7 +134,6 @@ function mapStateToProps(reduxState) {
 }
 
 const mapDispatchToProps = {
-  signin,
   authenticate,
 };
 
