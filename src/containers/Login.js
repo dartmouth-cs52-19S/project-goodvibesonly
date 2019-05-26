@@ -8,7 +8,7 @@ import {
   StyleSheet, Text, View, TouchableOpacity, ImageBackground, WebView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { signin, authenticate } from '../actions';
+import { authenticate } from '../actions';
 
 class Login extends React.Component {
   webview = null;
@@ -24,7 +24,6 @@ class Login extends React.Component {
   onLoginPress = () => {
     console.log('login button pressed, do some axios call to our backend');
     this.setState({ loginPressed: true });
-    // this.props.signin();
     // console.log(this.props.message);
   }
 
@@ -37,14 +36,24 @@ class Login extends React.Component {
   }
 
   handleWebViewNavigationStateChange = (newNavState) => {
+    console.log('in nav state change');
     const { url } = newNavState;
+    console.log(url);
     if (!url) return;
 
-    if (url.includes('?message=authSucces')) {
-      this.props.authenticate();
-      const tokenIndex = url.indexOf('token') + 6;
-      const token = url.substring(tokenIndex, url.length);
-      console.log(token);
+
+    if (url.includes('?message=authSuccess')) {
+      console.log('entered frontend');
+      const tokenStartIndex = url.indexOf('token') + 6;
+      const data = url.substring(tokenStartIndex, url.length);
+      const dataArr = data.split('?');
+      const token = dataArr[0];
+      console.log('token', token);
+
+      const userid = dataArr[1].substring(7, dataArr[1].length);
+      console.log('userid', userid);
+
+      this.props.authenticate(token, userid);
       this.webview.stopLoading();
     }
   }
@@ -52,7 +61,7 @@ class Login extends React.Component {
   render() {
     const client_id = 'b4a7ad189bdb424aad1d1a4773a6ddf6'; // Your client id
     const redirect_uri = 'https://good-vibes-only.herokuapp.com/api/auth'; // Your redirect uri
-    const scopes = 'user-read-private user-read-email';
+    const scopes = 'user-read-private user-read-email user-modify-playback-state user-read-playback-state';
     if (this.state.loginPressed) {
       // Adapted from: https://facebook.github.io/react-native/docs/webview.
       // This code creates a webview.
@@ -120,11 +129,11 @@ function mapStateToProps(reduxState) {
   return {
     message: reduxState.auth.message,
     authenticated: reduxState.auth.authenticated,
+    token: reduxState.auth.token,
   };
 }
 
 const mapDispatchToProps = {
-  signin,
   authenticate,
 };
 

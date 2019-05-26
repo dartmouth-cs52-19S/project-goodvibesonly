@@ -7,19 +7,20 @@ import { getPlayState, sendPlay, sendPause } from '../actions';
 class Songbar extends React.Component {
   onStatePress = () => {
     console.log('state button press');
-    this.props.getPlayState();
+    console.log('sending token from songbar ', this.props.token);
+    this.props.getPlayState(this.props.token);
     console.log(this.props.playstate);
   }
 
   onPlay = () => {
     console.log('play press');
-    this.props.sendPlay();
+    this.props.sendPlay(this.props.token);
     console.log(this.props.isPlaying);
   }
 
   onPause = () => {
     console.log('pause press');
-    this.props.sendPause();
+    this.props.sendPause(this.props.token);
     console.log(this.props.isPlaying);
   }
 
@@ -48,6 +49,7 @@ function mapStateToProps(reduxState) {
   return {
     playstate: reduxState.player.playstate,
     isPlaying: reduxState.player.isPlaying,
+    token: reduxState.auth.token,
   };
 }
 

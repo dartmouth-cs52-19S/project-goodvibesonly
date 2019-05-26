@@ -1,15 +1,15 @@
 import { ActionTypes } from '../actions';
 
 const PlaylistReducer = (state = {
-  all: [], current: '', message: '', playstate: '',
+  all: [], current: '', currentId: '', message: '', playstate: '',
 }, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_PLAYLISTS:
-      return Object.assign({}, state, { all: action.payload.all, message: '' });
+      return Object.assign({}, state, { all: action.payload.all });
     case ActionTypes.FETCH_PLAYLIST:
-      return Object.assign({}, state, { current: action.payload.current, message: '' });
+      return Object.assign({}, state, { current: action.payload.current });
     case ActionTypes.CREATE_PLAYLIST:
-      return Object.assign({}, state, { message: action.payload.message });
+      return Object.assign({}, state, { message: action.payload.message, currentId: action.payload.playlistId });
     case ActionTypes.PLAYSTATE:
       return Object.assign({}, state, { playstate: action.payload });
     default:
