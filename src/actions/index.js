@@ -15,6 +15,7 @@ export const ActionTypes = {
 
 const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
 // const ROOT_URL = 'http://localhost:9090/api';
+// const API_PLAYER_URL = 'https://api.spotify.com/v1/me/player';
 
 // ---------------------------USER actions----------------------------------- //
 export function authenticate(token, userId) {
@@ -104,7 +105,6 @@ export function deletePlaylist(playlistId) {
 }
 
 export function getPlayState(token) {
-  console.log('token action ', token);
   return (dispatch) => {
     axios.get(`${ROOT_URL}/playstate/${token}`).then((response) => {
       console.log(response.data);

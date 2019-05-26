@@ -5,9 +5,9 @@ const PlayerReducer = (state = { playstate: '', isPlaying: null }, action) => {
     case ActionTypes.PLAYSTATE:
       return Object.assign({}, state, { playstate: action.payload });
     case ActionTypes.PLAY:
-      return Object.assign({}, state, { isPlaying: true });
+      return { isPlaying: true };
     case ActionTypes.PAUSE:
-      return Object.assign({}, state, { isPlaying: false });
+      return { isPlaying: false };
     default:
       return state;
   }
