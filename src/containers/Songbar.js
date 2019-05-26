@@ -7,6 +7,7 @@ import { getPlayState, sendPlay, sendPause } from '../actions';
 class Songbar extends React.Component {
   onStatePress = () => {
     console.log('state button press');
+    console.log('sending token from songbar ', this.props.token);
     this.props.getPlayState(this.props.token);
     console.log(this.props.playstate);
   }

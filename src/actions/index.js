@@ -104,8 +104,9 @@ export function deletePlaylist(playlistId) {
 }
 
 export function getPlayState(token) {
+  console.log('token action ', token);
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/playstate`, { token }).then((response) => {
+    axios.get(`${ROOT_URL}/playstate/${token}`).then((response) => {
       console.log(response.data);
       dispatch({ type: ActionTypes.PLAYSTATE, payload: response.data });
     }).catch((error) => {
@@ -116,7 +117,7 @@ export function getPlayState(token) {
 
 export function sendPlay(token) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/play`, { token }).then((response) => {
+    axios.put(`${ROOT_URL}/play/${token}`).then((response) => {
       dispatch({ type: ActionTypes.PLAY, payload: response.data });
     }).catch((error) => {
       console.log(error);
@@ -126,7 +127,7 @@ export function sendPlay(token) {
 
 export function sendPause(token) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/pause`, { token }).then((response) => {
+    axios.put(`${ROOT_URL}/pause/${token}`).then((response) => {
       dispatch({ type: ActionTypes.PAUSE, payload: response.data });
     }).catch((error) => {
       console.log(error);
