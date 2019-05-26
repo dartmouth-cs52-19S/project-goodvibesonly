@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
 import { connect } from 'react-redux';
-import { fetchPlaylists } from '../actions';
+import { fetchPlaylists, updateLocation } from '../actions';
 import Songbar from './Songbar';
 
 
@@ -15,7 +15,6 @@ class Home extends React.Component {
     super(props);
 
     this.state = {
-      location: null,
       errorMessage: null,
     };
 
@@ -54,7 +53,7 @@ class Home extends React.Component {
   }
 
   setLocation = (location) => {
-    this.setState({ location });
+    this.props.updateLocation(location.coords.latitude, location.coords.longitude);
   }
 
   onRefreshPress = () => {
@@ -66,7 +65,7 @@ class Home extends React.Component {
         accuracy: Location.Accuracy.High,
       }).then((location) => {
         console.log('refresh', location);
-        this.setState({ location });
+        this.setLocation(location);
       }).catch((error) => {
         console.log(error);
       });
@@ -89,10 +88,9 @@ class Home extends React.Component {
   }
 
   render() {
-    if (this.state.location !== null) {
-      console.log(this.state.location);
+    if (this.props.location !== null) {
+      console.log('location', this.props.location);
     }
-    console.log('token', this.props.token);
     return (
       <View style={styles.container}>
         <View style={styles.top}>
@@ -202,11 +200,13 @@ function mapStateToProps(reduxState) {
   return {
     all: reduxState.playlists.all,
     token: reduxState.auth.token,
+    location: reduxState.user.location,
   };
 }
 
 const mapDispatchToProps = {
   fetchPlaylists,
+  updateLocation,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

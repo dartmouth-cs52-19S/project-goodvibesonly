@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { signin } from '../actions';
 import TabBar from '../navigation/TabBar';
 import Login from './Login';
 
@@ -34,8 +33,4 @@ function mapStateToProps(reduxState) {
   };
 }
 
-const mapDispatchToProps = {
-  signin,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, null)(Main);
