@@ -76,7 +76,13 @@ class CreatePlaylist extends Component {
     if (this.state.results !== null) {
       return this.state.results.map((song, key) => {
         // eslint-disable-next-line react/no-array-index-key
-        return (<Button title={song.name} key={key} onPress={() => this.onPlaylistPress(song.id)} />);
+        return (
+          // eslint-disable-next-line react/no-array-index-key
+          <TouchableOpacity key={key} onPress={() => this.onPlaylistPress(song.id)} style={styles.playlistButton}>
+            <Text style={styles.buttonText}>{song.name}</Text>
+          </TouchableOpacity>
+        );
+        // return (<Button  title={song.name} key={key} onPress={() => this.onPlaylistPress(song.id)} />);
       });
     }
     if (this.state.genreFound === false) {
@@ -194,6 +200,23 @@ const styles = StyleSheet.create({
     width: 130,
     height: 40,
     padding: 10,
+  },
+  buttonText: {
+    margin: 5,
+    textAlign: 'justify',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  playlistButton: {
+    flex: 0,
+    width: 300,
+    height: 50,
+    margin: 15,
+    backgroundColor: '#1DB5E5',
+    shadowColor: 'black',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
   },
   input: {
     height: 60,
