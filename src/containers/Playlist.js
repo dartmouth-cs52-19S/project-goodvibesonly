@@ -20,7 +20,13 @@ class Playlist extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchPlaylist(this.props.currentId);
+    console.log('component did mount called');
+    console.log('current id', this.props.currentId);
+    // Actual method call
+    // this.props.fetchPlaylist(this.props.currentId);
+
+    // Hardcoded call
+    this.props.fetchPlaylist('5ce9c6668d16c400342d7241');
   }
 
   onBackClick() {
@@ -35,6 +41,7 @@ class Playlist extends Component {
 
   render() {
     console.log('current playlist', this.props.current);
+    console.log('current id', this.props.currentId);
     return (
       <View style={styles.container}>
         <Text style={styles.top}>
