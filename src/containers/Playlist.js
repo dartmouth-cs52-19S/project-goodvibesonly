@@ -105,13 +105,10 @@ class Playlist extends Component {
 */
 
   render() {
-<<<<<<< HEAD
     // console.log('current playlist', this.props.current);
     console.log(this.songs);
-=======
     console.log('current playlist', this.props.current);
     console.log('current id', this.props.currentId);
->>>>>>> 213ce588826f0cd865a0011134a603167ae6e3a5
     return (
       <View style={styles.container}>
         <Text style={styles.top}>
