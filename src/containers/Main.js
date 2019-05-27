@@ -15,7 +15,7 @@ class Main extends React.Component {
 
   renderScreen() {
     console.log('logged in: ', this.props.authenticated);
-    if (this.props.authenticated) {
+    if (this.props.authenticated && this.props.all !== null) {
       return <TabBar />;
     } else {
       return <Login />;
@@ -30,6 +30,7 @@ class Main extends React.Component {
 function mapStateToProps(reduxState) {
   return {
     authenticated: reduxState.auth.authenticated,
+    all: reduxState.playlists.all,
   };
 }
 

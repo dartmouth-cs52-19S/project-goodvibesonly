@@ -1,7 +1,7 @@
 import { ActionTypes } from '../actions';
 
 const PlaylistReducer = (state = {
-  all: [], current: '', currentId: null, message: '', playstate: '',
+  all: null, current: '', currentId: null, message: '', playstate: '',
 }, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_PLAYLISTS:
