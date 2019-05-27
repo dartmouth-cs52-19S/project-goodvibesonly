@@ -136,7 +136,7 @@ class Home extends React.Component {
         <View style={styles.top}>
           <Text style={styles.topText}>Playlists Near Me...  </Text>
           <TouchableOpacity onPress={this.onRefreshPress}>
-            <Text style={styles.topText}>↺</Text>
+            <Text style={styles.topText2}>↺</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.results}>
@@ -157,17 +157,25 @@ const styles = StyleSheet.create({
   },
   topText: {
     fontSize: 30,
-    textAlign: 'left',
+    fontWeight: 'bold',
+    flexGrow: 2,
+  },
+  topText2: {
+    fontSize: 30,
+    fontWeight: 'bold',
   },
   top: {
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     flexDirection: 'row',
+    margin: 10,
+    marginTop: 30,
   },
   playlistButton1: {
     flex: 0,
-    width: 300,
+    justifyContent: 'center',
+    width: 330,
     height: 50,
     margin: 15,
     backgroundColor: '#1DB5E5',
@@ -178,7 +186,8 @@ const styles = StyleSheet.create({
   },
   playlistButton2: {
     flex: 0,
-    width: 300,
+    justifyContent: 'center',
+    width: 330,
     height: 50,
     margin: 15,
     backgroundColor: '#E31688',
@@ -189,7 +198,8 @@ const styles = StyleSheet.create({
   },
   playlistButton3: {
     flex: 0,
-    width: 300,
+    justifyContent: 'center',
+    width: 330,
     height: 50,
     margin: 15,
     backgroundColor: '#F7EB58',
@@ -200,7 +210,8 @@ const styles = StyleSheet.create({
   },
   playlistButton4: {
     flex: 0,
-    width: 300,
+    justifyContent: 'center',
+    width: 330,
     height: 50,
     margin: 15,
     backgroundColor: '#907CFD',
@@ -213,7 +224,10 @@ const styles = StyleSheet.create({
     margin: 5,
     textAlign: 'justify',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 22,
+  },
+  bottom: {
+    flexGrow: 4,
   },
   results: {
     height: 400,
