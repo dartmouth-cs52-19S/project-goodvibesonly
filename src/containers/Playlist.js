@@ -57,8 +57,20 @@ class Playlist extends Component {
       this.props.current.songs.map((song) => {
         console.log(song.songid);
         this.props.fetchSong(song.songid, this.props.token);
-        console.log(this.props.artist);
-        console.log(this.props.name);
+
+        // console.log(this.props.artist);
+        // console.log(this.props.name);
+
+        return (
+          <TouchableOpacity onPress={this.onSongClick} style={styles.song}>
+            <Text style={styles.songTitle}>
+              {this.props.name}
+            </Text>
+            <Text style={styles.artistTitle}>
+              {this.props.artist}
+            </Text>
+          </TouchableOpacity>
+        );
       });
     }
 
@@ -88,6 +100,7 @@ class Playlist extends Component {
 
   render() {
     // console.log('current playlist', this.props.current);
+    console.log(this.songs);
     return (
       <View style={styles.container}>
         <Text style={styles.top}>
@@ -97,10 +110,19 @@ class Playlist extends Component {
           10 West Wheelock, Hanover NH 03755
         </Text>
         <View style={styles.allSongs}>
-
           {this.renderSongs()}
+        </View>
+        <Songbar />
+        <TouchableOpacity onPress={this.onAddClick} style={styles.bottomButton}>
+          <Text style={styles.bottomButtonText}>add a song</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
 
-          <View style={styles.song}>
+/*
+<View style={styles.song}>
 
             <Text style={styles.songTitle}>
             Knee Deep (feat. Jimmy Buffett)
@@ -134,15 +156,7 @@ class Playlist extends Component {
             Eagles
             </Text>
           </View>
-        </View>
-        <Songbar />
-        <TouchableOpacity onPress={this.onAddClick} style={styles.bottomButton}>
-          <Text style={styles.bottomButtonText}>add a song</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-}
+*/
 
 function mapStateToProps(reduxState) {
   return {
