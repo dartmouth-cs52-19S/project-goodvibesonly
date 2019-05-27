@@ -10,8 +10,6 @@ const PlaylistReducer = (state = {
       return Object.assign({}, state, { current: action.payload.current });
     case ActionTypes.CREATE_PLAYLIST:
       return Object.assign({}, state, { message: action.payload.message, currentId: action.payload.playlistId });
-    case ActionTypes.PLAYSTATE:
-      return Object.assign({}, state, { playstate: action.payload });
     default:
       return state;
   }
