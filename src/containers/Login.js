@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {
-  StyleSheet, Text, View, TouchableOpacity, ImageBackground, WebView,
+  StyleSheet, Text, View, TouchableOpacity, ImageBackground, WebView, Image,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { authenticate } from '../actions';
@@ -84,10 +84,11 @@ class Login extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-          <ImageBackground source={require('../img/Login.png')} style={styles.backgroundImage}>
-            <Text>welcome to vibes</Text>
+          <ImageBackground source={require('../img/background.png')} style={styles.backgroundImage}>
+            <Image source={require('../img/VibesLogo.png')} style={styles.logo} />
+            <Text style={styles.title}>welcome to vibes</Text>
             <TouchableOpacity onPress={this.onLoginPress} style={styles.button}>
-              <Text>login with spotify</Text>
+              <Text style={styles.buttontext}>login with spotify</Text>
             </TouchableOpacity>
             {this.renderMessage()}
           </ImageBackground>
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignContent: 'center',
   },
   button: {
@@ -124,6 +125,22 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
     shadowRadius: 0,
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    marginTop: '20%',
+  },
+  title: {
+    marginBottom: 15,
+    textAlign: 'justify',
+    fontWeight: 'bold',
+    fontSize: 32,
+  },
+  buttontext: {
+    textAlign: 'justify',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 
