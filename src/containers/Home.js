@@ -91,6 +91,8 @@ class Home extends React.Component {
     if (this.props.location !== null) {
       console.log('location', this.props.location);
     }
+    console.log('current playlist', this.props.current);
+    console.log('current id', this.props.currentId);
     return (
       <View style={styles.container}>
         <View style={styles.top}>
@@ -193,6 +195,8 @@ function mapStateToProps(reduxState) {
     all: reduxState.playlists.all,
     token: reduxState.auth.token,
     location: reduxState.user.location,
+    current: reduxState.playlists.current,
+    currentId: reduxState.playlists.currentId,
   };
 }
 
