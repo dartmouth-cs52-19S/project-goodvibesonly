@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
   },
   playlistButton2: {
     flex: 0,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
   },
   playlistButton3: {
     flex: 0,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
   },
   playlistButton4: {
     flex: 0,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
   },
   buttonText: {
     margin: 5,
