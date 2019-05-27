@@ -4,6 +4,7 @@ export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
   FETCH_PLAYLISTS: 'FETCH_PLAYLISTS',
   FETCH_PLAYLIST: 'FETCH_PLAYLIST',
+  FETCH_SONG: 'FETCH_SONG',
   ACTIVATE_PLAYLIST: 'ACTIVATE_PLAYLIST',
   DELETE_PLAYLIST: 'DELETE_PLAYLIST',
   CREATE_PLAYLIST: 'CREATE_PLAYLIST',
@@ -30,6 +31,19 @@ export function updateLocation(lat, lng) {
   };
 }
 
+// ------------------------- SONG actions--------------------------------- //
+// Referenced https://developer.spotify.com/documentation/web-api/reference/tracks/get-track/
+// to figure out the API call for getting a specific song
+export function fetchSong(id, token) {
+  return (dispatch) => {
+    axios.get(`https://api.spotify.com/v1/tracks/${id}`, { headers: { authorization: `Bearer ${token}` } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.FETCH_SONG, payload: { song: response.data } });
+      }).catch((error) => {
+        console.log(error);
+      });
+  };
+}
 
 // -------------------------PLAYLIST actions--------------------------------- //
 export function fetchPlaylists() {

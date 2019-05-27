@@ -6,7 +6,7 @@ import {
   View, Text, TouchableOpacity, StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchPlaylist } from '../actions';
+import { fetchPlaylist, fetchSong } from '../actions';
 import Songbar from './Songbar';
 
 class Playlist extends Component {
@@ -17,6 +17,8 @@ class Playlist extends Component {
     };
 
     this.onAddClick = this.onAddClick.bind(this);
+    this.onSongClick = this.onSongClick.bind(this);
+    this.renderSongs = this.renderSongs.bind(this);
   }
 
   componentDidMount() {
@@ -33,8 +35,59 @@ class Playlist extends Component {
     this.props.navigation.navigate('Song');
   }
 
+  onSongClick() {
+    console.log('onSongClick');
+  }
+
+  renderSongs() {
+    // grab song list from API
+    // loop through song list and grab the following
+    // need song ID to pass back later for on song click
+    // need song title + song artists
+    // render all of the above
+    console.log(this.props.current.songs);
+    /*
+    console.log('A SONG ID:');
+    this.props.fetchSong('5Qel1sTrU4LM8HlJSPT2jd', this.props.token);
+    console.log(this.props.artist);
+    console.log(this.props.name);
+    */
+
+    if (this.props.current.songs) {
+      this.props.current.songs.map((song) => {
+        console.log(song.songid);
+        this.props.fetchSong(song.songid, this.props.token);
+        console.log(this.props.artist);
+        console.log(this.props.name);
+      });
+    }
+
+    // console.log(this.props.current.songs[0]);
+  }
+  /*
+
+.songid
+
+  { this.props.all.map((post) => {
+    return (
+      <div>
+        <NavLink className="link" to={`/posts/${post.id}`}>
+          { Talked about the posts page with Alexis Harris in office hours and she recommended wrapping each post in a NavLink }
+          <div className="post">
+            <div className="coverURL" dangerouslySetInnerHTML={{ __html: marked(`![](${post.cover_url})` || '') }} />
+            <div className="title" dangerouslySetInnerHTML={{ __html: marked(post.title || '') }} />
+            <div className="tags" dangerouslySetInnerHTML={{ __html: marked(post.tags || '') }} />
+          </div>
+        </NavLink>
+
+        <div className="border" />
+      </div>
+    );
+  }) }
+*/
+
   render() {
-    console.log('current playlist', this.props.current);
+    // console.log('current playlist', this.props.current);
     return (
       <View style={styles.container}>
         <Text style={styles.top}>
@@ -44,7 +97,19 @@ class Playlist extends Component {
           10 West Wheelock, Hanover NH 03755
         </Text>
         <View style={styles.allSongs}>
+
+          {this.renderSongs()}
+
           <View style={styles.song}>
+
+            <Text style={styles.songTitle}>
+            Knee Deep (feat. Jimmy Buffett)
+            </Text>
+
+            <TouchableOpacity onPress={this.onSongClick}>
+              <Text style={styles.songTitle}> Playlist 1</Text>
+            </TouchableOpacity>
+
             <Text style={styles.songTitle}>
             Knee Deep (feat. Jimmy Buffett)
             </Text>
@@ -52,6 +117,7 @@ class Playlist extends Component {
             Zac Brown Band
             </Text>
           </View>
+
           <View style={styles.song}>
             <Text style={styles.songTitle}>
             Rivers and Roads
@@ -82,11 +148,14 @@ function mapStateToProps(reduxState) {
   return {
     currentId: reduxState.playlists.currentId,
     current: reduxState.playlists.current,
+    token: reduxState.auth.token,
+    artist: reduxState.song.artist,
+    name: reduxState.song.name,
   };
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist,
+  fetchPlaylist, fetchSong,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
