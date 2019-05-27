@@ -59,8 +59,9 @@ class CreatePlaylist extends Component {
 
   onGenreChange = (text) => {
     console.log('onGenreChange');
-    this.setState({ genre: text });
-    console.log(text);
+    const lower = text.toLowerCase();
+    this.setState({ genre: lower });
+    console.log(lower);
     console.log(this.state.genre);
   }
 
