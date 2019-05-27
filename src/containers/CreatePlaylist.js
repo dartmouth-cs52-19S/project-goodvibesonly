@@ -20,6 +20,7 @@ class CreatePlaylist extends Component {
       errorMessage: null,
       results: null,
       selected: '',
+      genreFound: true,
     };
   }
 
@@ -59,8 +60,9 @@ class CreatePlaylist extends Component {
 
   onGenreChange = (text) => {
     console.log('onGenreChange');
-    this.setState({ genre: text });
-    console.log(text);
+    const lower = text.toLowerCase();
+    this.setState({ genre: lower });
+    console.log(lower);
     console.log(this.state.genre);
   }
 
@@ -76,6 +78,9 @@ class CreatePlaylist extends Component {
         // eslint-disable-next-line react/no-array-index-key
         return (<Button title={song.name} key={key} onPress={() => this.onPlaylistPress(song.id)} />);
       });
+    }
+    if (this.state.genreFound === false) {
+      return (<Text>This genre is not found!</Text>);
     }
   }
 
@@ -93,7 +98,7 @@ class CreatePlaylist extends Component {
         this.setState({ results: response.data.playlists.items });
       })
       .catch((error) => {
-        console.log(error);
+        this.setState({ genreFound: false });
       });
   }
 
@@ -201,7 +206,7 @@ const styles = StyleSheet.create({
     shadowColor: '#E31688',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
   },
   info: {
     padding: 30,

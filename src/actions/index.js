@@ -8,10 +8,12 @@ export const ActionTypes = {
   ACTIVATE_PLAYLIST: 'ACTIVATE_PLAYLIST',
   DELETE_PLAYLIST: 'DELETE_PLAYLIST',
   CREATE_PLAYLIST: 'CREATE_PLAYLIST',
+  ADD_TO_PLAYLIST: 'ADD_TO_PLAYLIST',
   PLAYSTATE: 'PLAYSTATE',
   PLAY: 'PLAY',
   PAUSE: 'PAUSE',
   LOCATION: 'LOCATION',
+  PLAYSONG: 'PLAYSONG',
 };
 
 const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
@@ -57,13 +59,15 @@ export function fetchPlaylists() {
 }
 
 export function fetchPlaylist(id) {
+  console.log('id within actions', id);
   // this will fetch a specific playlist with the id passed in
   // can reference lab4 fetchPost(id)
   return (dispatch) => {
     axios.get(`${ROOT_URL}/playlists/${id}`).then((response) => {
+      console.log('should log something', response.data);
       dispatch({ type: ActionTypes.FETCH_PLAYLIST, payload: { current: response.data.result[0] } });
     }).catch((error) => {
-      console.log(error);
+      console.log('error fetching playlist');
     });
   };
 }
@@ -84,12 +88,12 @@ export function createPlaylist(spotifyPlaylistId, title, userId, lat, lng) {
   };
 }
 
-export function addToPlaylist(playlistId, spotifyTrackId, userId) {
+export function addToPlaylist(playlistId, spotifyTrackId) {
   // this will add the track specified (by spotify track id)
   // to the playlist specified with the mongo playlist id
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/playlists/${playlistId}`, { trackId: spotifyTrackId, userId }).then((response) => {
-      dispatch({ type: ActionTypes.ADD_TO_PLAYLIST, payload: { } });
+    axios.put(`${ROOT_URL}/playlists/${playlistId}`, { trackId: spotifyTrackId }).then((response) => {
+      dispatch({ type: ActionTypes.ADD_TO_PLAYLIST, payload: { message: response.data } });
     }).catch((error) => {
       console.log(error);
     });
@@ -121,18 +125,12 @@ export function deletePlaylist(playlistId) {
 const API_PLAYER_URL = 'https://api.spotify.com/v1/me/player';
 export function getPlayState(token) {
   return (dispatch) => {
-    // axios.get(`${ROOT_URL}/playstate/${token}`).then((response) => {
-    //   dispatch({ type: ActionTypes.PLAYSTATE, payload: response.data });
-    // }).catch((error) => {
-    //   console.log(error);
-    // });
-
     axios.get(`${API_PLAYER_URL}/currently-playing`, { headers: { authorization: `Bearer ${token}` } })
       .then((response) => {
         dispatch({ type: ActionTypes.PLAYSTATE, payload: { currentSong: response.data } });
       })
       .catch((error) => {
-        console.log(`spotify api error: ${error}`);
+        // console.log(`spotify api error: ${error}`);
       });
   };
 }
@@ -151,6 +149,17 @@ export function sendPause(token) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/pause/${token}`).then((response) => {
       dispatch({ type: ActionTypes.PAUSE, payload: {} });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
+// eslint-disable-next-line camelcase
+export function sendPlaySong(token, song_id) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/playsong/${token}`).then((response) => {
+      dispatch({ type: ActionTypes.PLAY, payload: { song_id } });
     }).catch((error) => {
       console.log(error);
     });

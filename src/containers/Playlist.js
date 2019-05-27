@@ -22,7 +22,13 @@ class Playlist extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchPlaylist(this.props.currentId);
+    console.log('component did mount called');
+    console.log('current id', this.props.currentId);
+    // Actual method call
+    // this.props.fetchPlaylist(this.props.currentId);
+
+    // Hardcoded call
+    this.props.fetchPlaylist('5ce9c6668d16c400342d7241');
   }
 
   onBackClick() {
@@ -99,8 +105,13 @@ class Playlist extends Component {
 */
 
   render() {
+<<<<<<< HEAD
     // console.log('current playlist', this.props.current);
     console.log(this.songs);
+=======
+    console.log('current playlist', this.props.current);
+    console.log('current id', this.props.currentId);
+>>>>>>> 213ce588826f0cd865a0011134a603167ae6e3a5
     return (
       <View style={styles.container}>
         <Text style={styles.top}>
@@ -198,7 +209,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
     fontWeight: 'bold',
     fontSize: 30,
     padding: 5,
@@ -228,7 +239,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: { height: 3, width: -3 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
   },
   bottomButtonText: {
     textAlign: 'center',

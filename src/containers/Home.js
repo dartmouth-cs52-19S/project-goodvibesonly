@@ -91,6 +91,8 @@ class Home extends React.Component {
     if (this.props.location !== null) {
       console.log('location', this.props.location);
     }
+    console.log('current playlist', this.props.current);
+    console.log('current id', this.props.currentId);
     return (
       <View style={styles.container}>
         <View style={styles.top}>
@@ -140,53 +142,45 @@ const styles = StyleSheet.create({
     flex: 0,
     width: 300,
     height: 50,
-    borderColor: '#000000',
-    borderWidth: 1,
     margin: 15,
     backgroundColor: '#1DB5E5',
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
   },
   playlistButton2: {
     flex: 0,
     width: 300,
     height: 50,
-    borderColor: '#000000',
-    borderWidth: 1,
     margin: 15,
     backgroundColor: '#E31688',
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
   },
   playlistButton3: {
     flex: 0,
     width: 300,
     height: 50,
-    borderColor: '#000000',
-    borderWidth: 1,
     margin: 15,
     backgroundColor: '#F7EB58',
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
   },
   playlistButton4: {
     flex: 0,
     width: 300,
     height: 50,
-    borderColor: '#000000',
-    borderWidth: 1,
     margin: 15,
     backgroundColor: '#907CFD',
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
   },
   buttonText: {
     margin: 5,
@@ -201,6 +195,8 @@ function mapStateToProps(reduxState) {
     all: reduxState.playlists.all,
     token: reduxState.auth.token,
     location: reduxState.user.location,
+    current: reduxState.playlists.current,
+    currentId: reduxState.playlists.currentId,
   };
 }
 

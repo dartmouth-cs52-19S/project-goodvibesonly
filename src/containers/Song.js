@@ -4,36 +4,53 @@
 
 import React, { Component } from 'react';
 import {
-  View, Text, TouchableOpacity, TextInput, StyleSheet, ImageBackground, Image,
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+  ImageBackground,
+  ListView,
+  TouchableHighlight,
 } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { fetchPlaylists } from '../actions';
+import { addToPlaylist } from '../actions';
 
 class AddSong extends Component {
   constructor(props) {
     super();
     this.state = {
+      selectedTrack: null,
       search: '',
       results: null,
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
     };
   }
 
   onAddClick = () => {
     console.log('onAddClick');
+    console.log('playlist id', this.props.playlistId);
+    console.log('track id', this.state.selectedTrack.id);
+
+    // Real call
+    // this.props.addToPlaylist(this.props.playlistId, this.state.selectedTrack.id);
+
+    // Hardcoded call
+    this.props.addToPlaylist('5ce9c6668d16c400342d7241', this.state.selectedTrack.id);
     this.props.navigation.pop();
   }
 
   onSearchChange = (text) => {
     console.log('onSearchChange');
     this.setState({ search: text });
-  }
 
-  onSearchClick = () => {
     const API_TRACK_URL = 'https://api.spotify.com/v1/search';
 
     const params = {
-      q: this.state.search,
+      q: text,
       type: 'track',
       market: 'US',
       limit: 5,
@@ -42,17 +59,55 @@ class AddSong extends Component {
     console.log('bout to do search api call');
     axios.get(`${API_TRACK_URL}`, { headers: { authorization: `Bearer ${this.props.token}` }, params })
       .then((response) => {
-        this.setState({ results: response.data.tracks.items });
+        this.setState(prevState => ({
+          dataSource: prevState.dataSource.cloneWithRows(response.data.tracks.items),
+          results: true,
+        }));
       })
       .catch((error) => {
         console.log('`spotify api error`');
       });
   }
 
+  selectTrack = (track) => {
+    this.setState({
+      search: track.name,
+      selectedTrack: track,
+    });
+  }
+
+  renderTrack = (track) => {
+    // console.log(track);
+    return (
+      <TouchableHighlight onPress={() => { this.selectTrack(track); }}>
+        <View>
+          <Text>{track.name}</Text>
+          <Text>{track.artists[0].name}</Text>
+        </View>
+      </TouchableHighlight>
+    );
+  }
+
+  renderListView = () => {
+    if (this.state.results !== null) {
+      return (
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderTrack}
+          style={styles.listView}
+        />
+      );
+    } else {
+      return <View />;
+    }
+  }
+
   render() {
     if (this.state.results !== null) {
       console.log(this.state.results);
     }
+
+    console.log('playlist id', this.props.playlistId);
     return (
       <View>
         <ImageBackground source={require('../img/Create.png')} style={styles.backgroundImage}>
@@ -64,19 +119,13 @@ class AddSong extends Component {
           <View id="searchbar" style={styles.info}>
             <TextInput
               placeholder="Search for a song"
+              value={this.state.search}
               onChangeText={this.onSearchChange}
               style={styles.input}
             />
-            <TouchableOpacity onPress={this.onSearchClick} style={styles.searchButton}>
-              <Image
-                source={require('../img/search.png')}
-              />
-            </TouchableOpacity>
           </View>
-          <View id="results">
-            {/* <Text>
-                    Results list here
-            </Text> */}
+          <View id="results" style={styles.results}>
+            {this.renderListView()}
           </View>
           <TouchableOpacity onPress={this.onAddClick} style={styles.button}>
             <Text>add</Text>
@@ -135,23 +184,32 @@ const styles = StyleSheet.create({
     shadowColor: '#E31688',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
   },
   info: {
     padding: 30,
     flexDirection: 'row',
     alignItems: 'center',
   },
+  results: {
+    height: 200,
+  },
+  listView: {
+    flex: 2,
+    flexDirection: 'column',
+  },
 });
 
 function mapStateToProps(reduxState) {
   return {
     token: reduxState.auth.token,
+    userId: reduxState.auth.userId,
+    playlistId: reduxState.playlists.currentId,
   };
 }
 
 const mapDispatchToProps = {
-  fetchPlaylists,
+  addToPlaylist,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddSong);

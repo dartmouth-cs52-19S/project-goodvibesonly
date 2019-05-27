@@ -120,7 +120,10 @@ const styles = StyleSheet.create({
     width: 175,
     height: 40,
     padding: 10,
-
+    shadowColor: 'black',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
   },
 });
 
