@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
     fontWeight: 'bold',
     fontSize: 30,
     padding: 5,
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: { height: 3, width: -3 },
     shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowRadius: 0,
   },
   bottomButtonText: {
     textAlign: 'center',
