@@ -12,6 +12,7 @@ export const ActionTypes = {
   PLAY: 'PLAY',
   PAUSE: 'PAUSE',
   LOCATION: 'LOCATION',
+  PLAYSONG: 'PLAYSONG',
 };
 
 const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
@@ -110,18 +111,12 @@ export function deletePlaylist(playlistId) {
 const API_PLAYER_URL = 'https://api.spotify.com/v1/me/player';
 export function getPlayState(token) {
   return (dispatch) => {
-    // axios.get(`${ROOT_URL}/playstate/${token}`).then((response) => {
-    //   dispatch({ type: ActionTypes.PLAYSTATE, payload: response.data });
-    // }).catch((error) => {
-    //   console.log(error);
-    // });
-
     axios.get(`${API_PLAYER_URL}/currently-playing`, { headers: { authorization: `Bearer ${token}` } })
       .then((response) => {
         dispatch({ type: ActionTypes.PLAYSTATE, payload: { currentSong: response.data } });
       })
       .catch((error) => {
-        console.log(`spotify api error: ${error}`);
+        // console.log(`spotify api error: ${error}`);
       });
   };
 }
@@ -140,6 +135,17 @@ export function sendPause(token) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/pause/${token}`).then((response) => {
       dispatch({ type: ActionTypes.PAUSE, payload: {} });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
+// eslint-disable-next-line camelcase
+export function sendPlaySong(token, song_id) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/playsong/${token}`).then((response) => {
+      dispatch({ type: ActionTypes.PLAY, payload: { song_id } });
     }).catch((error) => {
       console.log(error);
     });
