@@ -32,7 +32,14 @@ class AddSong extends Component {
 
   onAddClick = () => {
     console.log('onAddClick');
-    this.props.addToPlaylist(this.props.playlistId, this.state.selectedTrack.id, this.props.userId);
+    console.log('playlist id', this.props.playlistId);
+    console.log('track id', this.state.selectedTrack.id);
+
+    // Real call
+    // this.props.addToPlaylist(this.props.playlistId, this.state.selectedTrack.id);
+
+    // Hardcoded call
+    this.props.addToPlaylist('5ce9c6668d16c400342d7241', this.state.selectedTrack.id);
     this.props.navigation.pop();
   }
 
@@ -99,6 +106,8 @@ class AddSong extends Component {
     if (this.state.results !== null) {
       console.log(this.state.results);
     }
+
+    console.log('playlist id', this.props.playlistId);
     return (
       <View>
         <ImageBackground source={require('../img/Create.png')} style={styles.backgroundImage}>
