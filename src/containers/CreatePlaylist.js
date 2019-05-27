@@ -20,6 +20,7 @@ class CreatePlaylist extends Component {
       errorMessage: null,
       results: null,
       selected: '',
+      genreFound: true,
     };
   }
 
@@ -78,6 +79,9 @@ class CreatePlaylist extends Component {
         return (<Button title={song.name} key={key} onPress={() => this.onPlaylistPress(song.id)} />);
       });
     }
+    if (this.state.genreFound === false) {
+      return (<Text>This genre is not found!</Text>);
+    }
   }
 
   onGenreSearchClick = () => {
@@ -94,7 +98,7 @@ class CreatePlaylist extends Component {
         this.setState({ results: response.data.playlists.items });
       })
       .catch((error) => {
-        console.log(error);
+        this.setState({ genreFound: false });
       });
   }
 
