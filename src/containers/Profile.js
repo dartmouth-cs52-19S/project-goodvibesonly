@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/no-unused-state */
 /* eslint-disable react/destructuring-assignment */
 // profile component
 
@@ -5,20 +7,58 @@ import React, { Component } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
+import axios from 'axios';
+import { connect } from 'react-redux';
 import Songbar from './Songbar';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   playlists: [],
-    // };
+    this.state = {
+      playlists: [],
+      userId: '',
+    };
     this.viewPlaylist = this.viewPlaylist.bind(this);
+    this.onHomeClick = this.onHomeClick.bind(this);
+  }
+
+  componentDidMount() {
+    // const USER_ID_URL = 'https://api.spotify.com/v1/me';
+
+    // // get the user's username
+    // axios.get(`${USER_ID_URL}`, { headers: { authorization: `Bearer ${this.props.token}` } })
+    //   .then((response) => {
+    //     this.setState({ userId: response.data.id });
+    //     console.log(`userId from spotify pls work: ${this.state.userId}`);
+    //   })
+    //   .catch((error) => {
+    //     console.log(`ERROR 1 ${error}`);
+    //   });
+
+    // const API_PLAYLIST_URL = 'https://api.spotify.com/v1/users';
+    const API_PLAYLIST_URL = 'https://api.spotify.com/v1/me/playlists';
+    const params = {
+      limit: 15,
+      offset: 0,
+    };
+
+    // get the playlists from the username
+    axios.get(`${API_PLAYLIST_URL}`, { headers: { authorization: `Bearer ${this.props.token}` }, params })
+      .then((response) => {
+        this.setState({ playlists: response.data.items });
+      })
+      .catch((error) => {
+        console.log(`${error}`);
+      });
   }
 
   onHomeClick() {
     console.log('onHomeClick');
-    // console.log(this.state.playlists);
+    let i;
+    for (i = 0; i < this.state.playlists.length; i++) {
+      // these are all the names of my playlists!!
+      console.log(this.state.playlists[i].name);
+    }
   }
 
   onUserClick() {
@@ -42,7 +82,7 @@ class Profile extends Component {
           </Text>
         </View>
         <View>
-          <TouchableOpacity onPress={this.viewPlaylist} style={styles.playlistButton1}>
+          <TouchableOpacity onPress={this.onHomeClick} style={styles.playlistButton1}>
             <Text style={styles.buttonText}>Playlist 1</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={this.viewPlaylist} style={styles.playlistButton2}>
@@ -61,7 +101,14 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+function mapStateToProps(reduxState) {
+  return {
+    userId: reduxState.auth.userId,
+    token: reduxState.auth.token,
+  };
+}
+
+export default connect(mapStateToProps)(Profile);
 
 const styles = StyleSheet.create({
   container: {
