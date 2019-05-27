@@ -4,10 +4,11 @@
 
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground,
+  StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Image, Button,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Location, Permissions } from 'expo';
+import axios from 'axios';
 import { createPlaylist } from '../actions';
 
 class CreatePlaylist extends Component {
@@ -17,6 +18,8 @@ class CreatePlaylist extends Component {
       name: '',
       genre: '',
       errorMessage: null,
+      results: null,
+      selected: '',
     };
   }
 
@@ -24,7 +27,7 @@ class CreatePlaylist extends Component {
     console.log('onBackClick');
   }
 
-  onAddClick = () => {
+  onAddClick = (playlist) => {
     console.log('onAddClick');
     Permissions.askAsync(Permissions.LOCATION).then((response) => {
       // if location services permissions are on, start watching position
@@ -34,11 +37,12 @@ class CreatePlaylist extends Component {
         Location.getCurrentPositionAsync({
           accuracy: Location.Accuracy.High,
         }).then((location) => {
-          console.log('creating playlist with location', location);
-          this.props.createPlaylist('37i9dQZF1DXcBWIGoYBM5M', this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
+          // console.log('creating playlist with location', location);
+          // uri of selected playlist goes in below line
+          this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
           this.props.navigation.navigate('Playlist');
         }).catch((error) => {
-          console.log(error);
+          console.log('error in onAddClick');
         });
       } else {
         console.log('permission denied');
@@ -60,7 +64,43 @@ class CreatePlaylist extends Component {
     console.log(this.state.genre);
   }
 
+  onPlaylistPress = (id) => {
+    console.log('on Playlist Press');
+    this.setState({ selected: id });
+  }
+
+  // eslint-disable-next-line consistent-return
+  resultsRender = () => {
+    if (this.state.results !== null) {
+      return this.state.results.map((song, key) => {
+        // eslint-disable-next-line react/no-array-index-key
+        return (<Button title={song.name} key={key} onPress={() => this.onPlaylistPress(song.id)} />);
+      });
+    }
+  }
+
+  onGenreSearchClick = () => {
+    const API_PLAYLIST_URL = 'https://api.spotify.com/v1/browse/categories';
+
+    const params = {
+      country: 'US',
+      limit: 5,
+    };
+
+    console.log('bout to do genre search api call');
+    axios.get(`${API_PLAYLIST_URL}/${this.state.genre}/playlists`, { headers: { authorization: `Bearer ${this.props.token}` }, params })
+      .then((response) => {
+        this.setState({ results: response.data.playlists.items });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
+    if (this.state.results !== null) {
+      console.log(this.state.results);
+    }
     if (this.props.message !== undefined) {
       console.log('message', this.props.message);
     }
@@ -87,11 +127,17 @@ class CreatePlaylist extends Component {
               style={styles.input}
             />
           </View>
+          <TouchableOpacity onPress={this.onGenreSearchClick} style={styles.searchButton}>
+            <Image
+              source={require('../img/search.png')}
+            />
+          </TouchableOpacity>
 
           <View id="results">
-            {/* <Text>
-              Results list here
-            </Text> */}
+            {
+
+              this.resultsRender()
+            }
           </View>
           <TouchableOpacity onPress={this.onAddClick} style={styles.button}>
             <Text>add</Text>
@@ -106,6 +152,7 @@ function mapStateToProps(reduxState) {
   return {
     message: reduxState.playlists.message,
     userId: reduxState.auth.userId,
+    token: reduxState.auth.token,
   };
 }
 
