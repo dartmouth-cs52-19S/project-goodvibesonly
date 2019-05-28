@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {
-  Platform, StyleSheet, Text, View, TouchableOpacity,
+  Platform, StyleSheet, Text, View, TouchableOpacity, ScrollView,
 } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
 import { connect } from 'react-redux';
@@ -116,9 +116,9 @@ class Home extends React.Component {
             <Text style={styles.topText2}>↺</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.bottom}>
+        <ScrollView style={styles.bottom}>
           {this.renderAllPlaylists()}
-        </View>
+        </ScrollView>
         <Songbar />
       </View>
     );
