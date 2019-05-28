@@ -9,7 +9,9 @@ import {
   View, Text, TouchableOpacity, StyleSheet, ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchPlaylist, fetchSong, sendPlaySong } from '../actions';
+import {
+  fetchPlaylist, fetchSong, sendPlaySong, fetchLocation,
+} from '../actions';
 import Songbar from './Songbar';
 
 class Playlist extends Component {
@@ -19,6 +21,7 @@ class Playlist extends Component {
       songs: [],
     };
 
+    this.fillInLocation = this.fillInLocation.bind(this);
     this.onAddClick = this.onAddClick.bind(this);
     this.onSongClick = this.onSongClick.bind(this);
     this.renderSongs = this.renderSongs.bind(this);
@@ -48,6 +51,19 @@ class Playlist extends Component {
     console.log('onSongClick');
     console.log(songid);
     this.props.sendPlaySong(this.props.token, songid);
+  }
+
+  fillInLocation() {
+    console.log('current playlist', this.props.current.location);
+
+    if (this.props.current.location) {
+      console.log(this.props.current.location[0]);
+      console.log(this.props.current.location[1]);
+      console.log(`${this.props.current.location[0]}, ${this.props.current.location[1]}`);
+
+      this.props.fetchLocation(`${this.props.current.location[0]}, ${this.props.current.location[1]}`);
+      return this.props.location;
+    }
   }
 
   // eslint-disable-next-line consistent-return
@@ -90,8 +106,8 @@ class Playlist extends Component {
   render() {
     // console.log('current playlist', this.props.current);
     // console.log(this.songs);
-    console.log('current playlist', this.props.current);
-    console.log('current id', this.props.currentId);
+    // console.log('current playlist', this.props.current);
+    // console.log('current id', this.props.currentId);
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
@@ -99,7 +115,7 @@ class Playlist extends Component {
             {this.props.current.title}
           </Text>
           <Text style={styles.loc}>
-            TODO: FILL IN LOCATION INFORMATION
+            {this.fillInLocation()}
           </Text>
         </View>
         {this.renderSongs()}
@@ -119,11 +135,12 @@ function mapStateToProps(reduxState) {
     token: reduxState.auth.token,
     artist: reduxState.song.artist,
     name: reduxState.song.name,
+    location: reduxState.playlists.location,
   };
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist, fetchSong, sendPlaySong,
+  fetchPlaylist, fetchSong, sendPlaySong, fetchLocation,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
