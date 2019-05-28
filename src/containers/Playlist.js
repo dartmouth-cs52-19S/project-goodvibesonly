@@ -97,10 +97,9 @@ class Playlist extends Component {
   // comment
 
   render() {
-    // console.log('current playlist', this.props.current);
+    console.log('current playlist', this.props.current);
     // console.log(this.songs);
-    // console.log('current playlist', this.props.current);
-    // console.log('current id', this.props.currentId);
+    console.log('current id', this.props.currentId);
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
@@ -129,8 +128,6 @@ function mapStateToProps(reduxState) {
     currentId: reduxState.playlists.currentId,
     current: reduxState.playlists.current,
     token: reduxState.auth.token,
-    artist: reduxState.song.artist,
-    name: reduxState.song.name,
     location: reduxState.playlists.location,
   };
 }
