@@ -5,12 +5,14 @@
 
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Image,
+  StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Location, Permissions } from 'expo';
 import axios from 'axios';
+import { Ionicons } from '@expo/vector-icons';
 import { createPlaylist, fetchPlaylists } from '../actions';
+
 
 class CreatePlaylist extends Component {
   constructor(props) {
@@ -119,39 +121,34 @@ class CreatePlaylist extends Component {
 
     return (
       <View style={styles.container}>
-        <ImageBackground source={require('../img/Create.png')} style={styles.backgroundImage}>
+        <ImageBackground source={require('../img/background.png')} style={styles.backgroundImage}>
           <View id="top">
             <Text style={styles.top}>
                     Create a Playlist
             </Text>
           </View>
-          <View id="info">
+          <View id="info" style={styles.info}>
             <TextInput
               placeholder="playlistname"
               onChangeText={this.onNameChange}
               style={styles.input}
             />
-            <TextInput
-              placeholder="playlistgenre"
-              value={this.state.genre}
-              onChangeText={this.onGenreChange}
-              style={styles.input}
-            />
+            <View style={styles.iconinput}>
+              <TextInput
+                placeholder="playlistgenre"
+                onChangeText={this.onGenreChange}
+                style={styles.inputinside}
+              />
+              <Ionicons style={styles.icon} name="ios-search" onPress={this.onGenreSearchClick} size={30} />
+            </View>
           </View>
-          <TouchableOpacity onPress={this.onGenreSearchClick} style={styles.searchButton}>
-            <Image
-              source={require('../img/search.png')}
-            />
-          </TouchableOpacity>
-
           <View id="results">
             {
-
               this.resultsRender()
             }
           </View>
           <TouchableOpacity onPress={this.onAddClick} style={styles.button}>
-            <Text>add</Text>
+            <Text style={styles.buttontext}>add</Text>
           </TouchableOpacity>
         </ImageBackground>
       </View>
@@ -178,6 +175,8 @@ const styles = StyleSheet.create({
   top: {
     fontSize: 30,
     fontWeight: 'bold',
+    marginTop: '20%',
+    marginBottom: 0,
   },
   container: {
     flex: 1,
@@ -190,8 +189,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
-    alignContent: 'center',
+    justifyContent: 'flex-start',
   },
   button: {
     backgroundColor: '#1DB5E5',
@@ -201,19 +199,39 @@ const styles = StyleSheet.create({
     width: 130,
     height: 40,
     padding: 10,
+    marginTop: 30,
+    shadowColor: 'black',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
   },
   input: {
     height: 60,
-    width: 200,
+    width: '100%',
     borderColor: '#000000',
-    borderWidth: 1,
-    margin: 30,
+    borderWidth: 3,
+    marginTop: 25,
+    marginBottom: 0,
     backgroundColor: 'white',
     textAlign: 'center',
     shadowColor: '#E31688',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
     shadowRadius: 0,
+  },
+  inputinside: {
+    flex: 1,
+    height: 60,
+    borderColor: '#000000',
+    borderWidth: 3,
+    marginTop: 40,
+    backgroundColor: 'white',
+    textAlign: 'center',
+    shadowColor: '#E31688',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    zIndex: 3,
   },
   playlistButton: {
     flex: 0,
@@ -234,6 +252,34 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   info: {
-    padding: 30,
+    width: '70%',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttontext: {
+    textAlign: 'justify',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  iconinput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    width: 'auto',
+    height: 60,
+    paddingLeft: 5,
+    paddingRight: 9,
+    paddingTop: 12,
+    marginTop: 40,
+    color: 'white',
+    backgroundColor: 'black',
+    alignItems: 'center',
+    shadowColor: '#E31688',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    zIndex: 1,
   },
 });

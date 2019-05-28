@@ -9,23 +9,21 @@ const TabBar = createBottomTabNavigator({
   HomeNav: {
     screen: HomeNav,
     navigationOptions: {
-      tabBarIcon: (<Ionicons size={30} name="ios-home" />),
+      tabBarIcon: ({ tintColor }) => <Ionicons size={30} color={tintColor} name="ios-home" />,
     },
 
   },
   CreatePlaylistNav: {
     screen: CreatePlaylistNav,
     navigationOptions: {
-      tabBarIcon: (<Ionicons size={40} name="ios-add" />),
+      tabBarIcon: ({ tintColor }) => <Ionicons size={40} color={tintColor} name="ios-add" />,
     },
-
   },
   ProfileNav: {
     screen: ProfileNav,
     navigationOptions: {
-      tabBarIcon: (<Ionicons size={30} name="ios-person" />),
+      tabBarIcon: ({ tintColor }) => <Ionicons size={30} color={tintColor} name="ios-person" />,
     },
-
   },
 },
 {
@@ -33,10 +31,11 @@ const TabBar = createBottomTabNavigator({
   tabBarPosition: 'bottom',
   initialRouteName: 'HomeNav',
   tabBarOptions: {
+    activeTintColor: 'white',
+    inactiveTintColor: 'black',
     showLabel: false,
     style: {
       backgroundColor: 'white',
-      color: 'black',
       borderTopColor: 'transparent',
       height: 60,
     },
@@ -49,8 +48,6 @@ const TabBar = createBottomTabNavigator({
       marginLeft: 12,
       marginRight: 7,
       marginBottom: 12,
-    },
-    activeTabStyle: {
     },
   },
 });
