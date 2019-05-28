@@ -1,7 +1,6 @@
 # Vibes
 
-![Team Photo](Insert a Team Photo URL here)
-[*how?*](https://help.github.com/articles/about-readmes/#relative-links-and-image-paths-in-readme-files)
+![Team Photo](/assets/52.jpg)
 
 A mobile app for creating location-based collaborative playlists.
 

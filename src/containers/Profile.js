@@ -42,6 +42,7 @@ class Profile extends Component {
   }
 
   renderAllPlaylists = () => {
+    this.state.playlists = [];
     let i = 0;
     for (i = 0; i < this.props.all.length; i++) {
       if (this.props.all[i].author === this.props.userId) {
