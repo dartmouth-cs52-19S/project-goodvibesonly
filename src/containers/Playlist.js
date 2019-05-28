@@ -24,14 +24,11 @@ class Playlist extends Component {
   componentDidMount() {
     console.log('component did mount called');
     console.log('current id', this.props.currentId);
-<<<<<<< HEAD
     // Actual method call
     this.props.fetchPlaylist(this.props.currentId);
 
     // Hardcoded call
     // this.props.fetchPlaylist('5ce9c6668d16c400342d7241');
-=======
->>>>>>> beb37e79bea72363143a176032c6df74a44a7f41
   }
 
   onBackClick() {
@@ -63,27 +60,30 @@ class Playlist extends Component {
     */
 
     if (this.props.current.songs) {
-      this.props.current.songs.map((song) => {
-        // console.log(song.songid);
-        this.props.fetchSong(song.songid, this.props.token);
+      // console.log(song.name);
+      // console.log(song.artist);
+      // this.props.fetchSong(song.songid, this.props.token);
+      return (
+        <View style={styles.allSongs}>
+          { this.props.current.songs.map((song) => {
+            if (song) {
+              return (
+                <TouchableOpacity onPress={this.onSongClick} style={styles.song}>
+                  <Text style={styles.songTitle}>
+                    {song.name}
+                  </Text>
+                  <Text style={styles.artistTitle}>
+                    {song.artist}
+                  </Text>
+                </TouchableOpacity>
 
-        // console.log(this.props.artist);
-        // console.log(this.props.name);
-
-        return (
-          <TouchableOpacity onPress={this.onSongClick} style={styles.song}>
-            <Text style={styles.songTitle}>
-              {this.props.name}
-            </Text>
-            <Text style={styles.artistTitle}>
-              {this.props.artist}
-            </Text>
-          </TouchableOpacity>
-        );
-      });
+              );
+            }
+          })
+      }
+        </View>
+      );
     }
-
-    // console.log(this.props.current.songs[0]);
   }
   /*
 
@@ -115,14 +115,14 @@ class Playlist extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.top}>
-          Formal Playlist
+          {this.props.current.title}
         </Text>
         <Text style={styles.loc}>
-          10 West Wheelock, Hanover NH 03755
+          TODO: FILL IN LOCATION INFORMATION
         </Text>
-        <View style={styles.allSongs}>
-          {this.renderSongs()}
-        </View>
+
+        {this.renderSongs()}
+
         <Songbar />
         <TouchableOpacity onPress={this.onAddClick} style={styles.bottomButton}>
           <Text style={styles.bottomButtonText}>add a song</Text>
@@ -131,43 +131,6 @@ class Playlist extends Component {
     );
   }
 }
-
-/*
-<View style={styles.song}>
-
-            <Text style={styles.songTitle}>
-            Knee Deep (feat. Jimmy Buffett)
-            </Text>
-
-            <TouchableOpacity onPress={this.onSongClick}>
-              <Text style={styles.songTitle}> Playlist 1</Text>
-            </TouchableOpacity>
-
-            <Text style={styles.songTitle}>
-            Knee Deep (feat. Jimmy Buffett)
-            </Text>
-            <Text style={styles.artistTitle}>
-            Zac Brown Band
-            </Text>
-          </View>
-
-          <View style={styles.song}>
-            <Text style={styles.songTitle}>
-            Rivers and Roads
-            </Text>
-            <Text style={styles.artistTitle}>
-            The Head and the Heart
-            </Text>
-          </View>
-          <View style={styles.song}>
-            <Text style={styles.songTitle}>
-            Take It Easy - 2013 Remaster
-            </Text>
-            <Text style={styles.artistTitle}>
-            Eagles
-            </Text>
-          </View>
-*/
 
 function mapStateToProps(reduxState) {
   return {
