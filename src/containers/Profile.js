@@ -5,11 +5,12 @@
 
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity,
+  View, Text, StyleSheet, TouchableOpacity, ScrollView,
 } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import Songbar from './Songbar';
+import { fetchPlaylist } from '../actions';
 
 class Profile extends Component {
   constructor(props) {
@@ -18,8 +19,8 @@ class Profile extends Component {
       playlists: [],
       userId: '',
     };
-    this.viewPlaylist = this.viewPlaylist.bind(this);
-    this.onHomeClick = this.onHomeClick.bind(this);
+    // this.viewPlaylist = this.viewPlaylist.bind(this);
+    // this.onHomeClick = this.onHomeClick.bind(this);
   }
 
   componentDidMount() {
@@ -52,25 +53,44 @@ class Profile extends Component {
       });
   }
 
-  onHomeClick() {
-    console.log('onHomeClick');
-    let i;
-    for (i = 0; i < this.state.playlists.length; i++) {
-      // these are all the names of my playlists!!
-      console.log(this.state.playlists[i].name);
-    }
-  }
+  // onHomeClick() {
+  //   console.log('onHomeClick');
+  //   let i;
+  //   for (i = 0; i < this.state.playlists.length; i++) {
+  //     // these are all the names of my playlists!!
+  //     console.log(this.state.playlists[i].name);
+  //   }
+  // }
 
-  onUserClick() {
-    console.log('onUserClick');
-  }
-
-  onSettingsClick() {
-    console.log('onSettingsClick');
-  }
-
-  viewPlaylist() {
+  selectPlaylist = (playlist) => {
+    // pass in video into this.props.navigation.state.params.video in navigated view
+    this.props.fetchPlaylist(playlist._id);
     this.props.navigation.navigate('Playlist');
+  }
+
+  renderPlaylist = (playlist, key) => {
+    // console.log(track);
+    return (
+      <TouchableOpacity key={key} style={styles.playlistButton1} onPress={() => { this.selectPlaylist(playlist); }}>
+        <View>
+          <Text style={styles.buttonText}>{playlist.name}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
+  renderAllPlaylists = () => {
+    if (this.state.playlists === null) {
+      return <Text>Loading</Text>;
+    } else if (this.state.playlists.length === 0) {
+      return <Text>No Playlists Yet</Text>;
+    } else {
+      return (
+        this.state.playlists.map((playlist, key) => {
+          return this.renderPlaylist(playlist, key);
+        })
+      );
+    }
   }
 
   render() {
@@ -81,20 +101,9 @@ class Profile extends Component {
             My Playlists...
           </Text>
         </View>
-        <View style={styles.bottom}>
-          <TouchableOpacity onPress={this.onHomeClick} style={styles.playlistButton1}>
-            <Text style={styles.buttonText}>Playlist 1</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.viewPlaylist} style={styles.playlistButton2}>
-            <Text style={styles.buttonText}>Playlist 2</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.viewPlaylist} style={styles.playlistButton3}>
-            <Text style={styles.buttonText}>Playlist 3</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.viewPlaylist} style={styles.playlistButton4}>
-            <Text style={styles.buttonText}>Playlist 4</Text>
-          </TouchableOpacity>
-        </View>
+        <ScrollView style={styles.results}>
+          {this.renderAllPlaylists()}
+        </ScrollView>
         <Songbar />
       </View>
     );
@@ -108,7 +117,11 @@ function mapStateToProps(reduxState) {
   };
 }
 
-export default connect(mapStateToProps)(Profile);
+const mapDispatchToProps = {
+  fetchPlaylist,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
 
 const styles = StyleSheet.create({
   container: {
@@ -179,13 +192,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 0,
   },
+  results: {
+    height: '75%',
+  },
   buttonText: {
     margin: 5,
     textAlign: 'justify',
     fontWeight: 'bold',
     fontSize: 22,
-  },
-  bottom: {
-    height: '75%',
   },
 });

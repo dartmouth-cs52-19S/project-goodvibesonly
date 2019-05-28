@@ -1,10 +1,11 @@
+/* eslint-disable react/no-unused-state */
 /* eslint-disable global-require */
 /* eslint-disable react/destructuring-assignment */
 // create playlist component
 
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Button,
+  StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Location, Permissions } from 'expo';
@@ -23,6 +24,7 @@ class CreatePlaylist extends Component {
       results: null,
       selected: '',
       genreFound: true,
+      // search: '',
     };
   }
 
@@ -36,7 +38,6 @@ class CreatePlaylist extends Component {
       // if location services permissions are on, start watching position
       // else, set error message state
       if (response.status === 'granted') {
-        console.log('in granted ask async');
         Location.getCurrentPositionAsync({
           accuracy: Location.Accuracy.High,
         }).then((location) => {
@@ -56,22 +57,20 @@ class CreatePlaylist extends Component {
   }
 
   onNameChange = (text) => {
-    console.log('onSearchChange');
     this.setState({ name: text });
-    console.log(text);
   }
 
   onGenreChange = (text) => {
-    console.log('onGenreChange');
     const lower = text.toLowerCase();
     this.setState({ genre: lower });
-    console.log(lower);
-    console.log(this.state.genre);
   }
 
-  onPlaylistPress = (id) => {
+  onPlaylistPress = (id, name) => {
     console.log('on Playlist Press');
-    this.setState({ selected: id });
+    this.setState({
+      selected: id,
+      genre: name,
+    });
   }
 
   // eslint-disable-next-line consistent-return
@@ -79,7 +78,12 @@ class CreatePlaylist extends Component {
     if (this.state.results !== null) {
       return this.state.results.map((song, key) => {
         // eslint-disable-next-line react/no-array-index-key
-        return (<Button title={song.name} key={key} onPress={() => this.onPlaylistPress(song.id)} />);
+        return (
+          // eslint-disable-next-line react/no-array-index-key
+          <TouchableOpacity key={key} onPress={() => this.onPlaylistPress(song.id, song.name)} style={styles.playlistButton}>
+            <Text style={styles.buttonText}>{song.name}</Text>
+          </TouchableOpacity>
+        );
       });
     }
     if (this.state.genreFound === false) {
@@ -228,6 +232,24 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 0,
     zIndex: 3,
+  },
+  playlistButton: {
+    flex: 0,
+    justifyContent: 'center',
+    width: 330,
+    height: 50,
+    margin: 15,
+    backgroundColor: '#E31688',
+    shadowColor: 'black',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+  },
+  buttonText: {
+    margin: 5,
+    textAlign: 'justify',
+    fontWeight: 'bold',
+    fontSize: 22,
   },
   info: {
     width: '70%',
