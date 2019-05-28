@@ -139,7 +139,7 @@ class Home extends React.Component {
             <Text style={styles.topText2}>↺</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.results}>
+        <View style={styles.bottom}>
           {this.renderAllPlaylists()}
         </View>
         <Songbar />
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   top: {
-    flex: 1,
+    flex: 0,
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -227,13 +227,9 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   bottom: {
-    flexGrow: 4,
-  },
-  results: {
-    height: 400,
+    height: '75%',
   },
   listView: {
-    flex: 2,
     flexDirection: 'column',
   },
 });

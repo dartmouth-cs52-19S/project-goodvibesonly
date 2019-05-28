@@ -81,7 +81,7 @@ class Profile extends Component {
             My Playlists...
           </Text>
         </View>
-        <View>
+        <View style={styles.bottom}>
           <TouchableOpacity onPress={this.onHomeClick} style={styles.playlistButton1}>
             <Text style={styles.buttonText}>Playlist 1</Text>
           </TouchableOpacity>
@@ -118,21 +118,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   topText: {
+    flexGrow: 2,
     fontSize: 30,
-    textAlign: 'left',
+    fontWeight: 'bold',
+    alignSelf: 'flex-start',
   },
   top: {
-    flex: 1,
+    flex: 0,
     alignItems: 'flex-start',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     flexDirection: 'row',
+    margin: 10,
+    marginTop: 30,
   },
   playlistButton1: {
     flex: 0,
-    width: 300,
+    justifyContent: 'center',
+    width: 330,
     height: 50,
-    borderColor: '#000000',
-    borderWidth: 1,
     margin: 15,
     backgroundColor: '#1DB5E5',
     shadowColor: 'black',
@@ -142,10 +145,9 @@ const styles = StyleSheet.create({
   },
   playlistButton2: {
     flex: 0,
-    width: 300,
+    justifyContent: 'center',
+    width: 330,
     height: 50,
-    borderColor: '#000000',
-    borderWidth: 1,
     margin: 15,
     backgroundColor: '#E31688',
     shadowColor: 'black',
@@ -155,10 +157,9 @@ const styles = StyleSheet.create({
   },
   playlistButton3: {
     flex: 0,
-    width: 300,
+    justifyContent: 'center',
+    width: 330,
     height: 50,
-    borderColor: '#000000',
-    borderWidth: 1,
     margin: 15,
     backgroundColor: '#F7EB58',
     shadowColor: 'black',
@@ -168,10 +169,9 @@ const styles = StyleSheet.create({
   },
   playlistButton4: {
     flex: 0,
-    width: 300,
+    justifyContent: 'center',
+    width: 330,
     height: 50,
-    borderColor: '#000000',
-    borderWidth: 1,
     margin: 15,
     backgroundColor: '#907CFD',
     shadowColor: 'black',
@@ -183,6 +183,9 @@ const styles = StyleSheet.create({
     margin: 5,
     textAlign: 'justify',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 22,
+  },
+  bottom: {
+    height: '75%',
   },
 });
