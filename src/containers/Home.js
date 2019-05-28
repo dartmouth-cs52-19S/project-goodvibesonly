@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {
-  Platform, StyleSheet, Text, View, TouchableOpacity, ListView,
+  Platform, StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
 import { connect } from 'react-redux';
@@ -16,10 +16,6 @@ class Home extends React.Component {
 
     this.state = {
       errorMessage: null,
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
-      isLoading: true,
     };
   }
 
@@ -31,8 +27,6 @@ class Home extends React.Component {
     } else {
       this.getLocation();
     }
-
-    this.populateDatasource();
   }
 
   getLocation = () => {
@@ -40,14 +34,12 @@ class Home extends React.Component {
       // if location services permissions are on, start watching position
       // else, set error message state
       if (response.status === 'granted') {
-        console.log('in granted ask async');
         Location.watchPositionAsync({
           accuracy: Location.Accuracy.High,
           timeInterval: 30000,
           distanceInterval: 10,
         }, this.setLocation);
       } else {
-        console.log('permission denied');
         this.setState({ errorMessage: 'app does not have location permissions' });
       }
     });
@@ -58,26 +50,16 @@ class Home extends React.Component {
   }
 
   onRefreshPress = () => {
-    console.log('refresh pressed', this.state.errorMessage);
-
     // if no permissions errors, get the location data
     if (this.state.errorMessage === null) {
       Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High,
       }).then((location) => {
-        console.log('refresh', location);
         this.setLocation(location);
       }).catch((error) => {
         console.log(error);
       });
     }
-  }
-
-  populateDatasource = () => {
-    this.setState(prevState => ({
-      dataSource: prevState.dataSource.cloneWithRows(this.props.all),
-      isLoading: false,
-    }));
   }
 
   selectPlaylist = (playlist) => {
@@ -86,10 +68,10 @@ class Home extends React.Component {
     this.props.navigation.navigate('Playlist');
   }
 
-  renderPlaylist = (playlist) => {
+  renderPlaylist = (playlist, key) => {
     // console.log(track);
     return (
-      <TouchableOpacity style={styles.playlistButton1} onPress={() => { this.selectPlaylist(playlist); }}>
+      <TouchableOpacity key={key} style={styles.playlistButton1} onPress={() => { this.selectPlaylist(playlist); }}>
         <View>
           <Text style={styles.buttonText}>{playlist.title}</Text>
         </View>
@@ -108,19 +90,16 @@ class Home extends React.Component {
   }
 
   renderAllPlaylists = () => {
-    if (!this.state.isLoading && this.props.all.length > 0) {
-      console.log('datasource', this.state.dataSource);
-      return (
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderPlaylist}
-          style={styles.listView}
-        />
-      );
+    if (this.props.all === null) {
+      return <Text>Loading</Text>;
     } else if (this.props.all.length === 0) {
       return <Text>No Playlists Yet</Text>;
     } else {
-      return <Text>Loading...</Text>;
+      return (
+        this.props.all.map((playlist, key) => {
+          return this.renderPlaylist(playlist, key);
+        })
+      );
     }
   }
 
@@ -128,8 +107,6 @@ class Home extends React.Component {
     if (this.props.location !== null) {
       console.log('location', this.props.location);
     }
-
-    console.log(this.props.all.length);
 
     return (
       <View style={styles.container}>
