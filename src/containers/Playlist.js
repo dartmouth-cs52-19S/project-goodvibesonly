@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/destructuring-assignment */
 // playlist component
 
@@ -6,7 +7,7 @@ import {
   View, Text, TouchableOpacity, StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchPlaylist } from '../actions';
+import { fetchPlaylist, fetchSong, sendPlaySong } from '../actions';
 import Songbar from './Songbar';
 
 class Playlist extends Component {
@@ -17,11 +18,18 @@ class Playlist extends Component {
     };
 
     this.onAddClick = this.onAddClick.bind(this);
+    this.onSongClick = this.onSongClick.bind(this);
+    this.renderSongs = this.renderSongs.bind(this);
   }
 
   componentDidMount() {
     console.log('component did mount called');
     console.log('current id', this.props.currentId);
+    // Actual method call
+    this.props.fetchPlaylist(this.props.currentId);
+
+    // Hardcoded call
+    // this.props.fetchPlaylist('5ce9c6668d16c400342d7241');
   }
 
   onBackClick() {
@@ -34,43 +42,64 @@ class Playlist extends Component {
     this.props.navigation.navigate('Song');
   }
 
+  onSongClick(songid) {
+    console.log('onSongClick');
+    console.log(songid);
+    this.props.sendPlaySong(this.props.token, songid);
+  }
+
+  renderSongs() {
+    /*
+    console.log('A SONG ID:');
+    this.props.fetchSong('5Qel1sTrU4LM8HlJSPT2jd', this.props.token);
+    */
+
+    if (this.props.current.songs) {
+      // console.log(song.name);
+      // console.log(song.artist);
+      // this.props.fetchSong(song.songid, this.props.token);
+      let key_value = 0;
+      return (
+        <View style={styles.allSongs}>
+          { this.props.current.songs.map((song) => {
+            if (song) {
+              key_value += 1;
+              return (
+                // Referenced https://stackoverflow.com/questions/43017807/react-native-onpress-binding-with-an-argument to figure out how to pass an argument to my onPress function
+                <TouchableOpacity onPress={() => this.onSongClick(song.songid)} key={key_value}>
+                  <Text style={styles.songTitle}>
+                    {song.name}
+                  </Text>
+                  <Text style={styles.artistTitle}>
+                    {song.artist}
+                  </Text>
+                </TouchableOpacity>
+
+              );
+            }
+          })
+      }
+        </View>
+      );
+    }
+  }
+
   render() {
+    // console.log('current playlist', this.props.current);
+    // console.log(this.songs);
     console.log('current playlist', this.props.current);
     console.log('current id', this.props.currentId);
     return (
       <View style={styles.container}>
         <Text style={styles.top}>
-          Formal Playlist
+          {this.props.current.title}
         </Text>
         <Text style={styles.loc}>
-          10 West Wheelock, Hanover NH 03755
+          TODO: FILL IN LOCATION INFORMATION
         </Text>
-        <View style={styles.allSongs}>
-          <View style={styles.song}>
-            <Text style={styles.songTitle}>
-            Knee Deep (feat. Jimmy Buffett)
-            </Text>
-            <Text style={styles.artistTitle}>
-            Zac Brown Band
-            </Text>
-          </View>
-          <View style={styles.song}>
-            <Text style={styles.songTitle}>
-            Rivers and Roads
-            </Text>
-            <Text style={styles.artistTitle}>
-            The Head and the Heart
-            </Text>
-          </View>
-          <View style={styles.song}>
-            <Text style={styles.songTitle}>
-            Take It Easy - 2013 Remaster
-            </Text>
-            <Text style={styles.artistTitle}>
-            Eagles
-            </Text>
-          </View>
-        </View>
+
+        {this.renderSongs()}
+
         <Songbar />
         <TouchableOpacity onPress={this.onAddClick} style={styles.bottomButton}>
           <Text style={styles.bottomButtonText}>add a song</Text>
@@ -84,11 +113,14 @@ function mapStateToProps(reduxState) {
   return {
     currentId: reduxState.playlists.currentId,
     current: reduxState.playlists.current,
+    token: reduxState.auth.token,
+    artist: reduxState.song.artist,
+    name: reduxState.song.name,
   };
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist,
+  fetchPlaylist, fetchSong, sendPlaySong,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
