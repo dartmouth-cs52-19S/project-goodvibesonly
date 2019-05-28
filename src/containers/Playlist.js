@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react';
 import {
-  View, Text, TouchableOpacity, StyleSheet,
+  View, Text, TouchableOpacity, StyleSheet, ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchPlaylist, fetchSong, sendPlaySong } from '../actions';
@@ -63,7 +63,7 @@ class Playlist extends Component {
       // this.props.fetchSong(song.songid, this.props.token);
       let key_value = 0;
       return (
-        <View style={styles.allSongs}>
+        <ScrollView style={styles.allSongs}>
           { this.props.current.songs.map((song) => {
             if (song) {
               key_value += 1;
@@ -82,7 +82,7 @@ class Playlist extends Component {
             }
           })
       }
-        </View>
+        </ScrollView>
       );
     }
   }
