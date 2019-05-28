@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
-  fetchPlaylist, fetchSong, sendPlaySong, fetchLocation,
+  fetchPlaylist, sendPlaySong, fetchLocation,
 } from '../actions';
 import Songbar from './Songbar';
 
@@ -68,15 +68,7 @@ class Playlist extends Component {
 
   // eslint-disable-next-line consistent-return
   renderSongs() {
-    /*
-    console.log('A SONG ID:');
-    this.props.fetchSong('5Qel1sTrU4LM8HlJSPT2jd', this.props.token);
-    */
-
     if (this.props.current.songs) {
-      // console.log(song.name);
-      // console.log(song.artist);
-      // this.props.fetchSong(song.songid, this.props.token);
       let key_value = 0;
       return (
         <ScrollView style={styles.allSongs}>
@@ -140,7 +132,7 @@ function mapStateToProps(reduxState) {
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist, fetchSong, sendPlaySong, fetchLocation,
+  fetchPlaylist, sendPlaySong, fetchLocation,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
