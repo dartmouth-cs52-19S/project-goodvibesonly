@@ -33,7 +33,7 @@ class CreatePlaylist extends Component {
   }
 
   onAddClick = (playlist) => {
-    console.log('onAddClick');
+    // console.log('onAddClick');
     Permissions.askAsync(Permissions.LOCATION).then((response) => {
       // if location services permissions are on, start watching position
       // else, set error message state
@@ -63,14 +63,20 @@ class CreatePlaylist extends Component {
   onGenreChange = (text) => {
     const lower = text.toLowerCase();
     this.setState({ genre: lower });
+    console.log(this.state.genre);
   }
 
   onPlaylistPress = (id, name) => {
-    console.log('on Playlist Press');
-    this.setState({
-      selected: id,
-      genre: name,
+    // console.log('on Playlist Press');
+    this.setState({ selected: id, genre: name }, () => {
+      console.log(`on Playlist Press name ${name}`);
+      console.log(`on Playlist Press genre ${this.state.genre}`);
     });
+
+    // this.setState({
+    //   selected: id,
+    //   genre: name,
+    // });
   }
 
   // eslint-disable-next-line consistent-return
@@ -99,7 +105,7 @@ class CreatePlaylist extends Component {
       limit: 5,
     };
 
-    console.log('bout to do genre search api call');
+    // console.log('bout to do genre search api call');
     axios.get(`${API_PLAYLIST_URL}/${this.state.genre}/playlists`, { headers: { authorization: `Bearer ${this.props.token}` }, params })
       .then((response) => {
         this.setState({ results: response.data.playlists.items });
@@ -111,7 +117,7 @@ class CreatePlaylist extends Component {
 
   render() {
     if (this.state.results !== null) {
-      console.log(this.state.results);
+      // console.log(this.state.results);
     }
     if (this.props.message !== undefined) {
       console.log('message', this.props.message);
@@ -138,6 +144,7 @@ class CreatePlaylist extends Component {
                 placeholder="playlistgenre"
                 onChangeText={this.onGenreChange}
                 style={styles.inputinside}
+                value={this.state.genre}
               />
               <Ionicons style={styles.icon} name="ios-search" onPress={this.onGenreSearchClick} size={30} />
             </View>
