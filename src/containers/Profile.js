@@ -26,9 +26,14 @@ class Profile extends Component {
   }
 
   renderPlaylist = (playlist, key) => {
+    const colors = ['#1DB5E5', '#E31688', '#F7EB58', '#907CFD'];
+    const rotate = [
+      styles.playlistButton,
+      { backgroundColor: colors[(key % 4)] },
+    ];
     // console.log(track);
     return (
-      <TouchableOpacity key={key} style={styles.playlistButton1} onPress={() => { this.selectPlaylist(playlist); }}>
+      <TouchableOpacity key={key} style={rotate} onPress={() => { this.selectPlaylist(playlist); }}>
         <View>
           <Text style={styles.buttonText}>{playlist.title}</Text>
         </View>
@@ -46,9 +51,9 @@ class Profile extends Component {
     }
 
     if (this.state.playlists === null) {
-      return <Text>Loading</Text>;
+      return <Text style={styles.innertext}>Loading</Text>;
     } else if (this.state.playlists.length === 0) {
-      return <Text>No Playlists Yet</Text>;
+      return <Text style={styles.innertext}>No Playlists Yet</Text>;
     } else {
       return (
         this.state.playlists.map((playlist, key) => {
@@ -111,49 +116,12 @@ const styles = StyleSheet.create({
     margin: 10,
     marginTop: 30,
   },
-  playlistButton1: {
+  playlistButton: {
     flex: 0,
     justifyContent: 'center',
     width: 330,
     height: 50,
     margin: 15,
-    backgroundColor: '#1DB5E5',
-    shadowColor: 'black',
-    shadowOffset: { height: 5, width: -5 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-  },
-  playlistButton2: {
-    flex: 0,
-    justifyContent: 'center',
-    width: 330,
-    height: 50,
-    margin: 15,
-    backgroundColor: '#E31688',
-    shadowColor: 'black',
-    shadowOffset: { height: 5, width: -5 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-  },
-  playlistButton3: {
-    flex: 0,
-    justifyContent: 'center',
-    width: 330,
-    height: 50,
-    margin: 15,
-    backgroundColor: '#F7EB58',
-    shadowColor: 'black',
-    shadowOffset: { height: 5, width: -5 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-  },
-  playlistButton4: {
-    flex: 0,
-    justifyContent: 'center',
-    width: 330,
-    height: 50,
-    margin: 15,
-    backgroundColor: '#907CFD',
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
@@ -165,6 +133,10 @@ const styles = StyleSheet.create({
   buttonText: {
     margin: 5,
     textAlign: 'justify',
+    fontWeight: 'bold',
+    fontSize: 22,
+  },
+  innertext: {
     fontWeight: 'bold',
     fontSize: 22,
   },
