@@ -94,6 +94,7 @@ class Playlist extends Component {
       );
     }
   }
+  // comment
 
   render() {
     // console.log('current playlist', this.props.current);
