@@ -9,9 +9,8 @@ import {
   View, Text, TouchableOpacity, StyleSheet, ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
 import {
-  fetchPlaylist, fetchSong, sendPlaySong, sendPlayPlaylist, fetchLocation,
+  fetchPlaylist, sendPlaySong, sendPlayPlaylist, fetchLocation,
 } from '../actions';
 import Songbar from './Songbar';
 
@@ -49,13 +48,7 @@ class Playlist extends Component {
   }
 
   onSongClick(songid) {
-    console.log('onSongClick');
-    console.log(songid);
     this.props.sendPlaySong(this.props.token, songid);
-  }
-
-  onPlay(playlistid) {
-    this.props.sendPlayPlaylist(this.props.token, playlistid);
   }
 
   fillInLocation() {
@@ -113,7 +106,6 @@ class Playlist extends Component {
             <Text style={styles.topfont}>
               {this.props.current.title}
             </Text>
-            <Ionicons style={styles.button} name="ios-play" onPress={() => this.onPlay(this.props.currentId)} />
           </View>
           <Text style={styles.loc}>
             {this.fillInLocation()}
@@ -141,7 +133,7 @@ function mapStateToProps(reduxState) {
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist, fetchSong, sendPlaySong, sendPlayPlaylist, fetchLocation,
+  fetchPlaylist, sendPlaySong, sendPlayPlaylist, fetchLocation,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
