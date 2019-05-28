@@ -42,7 +42,7 @@ class Login extends React.Component {
     if (!url) return;
 
 
-    if (url.includes('?message=authSuccess')) {
+    if (url.includes('?message=authSuccess') || url.includes('accounts.spotify.com/status')) {
       console.log('entered frontend');
       const tokenStartIndex = url.indexOf('token') + 6;
       const data = url.substring(tokenStartIndex, url.length);
