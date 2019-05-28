@@ -45,7 +45,7 @@ export function fetchLocation(latlng) {
   return (dispatch) => {
     axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${API_KEY}&result_type=street_address`)
       .then((response) => {
-        dispatch({ type: ActionTypes.FETCH_LOCATION, payload: { location: response.data.results.formatted_address } });
+        dispatch({ type: ActionTypes.FETCH_LOCATION, payload: { location: response.data.results[0].formatted_address } });
       }).catch((error) => {
         console.log(error);
       });

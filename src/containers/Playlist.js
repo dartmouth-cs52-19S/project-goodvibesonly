@@ -62,8 +62,7 @@ class Playlist extends Component {
       console.log(`${this.props.current.location[0]}, ${this.props.current.location[1]}`);
 
       this.props.fetchLocation(`${this.props.current.location[0]}, ${this.props.current.location[1]}`);
-      console.log(this.props.location);// .results); // .results); // .result_type);
-      // console.log(this.props.location.result_type.street_address);
+      return this.props.location;
     }
   }
 
@@ -116,7 +115,6 @@ class Playlist extends Component {
             {this.props.current.title}
           </Text>
           <Text style={styles.loc}>
-            TODO: FILL IN LOCATION INFORMATION
             {this.fillInLocation()}
           </Text>
         </View>
