@@ -82,7 +82,7 @@ export function createPlaylist(spotifyPlaylistId, title, userId, lat, lng) {
       spotifyId: spotifyPlaylistId, title, userId, lat, lng,
     }).then((response) => {
       console.log('create playlist response', response);
-      dispatch({ type: ActionTypes.CREATE_PLAYLIST, payload: { message: response.data.message, playlistId: response.data.playlistId } });
+      dispatch({ type: ActionTypes.CREATE_PLAYLIST, payload: { message: response.data.message, playlistId: response.data.playlistId, current: response.data.playlist } });
     }).catch((error) => {
       console.log(error);
     });
