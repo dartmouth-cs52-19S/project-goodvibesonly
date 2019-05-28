@@ -41,4 +41,4 @@ To run locally:
 
 ## Acknowledgments
 
-We leveraged documentation from Spotify's Web API to implement many features of our app. We would also like to give a huge thank you to our professor Tim Tregubov and our TA's in CS52 (Full-Stack Web Development) at Dartmouth College for guidance and support, as well as our fellow classmates. We would also like to thank #MEN #IN #STEM for giving us the emotional capacity to make it through this project. Couldn't have done it without you. #hackerwomen #womenwhocode #shrillwomen
+We leveraged documentation from Spotify's Web API to implement many features of our app. We would also like to give a huge thank you to our professor Tim Tregubov and our TA's in CS52 (Full-Stack Web Development) at Dartmouth College for guidance and support, as well as our fellow classmates. We would also like to thank #MEN #IN #STEM (especially Travis) for giving us the emotional capacity to make it through this project. Couldn't have done it without you. #hackerwomen #womenwhocode #shrillwomen
