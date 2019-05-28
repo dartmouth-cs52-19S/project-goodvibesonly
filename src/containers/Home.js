@@ -2,11 +2,11 @@
 
 import React from 'react';
 import {
-  Platform, StyleSheet, Text, View, TouchableOpacity,
+  Platform, StyleSheet, Text, View, TouchableOpacity, ListView,
 } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
 import { connect } from 'react-redux';
-import { fetchPlaylists, updateLocation } from '../actions';
+import { fetchPlaylists, updateLocation, fetchPlaylist } from '../actions';
 import Songbar from './Songbar';
 
 
@@ -16,9 +16,11 @@ class Home extends React.Component {
 
     this.state = {
       errorMessage: null,
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
+      isLoading: true,
     };
-
-    this.showPlaylist = this.showPlaylist.bind(this);
   }
 
   componentDidMount() {
@@ -30,8 +32,7 @@ class Home extends React.Component {
       this.getLocation();
     }
 
-    // eventually should fetch playlists there
-    // this.props.fetchPlaylists();
+    this.populateDatasource();
   }
 
   getLocation = () => {
@@ -72,9 +73,28 @@ class Home extends React.Component {
     }
   }
 
-  showPlaylist() {
+  populateDatasource = () => {
+    this.setState(prevState => ({
+      dataSource: prevState.dataSource.cloneWithRows(this.props.all),
+      isLoading: false,
+    }));
+  }
+
+  selectPlaylist = (playlist) => {
     // pass in video into this.props.navigation.state.params.video in navigated view
+    this.props.fetchPlaylist(playlist._id);
     this.props.navigation.navigate('Playlist');
+  }
+
+  renderPlaylist = (playlist) => {
+    // console.log(track);
+    return (
+      <TouchableOpacity style={styles.playlistButton1} onPress={() => { this.selectPlaylist(playlist); }}>
+        <View>
+          <Text style={styles.buttonText}>{playlist.title}</Text>
+        </View>
+      </TouchableOpacity>
+    );
   }
 
   renderPlaylistsInRange = () => {
@@ -87,33 +107,40 @@ class Home extends React.Component {
     // we can have both options, just in different sections
   }
 
+  renderAllPlaylists = () => {
+    if (!this.state.isLoading && this.props.all.length > 0) {
+      console.log('datasource', this.state.dataSource);
+      return (
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderPlaylist}
+          style={styles.listView}
+        />
+      );
+    } else if (this.props.all.length === 0) {
+      return <Text>No Playlists Yet</Text>;
+    } else {
+      return <Text>Loading...</Text>;
+    }
+  }
+
   render() {
     if (this.props.location !== null) {
       console.log('location', this.props.location);
     }
-    console.log('current playlist', this.props.current);
-    console.log('current id', this.props.currentId);
+
+    console.log(this.props.all.length);
+
     return (
       <View style={styles.container}>
         <View style={styles.top}>
           <Text style={styles.topText}>Playlists Near Me...  </Text>
           <TouchableOpacity onPress={this.onRefreshPress}>
-            <Text style={styles.topText}>↺</Text>
+            <Text style={styles.topText2}>↺</Text>
           </TouchableOpacity>
         </View>
-        <View>
-          <TouchableOpacity onPress={this.showPlaylist} style={styles.playlistButton1}>
-            <Text style={styles.buttonText}>Playlist 1</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.showPlaylist} style={styles.playlistButton2}>
-            <Text style={styles.buttonText}>Playlist 2</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.showPlaylist} style={styles.playlistButton3}>
-            <Text style={styles.buttonText}>Playlist 3</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.showPlaylist} style={styles.playlistButton4}>
-            <Text style={styles.buttonText}>Playlist 4</Text>
-          </TouchableOpacity>
+        <View style={styles.results}>
+          {this.renderAllPlaylists()}
         </View>
         <Songbar />
       </View>
@@ -130,17 +157,25 @@ const styles = StyleSheet.create({
   },
   topText: {
     fontSize: 30,
-    textAlign: 'left',
+    fontWeight: 'bold',
+    flexGrow: 2,
+  },
+  topText2: {
+    fontSize: 30,
+    fontWeight: 'bold',
   },
   top: {
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     flexDirection: 'row',
+    margin: 10,
+    marginTop: 30,
   },
   playlistButton1: {
     flex: 0,
-    width: 300,
+    justifyContent: 'center',
+    width: 330,
     height: 50,
     margin: 15,
     backgroundColor: '#1DB5E5',
@@ -151,7 +186,8 @@ const styles = StyleSheet.create({
   },
   playlistButton2: {
     flex: 0,
-    width: 300,
+    justifyContent: 'center',
+    width: 330,
     height: 50,
     margin: 15,
     backgroundColor: '#E31688',
@@ -162,7 +198,8 @@ const styles = StyleSheet.create({
   },
   playlistButton3: {
     flex: 0,
-    width: 300,
+    justifyContent: 'center',
+    width: 330,
     height: 50,
     margin: 15,
     backgroundColor: '#F7EB58',
@@ -173,7 +210,8 @@ const styles = StyleSheet.create({
   },
   playlistButton4: {
     flex: 0,
-    width: 300,
+    justifyContent: 'center',
+    width: 330,
     height: 50,
     margin: 15,
     backgroundColor: '#907CFD',
@@ -186,7 +224,17 @@ const styles = StyleSheet.create({
     margin: 5,
     textAlign: 'justify',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 22,
+  },
+  bottom: {
+    flexGrow: 4,
+  },
+  results: {
+    height: 400,
+  },
+  listView: {
+    flex: 2,
+    flexDirection: 'column',
   },
 });
 
@@ -203,6 +251,7 @@ function mapStateToProps(reduxState) {
 const mapDispatchToProps = {
   fetchPlaylists,
   updateLocation,
+  fetchPlaylist,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

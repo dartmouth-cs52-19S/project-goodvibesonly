@@ -24,11 +24,14 @@ class Playlist extends Component {
   componentDidMount() {
     console.log('component did mount called');
     console.log('current id', this.props.currentId);
+<<<<<<< HEAD
     // Actual method call
     this.props.fetchPlaylist(this.props.currentId);
 
     // Hardcoded call
     // this.props.fetchPlaylist('5ce9c6668d16c400342d7241');
+=======
+>>>>>>> beb37e79bea72363143a176032c6df74a44a7f41
   }
 
   onBackClick() {

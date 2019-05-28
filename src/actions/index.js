@@ -51,7 +51,7 @@ export function fetchSong(id, token) {
 export function fetchPlaylists() {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/playlists`).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_PLAYLISTS, payload: { all: response.data } });
+      dispatch({ type: ActionTypes.FETCH_PLAYLISTS, payload: { all: response.data.result } });
     }).catch((error) => {
       console.log(error);
     });
@@ -65,9 +65,9 @@ export function fetchPlaylist(id) {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/playlists/${id}`).then((response) => {
       console.log('should log something', response.data);
-      dispatch({ type: ActionTypes.FETCH_PLAYLIST, payload: { current: response.data.result[0] } });
+      dispatch({ type: ActionTypes.FETCH_PLAYLIST, payload: { current: response.data.playlist } });
     }).catch((error) => {
-      console.log('error fetching playlist');
+      console.log('error fetching playlist', error);
     });
   };
 }
@@ -88,11 +88,11 @@ export function createPlaylist(spotifyPlaylistId, title, userId, lat, lng) {
   };
 }
 
-export function addToPlaylist(playlistId, spotifyTrackId) {
+export function addToPlaylist(playlistId, spotifyTrackId, name, artist) {
   // this will add the track specified (by spotify track id)
   // to the playlist specified with the mongo playlist id
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/playlists/${playlistId}`, { trackId: spotifyTrackId }).then((response) => {
+    axios.put(`${ROOT_URL}/playlists/${playlistId}`, { trackId: spotifyTrackId, name, artist }).then((response) => {
       dispatch({ type: ActionTypes.ADD_TO_PLAYLIST, payload: { message: response.data } });
     }).catch((error) => {
       console.log(error);

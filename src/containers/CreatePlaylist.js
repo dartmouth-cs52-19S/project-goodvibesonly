@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux';
 import { Location, Permissions } from 'expo';
 import axios from 'axios';
-import { createPlaylist } from '../actions';
+import { createPlaylist, fetchPlaylists } from '../actions';
 
 class CreatePlaylist extends Component {
   constructor(props) {
@@ -41,6 +41,7 @@ class CreatePlaylist extends Component {
           // console.log('creating playlist with location', location);
           // uri of selected playlist goes in below line
           this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
+          this.props.fetchPlaylists();
           this.props.navigation.navigate('Playlist');
         }).catch((error) => {
           console.log('error in onAddClick');
@@ -163,6 +164,7 @@ function mapStateToProps(reduxState) {
 
 const mapDispatchToProps = {
   createPlaylist,
+  fetchPlaylists,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePlaylist);
