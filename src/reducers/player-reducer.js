@@ -10,6 +10,8 @@ const PlayerReducer = (state = { playstate: '' }, action) => {
       return Object.assign({}, state, { });
     case ActionTypes.PLAYSONG:
       return Object.assign({}, state, { });
+    case ActionTypes.PLAYPLAYLIST:
+      return Object.assign({}, state, { });
     default:
       return state;
   }

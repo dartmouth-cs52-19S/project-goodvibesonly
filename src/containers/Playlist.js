@@ -9,7 +9,10 @@ import {
   View, Text, TouchableOpacity, StyleSheet, ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchPlaylist, fetchSong, sendPlaySong } from '../actions';
+import { Ionicons } from '@expo/vector-icons';
+import {
+  fetchPlaylist, fetchSong, sendPlaySong, sendPlayPlaylist,
+} from '../actions';
 import Songbar from './Songbar';
 
 class Playlist extends Component {
@@ -48,6 +51,10 @@ class Playlist extends Component {
     console.log('onSongClick');
     console.log(songid);
     this.props.sendPlaySong(this.props.token, songid);
+  }
+
+  onPlay(playlistid) {
+    this.props.sendPlayPlaylist(this.props.token, playlistid);
   }
 
   // eslint-disable-next-line consistent-return
@@ -95,9 +102,12 @@ class Playlist extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
-          <Text style={styles.top}>
-            {this.props.current.title}
-          </Text>
+          <View style={styles.top}>
+            <Text style={styles.topfont}>
+              {this.props.current.title}
+            </Text>
+            <Ionicons style={styles.button} name="ios-play" onPress={() => this.onPlay(this.props.currentId)} />
+          </View>
           <Text style={styles.loc}>
             TODO: FILL IN LOCATION INFORMATION
           </Text>
@@ -123,7 +133,7 @@ function mapStateToProps(reduxState) {
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist, fetchSong, sendPlaySong,
+  fetchPlaylist, fetchSong, sendPlaySong, sendPlayPlaylist,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
@@ -148,6 +158,9 @@ const styles = StyleSheet.create({
   },
   top: {
     flex: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     width: '100%',
     height: 50,
     backgroundColor: '#E31688',
@@ -155,9 +168,11 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
     shadowRadius: 0,
+    padding: 5,
+  },
+  topfont: {
     fontWeight: 'bold',
     fontSize: 30,
-    padding: 5,
   },
   loc: {
     textAlign: 'left',
@@ -195,5 +210,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     padding: 5,
+  },
+  button: {
+    color: 'black',
+    fontSize: 40,
+    marginRight: 5,
   },
 });
