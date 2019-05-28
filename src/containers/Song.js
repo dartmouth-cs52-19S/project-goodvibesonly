@@ -39,7 +39,7 @@ class AddSong extends Component {
     console.log('artist', this.state.selectedTrack.artists);
 
     // Real call
-    this.props.addToPlaylist(this.props.playlistId, this.state.selectedTrack.id, this.state.selectedTrack.name, this.state.selectedTrack.artists[0].name);
+    this.props.addToPlaylist(this.props.playlistId, this.state.selectedTrack.id, this.state.selectedTrack.name, this.state.selectedTrack.artists[0].name, this.state.selectedTrack.duration_ms);
 
     // Hardcoded call
     // this.props.addToPlaylist('5ce9c6668d16c400342d7241', this.state.selectedTrack.id);
