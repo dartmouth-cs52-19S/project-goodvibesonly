@@ -80,14 +80,14 @@ class CreatePlaylist extends Component {
         // eslint-disable-next-line react/no-array-index-key
         return (
           // eslint-disable-next-line react/no-array-index-key
-          <TouchableOpacity key={key} onPress={() => this.onPlaylistPress(song.id, song.name)} style={styles.playlistButton}>
+          <TouchableOpacity key={key} onPress={() => this.onPlaylistPress(song.id, song.name)}>
             <Text style={styles.buttonText}>{song.name}</Text>
           </TouchableOpacity>
         );
       });
     }
     if (this.state.genreFound === false) {
-      return (<Text>This genre is not found!</Text>);
+      return (<Text style={styles.buttonText}>This genre is not found!</Text>);
     }
   }
 
@@ -141,12 +141,12 @@ class CreatePlaylist extends Component {
               />
               <Ionicons style={styles.icon} name="ios-search" onPress={this.onGenreSearchClick} size={30} />
             </View>
+            <ScrollView id="results" style={styles.results}>
+              {
+                this.resultsRender()
+              }
+            </ScrollView>
           </View>
-          <ScrollView id="results">
-            {
-              this.resultsRender()
-            }
-          </ScrollView>
           <TouchableOpacity onPress={this.onAddClick} style={styles.button}>
             <Text style={styles.buttontext}>add</Text>
           </TouchableOpacity>
@@ -281,5 +281,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 0,
     zIndex: 1,
+  },
+  results: {
+    backgroundColor: 'white',
+    width: '100%',
   },
 });

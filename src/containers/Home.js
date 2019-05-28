@@ -69,9 +69,14 @@ class Home extends React.Component {
   }
 
   renderPlaylist = (playlist, key) => {
-    // console.log(track);
+    const colors = ['#1DB5E5', '#E31688', '#F7EB58', '#907CFD'];
+    const rotate = [
+      styles.playlistButton,
+      { backgroundColor: colors[(key % 4)] },
+    ];
+    // console.log(`styles.playlistButton${(key % 4) + 1}`);
     return (
-      <TouchableOpacity key={key} style={styles.playlistButton1} onPress={() => { this.selectPlaylist(playlist); }}>
+      <TouchableOpacity key={key} style={rotate} onPress={() => { this.selectPlaylist(playlist); }}>
         <View>
           <Text style={styles.buttonText}>{playlist.title}</Text>
         </View>
@@ -166,49 +171,12 @@ const styles = StyleSheet.create({
     margin: 10,
     marginTop: 30,
   },
-  playlistButton1: {
+  playlistButton: {
     flex: 0,
     justifyContent: 'center',
     width: 330,
     height: 50,
     margin: 15,
-    backgroundColor: '#1DB5E5',
-    shadowColor: 'black',
-    shadowOffset: { height: 5, width: -5 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-  },
-  playlistButton2: {
-    flex: 0,
-    justifyContent: 'center',
-    width: 330,
-    height: 50,
-    margin: 15,
-    backgroundColor: '#E31688',
-    shadowColor: 'black',
-    shadowOffset: { height: 5, width: -5 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-  },
-  playlistButton3: {
-    flex: 0,
-    justifyContent: 'center',
-    width: 330,
-    height: 50,
-    margin: 15,
-    backgroundColor: '#F7EB58',
-    shadowColor: 'black',
-    shadowOffset: { height: 5, width: -5 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-  },
-  playlistButton4: {
-    flex: 0,
-    justifyContent: 'center',
-    width: 330,
-    height: 50,
-    margin: 15,
-    backgroundColor: '#907CFD',
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
     shadowOpacity: 1,
