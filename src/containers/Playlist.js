@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/destructuring-assignment */
 // playlist component
 
@@ -51,21 +52,21 @@ class Playlist extends Component {
     /*
     console.log('A SONG ID:');
     this.props.fetchSong('5Qel1sTrU4LM8HlJSPT2jd', this.props.token);
-    console.log(this.props.artist);
-    console.log(this.props.name);
     */
 
     if (this.props.current.songs) {
       // console.log(song.name);
       // console.log(song.artist);
       // this.props.fetchSong(song.songid, this.props.token);
+      let key_value = 0;
       return (
         <View style={styles.allSongs}>
           { this.props.current.songs.map((song) => {
             if (song) {
+              key_value += 1;
               return (
                 // Referenced https://stackoverflow.com/questions/43017807/react-native-onpress-binding-with-an-argument to figure out how to pass an argument to my onPress function
-                <TouchableOpacity onPress={() => this.onSongClick(song.songid)}>
+                <TouchableOpacity onPress={() => this.onSongClick(song.songid)} key={key_value}>
                   <Text style={styles.songTitle}>
                     {song.name}
                   </Text>
