@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import {
-  fetchPlaylist, fetchSong, sendPlaySong, sendPlayPlaylist, fetchLocation,
+  fetchPlaylist, sendPlaySong, sendPlayPlaylist, fetchLocation,
 } from '../actions';
 import Songbar from './Songbar';
 
@@ -136,7 +136,7 @@ function mapStateToProps(reduxState) {
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist, fetchSong, sendPlaySong, sendPlayPlaylist, fetchLocation,
+  fetchPlaylist, sendPlaySong, sendPlayPlaylist, fetchLocation,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
