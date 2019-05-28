@@ -108,9 +108,35 @@ class Home extends React.Component {
     }
   }
 
+  // Pair1 is the user location in form { lat, lng }, pair2 is the playlist
+  // location in form [lat, lng]
+  distanceBetweenCoords = (pair1, pair2) => {
+    console.log('pair1', pair1);
+    console.log('pair2', pair2);
+
+    const dlat = pair2[0] - pair1.lat;
+    console.log('dlat', dlat);
+    const dlon = pair2[1] - pair1.lng;
+    console.log('dlon', dlon);
+
+    const a = (Math.sin(dlat / 2.0) ** 2.0) + Math.cos(pair1.lat) * Math.cos(pair2[0]) * (Math.sin(dlon / 2.0) ** 2.0);
+    console.log('a', a);
+    const c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0 - a));
+    console.log('c', c);
+    const d = 6371.0 * c;
+    console.log('d', d);
+
+    return d * 1000.0;
+  }
+
   render() {
     if (this.props.location !== null) {
       console.log('location', this.props.location);
+    }
+
+    if (this.props.all !== null && this.props.location !== null) {
+      // console.log('all playlists', this.props.all);
+      console.log('distance calc', this.distanceBetweenCoords(this.props.location, this.props.all[0].location));
     }
 
     return (
