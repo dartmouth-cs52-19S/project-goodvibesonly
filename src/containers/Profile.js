@@ -26,7 +26,7 @@ class Profile extends Component {
   }
 
   renderPlaylist = (playlist, key) => {
-    const colors = ['#907CFD', '#E31688', '#F7EB58', '#1DB5E5'];
+    const colors = ['#1DB5E5', '#E31688', '#F7EB58', '#907CFD'];
     const rotate = [
       styles.playlistButton,
       { backgroundColor: colors[(key % 4)] },
