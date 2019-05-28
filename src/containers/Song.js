@@ -6,7 +6,6 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
   TextInput,
   StyleSheet,
   ImageBackground,
@@ -15,7 +14,9 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Ionicons } from '@expo/vector-icons';
 import { addToPlaylist } from '../actions';
+
 
 class AddSong extends Component {
   constructor(props) {
@@ -111,7 +112,7 @@ class AddSong extends Component {
     console.log('playlist id', this.props.playlistId);
     return (
       <View>
-        <ImageBackground source={require('../img/Create.png')} style={styles.backgroundImage}>
+        <ImageBackground source={require('../img/background.png')} style={styles.backgroundImage}>
           <View id="top">
             <Text style={styles.top}>
               Add a Song
@@ -128,9 +129,7 @@ class AddSong extends Component {
           <View id="results" style={styles.results}>
             {this.renderListView()}
           </View>
-          <TouchableOpacity onPress={this.onAddClick} style={styles.button}>
-            <Text>add</Text>
-          </TouchableOpacity>
+          <Ionicons name="ios-search" onPress={this.onAddClick} size={20} />
         </ImageBackground>
       </View>
     );
