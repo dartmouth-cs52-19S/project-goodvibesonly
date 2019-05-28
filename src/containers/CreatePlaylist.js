@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground,
+  StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Location, Permissions } from 'expo';
@@ -142,11 +142,11 @@ class CreatePlaylist extends Component {
               <Ionicons style={styles.icon} name="ios-search" onPress={this.onGenreSearchClick} size={30} />
             </View>
           </View>
-          <View id="results">
+          <ScrollView id="results">
             {
               this.resultsRender()
             }
-          </View>
+          </ScrollView>
           <TouchableOpacity onPress={this.onAddClick} style={styles.button}>
             <Text style={styles.buttontext}>add</Text>
           </TouchableOpacity>

@@ -10,60 +10,17 @@ import {
 import axios from 'axios';
 import { connect } from 'react-redux';
 import Songbar from './Songbar';
-import { fetchPlaylist } from '../actions';
+import { fetchPlaylist, fetchPlaylists } from '../actions';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       playlists: [],
-      userId: '',
     };
-    // this.viewPlaylist = this.viewPlaylist.bind(this);
-    // this.onHomeClick = this.onHomeClick.bind(this);
   }
-
-  componentDidMount() {
-    // const USER_ID_URL = 'https://api.spotify.com/v1/me';
-
-    // // get the user's username
-    // axios.get(`${USER_ID_URL}`, { headers: { authorization: `Bearer ${this.props.token}` } })
-    //   .then((response) => {
-    //     this.setState({ userId: response.data.id });
-    //     console.log(`userId from spotify pls work: ${this.state.userId}`);
-    //   })
-    //   .catch((error) => {
-    //     console.log(`ERROR 1 ${error}`);
-    //   });
-
-    // const API_PLAYLIST_URL = 'https://api.spotify.com/v1/users';
-    const API_PLAYLIST_URL = 'https://api.spotify.com/v1/me/playlists';
-    const params = {
-      limit: 15,
-      offset: 0,
-    };
-
-    // get the playlists from the username
-    axios.get(`${API_PLAYLIST_URL}`, { headers: { authorization: `Bearer ${this.props.token}` }, params })
-      .then((response) => {
-        this.setState({ playlists: response.data.items });
-      })
-      .catch((error) => {
-        console.log(`${error}`);
-      });
-  }
-
-  // onHomeClick() {
-  //   console.log('onHomeClick');
-  //   let i;
-  //   for (i = 0; i < this.state.playlists.length; i++) {
-  //     // these are all the names of my playlists!!
-  //     console.log(this.state.playlists[i].name);
-  //   }
-  // }
 
   selectPlaylist = (playlist) => {
-    // pass in video into this.props.navigation.state.params.video in navigated view
     this.props.fetchPlaylist(playlist._id);
     this.props.navigation.navigate('Playlist');
   }
@@ -73,13 +30,21 @@ class Profile extends Component {
     return (
       <TouchableOpacity key={key} style={styles.playlistButton1} onPress={() => { this.selectPlaylist(playlist); }}>
         <View>
-          <Text style={styles.buttonText}>{playlist.name}</Text>
+          <Text style={styles.buttonText}>{playlist.title}</Text>
         </View>
       </TouchableOpacity>
     );
   }
 
   renderAllPlaylists = () => {
+    let i = 0;
+    for (i = 0; i < this.props.all.length; i++) {
+      if (this.props.all[i].author === this.props.userId) {
+        this.state.playlists.push(this.props.all[i]);
+        console.log('here!');
+      }
+    }
+
     if (this.state.playlists === null) {
       return <Text>Loading</Text>;
     } else if (this.state.playlists.length === 0) {
@@ -114,11 +79,13 @@ function mapStateToProps(reduxState) {
   return {
     userId: reduxState.auth.userId,
     token: reduxState.auth.token,
+    all: reduxState.playlists.all,
   };
 }
 
 const mapDispatchToProps = {
   fetchPlaylist,
+  fetchPlaylists,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
