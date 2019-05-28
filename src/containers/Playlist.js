@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 /* eslint-disable camelcase */
 /* eslint-disable react/destructuring-assignment */
 // playlist component
@@ -48,6 +50,7 @@ class Playlist extends Component {
     this.props.sendPlaySong(this.props.token, songid);
   }
 
+  // eslint-disable-next-line consistent-return
   renderSongs() {
     /*
     console.log('A SONG ID:');
@@ -99,11 +102,10 @@ class Playlist extends Component {
         </Text>
 
         {this.renderSongs()}
-
-        <Songbar />
         <TouchableOpacity onPress={this.onAddClick} style={styles.bottomButton}>
           <Text style={styles.bottomButtonText}>add a song</Text>
         </TouchableOpacity>
+        <Songbar />
       </View>
     );
   }

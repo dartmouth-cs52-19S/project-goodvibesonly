@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import axios from 'axios';
 
 export const ActionTypes = {
@@ -155,11 +156,10 @@ export function sendPause(token) {
   };
 }
 
-// eslint-disable-next-line camelcase
 export function sendPlaySong(token, song_id) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/playsong/${token}`).then((response) => {
-      dispatch({ type: ActionTypes.PLAY, payload: { song_id } });
+    axios.put(`${ROOT_URL}/playsong/${token}/${song_id}`).then((response) => {
+      dispatch({ type: ActionTypes.PLAYSONG, payload: {} });
     }).catch((error) => {
       console.log(error);
     });
