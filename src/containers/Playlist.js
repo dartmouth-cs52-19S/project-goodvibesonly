@@ -66,6 +66,7 @@ class Playlist extends Component {
               key_value += 1;
               return (
                 // Referenced https://stackoverflow.com/questions/43017807/react-native-onpress-binding-with-an-argument to figure out how to pass an argument to my onPress function
+                // Also referenced: https://stackoverflow.com/questions/34576332/warning-each-child-in-an-array-or-iterator-should-have-a-unique-key-prop-che/43791255 to fix a warning error that was popping up due to non-unique keys
                 <TouchableOpacity onPress={() => this.onSongClick(song.songid)} key={key_value}>
                   <Text style={styles.songTitle}>
                     {song.name}
