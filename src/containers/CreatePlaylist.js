@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { Location, Permissions } from 'expo';
 import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
-import { createPlaylist, fetchPlaylists } from '../actions';
+import { createPlaylist, fetchPlaylists, fetchPlaylist } from '../actions';
 
 
 class CreatePlaylist extends Component {
@@ -41,7 +41,7 @@ class CreatePlaylist extends Component {
         Location.getCurrentPositionAsync({
           accuracy: Location.Accuracy.High,
         }).then((location) => {
-          // console.log('creating playlist with location', location);
+          console.log('creating playlist with location', location);
           // uri of selected playlist goes in below line
           this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
           this.props.fetchPlaylists();
@@ -174,6 +174,7 @@ function mapStateToProps(reduxState) {
 const mapDispatchToProps = {
   createPlaylist,
   fetchPlaylists,
+  fetchPlaylist,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePlaylist);
