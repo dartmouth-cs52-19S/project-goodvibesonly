@@ -6,7 +6,7 @@ import {
   View, Text, TouchableOpacity, StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchPlaylist, fetchSong } from '../actions';
+import { fetchPlaylist, fetchSong, sendPlaySong } from '../actions';
 import Songbar from './Songbar';
 
 class Playlist extends Component {
@@ -41,17 +41,13 @@ class Playlist extends Component {
     this.props.navigation.navigate('Song');
   }
 
-  onSongClick() {
+  onSongClick(songid) {
     console.log('onSongClick');
+    console.log(songid);
+    this.props.sendPlaySong(this.props.token, songid);
   }
 
   renderSongs() {
-    // grab song list from API
-    // loop through song list and grab the following
-    // need song ID to pass back later for on song click
-    // need song title + song artists
-    // render all of the above
-    // console.log(this.props.current.songs);
     /*
     console.log('A SONG ID:');
     this.props.fetchSong('5Qel1sTrU4LM8HlJSPT2jd', this.props.token);
@@ -68,7 +64,8 @@ class Playlist extends Component {
           { this.props.current.songs.map((song) => {
             if (song) {
               return (
-                <TouchableOpacity onPress={this.onSongClick} style={styles.song}>
+                // Referenced https://stackoverflow.com/questions/43017807/react-native-onpress-binding-with-an-argument to figure out how to pass an argument to my onPress function
+                <TouchableOpacity onPress={() => this.onSongClick(song.songid)}>
                   <Text style={styles.songTitle}>
                     {song.name}
                   </Text>
@@ -85,27 +82,6 @@ class Playlist extends Component {
       );
     }
   }
-  /*
-
-.songid
-
-  { this.props.all.map((post) => {
-    return (
-      <div>
-        <NavLink className="link" to={`/posts/${post.id}`}>
-          { Talked about the posts page with Alexis Harris in office hours and she recommended wrapping each post in a NavLink }
-          <div className="post">
-            <div className="coverURL" dangerouslySetInnerHTML={{ __html: marked(`![](${post.cover_url})` || '') }} />
-            <div className="title" dangerouslySetInnerHTML={{ __html: marked(post.title || '') }} />
-            <div className="tags" dangerouslySetInnerHTML={{ __html: marked(post.tags || '') }} />
-          </div>
-        </NavLink>
-
-        <div className="border" />
-      </div>
-    );
-  }) }
-*/
 
   render() {
     // console.log('current playlist', this.props.current);
@@ -143,7 +119,7 @@ function mapStateToProps(reduxState) {
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist, fetchSong,
+  fetchPlaylist, fetchSong, sendPlaySong,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
