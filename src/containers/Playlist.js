@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import {
-  fetchPlaylist, fetchSong, sendPlaySong, sendPlayPlaylist,
+  fetchPlaylist, fetchSong, sendPlaySong, sendPlayPlaylist, fetchLocation,
 } from '../actions';
 import Songbar from './Songbar';
 
@@ -22,6 +22,7 @@ class Playlist extends Component {
       songs: [],
     };
 
+    this.fillInLocation = this.fillInLocation.bind(this);
     this.onAddClick = this.onAddClick.bind(this);
     this.onSongClick = this.onSongClick.bind(this);
     this.renderSongs = this.renderSongs.bind(this);
@@ -55,6 +56,19 @@ class Playlist extends Component {
 
   onPlay(playlistid) {
     this.props.sendPlayPlaylist(this.props.token, playlistid);
+  }
+
+  fillInLocation() {
+    console.log('current playlist', this.props.current.location);
+
+    if (this.props.current.location) {
+      console.log(this.props.current.location[0]);
+      console.log(this.props.current.location[1]);
+      console.log(`${this.props.current.location[0]}, ${this.props.current.location[1]}`);
+
+      this.props.fetchLocation(`${this.props.current.location[0]}, ${this.props.current.location[1]}`);
+      return this.props.location;
+    }
   }
 
   // eslint-disable-next-line consistent-return
@@ -97,8 +111,8 @@ class Playlist extends Component {
   render() {
     // console.log('current playlist', this.props.current);
     // console.log(this.songs);
-    console.log('current playlist', this.props.current);
-    console.log('current id', this.props.currentId);
+    // console.log('current playlist', this.props.current);
+    // console.log('current id', this.props.currentId);
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
@@ -109,7 +123,7 @@ class Playlist extends Component {
             <Ionicons style={styles.button} name="ios-play" onPress={() => this.onPlay(this.props.currentId)} />
           </View>
           <Text style={styles.loc}>
-            TODO: FILL IN LOCATION INFORMATION
+            {this.fillInLocation()}
           </Text>
         </View>
         {this.renderSongs()}
@@ -129,11 +143,12 @@ function mapStateToProps(reduxState) {
     token: reduxState.auth.token,
     artist: reduxState.song.artist,
     name: reduxState.song.name,
+    location: reduxState.playlists.location,
   };
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist, fetchSong, sendPlaySong, sendPlayPlaylist,
+  fetchPlaylist, fetchSong, sendPlaySong, sendPlayPlaylist, fetchLocation,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);

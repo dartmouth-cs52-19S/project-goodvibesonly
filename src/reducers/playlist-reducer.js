@@ -4,6 +4,8 @@ const PlaylistReducer = (state = {
   all: null, current: '', currentId: null, message: '', playstate: '',
 }, action) => {
   switch (action.type) {
+    case ActionTypes.FETCH_LOCATION:
+      return Object.assign({}, state, { location: action.payload.location });
     case ActionTypes.FETCH_PLAYLISTS:
       return Object.assign({}, state, { all: action.payload.all });
     case ActionTypes.FETCH_PLAYLIST:

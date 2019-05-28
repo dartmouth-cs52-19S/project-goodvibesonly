@@ -6,6 +6,7 @@ export const ActionTypes = {
   FETCH_PLAYLISTS: 'FETCH_PLAYLISTS',
   FETCH_PLAYLIST: 'FETCH_PLAYLIST',
   FETCH_SONG: 'FETCH_SONG',
+  FETCH_LOCATION: 'FETCH_LOCATION',
   ACTIVATE_PLAYLIST: 'ACTIVATE_PLAYLIST',
   DELETE_PLAYLIST: 'DELETE_PLAYLIST',
   CREATE_PLAYLIST: 'CREATE_PLAYLIST',
@@ -34,6 +35,24 @@ export function updateLocation(lat, lng) {
     dispatch({ type: ActionTypes.LOCATION, payload: { lat, lng } });
   };
 }
+
+// ------------------------- LOCATION actions--------------------------------- //
+// Referenced https://developers.google.com/maps/documentation/geocoding/get-api-key
+// and https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding
+// to figure out the API call for getting a location from lat/long coordinates
+export function fetchLocation(latlng) {
+  const API_KEY = 'AIzaSyB-_m9pzcgV_eim7-7tK1BnpmOMMOSl4Fk';
+  // 40.714224, -73.961452
+  return (dispatch) => {
+    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${API_KEY}&result_type=street_address`)
+      .then((response) => {
+        dispatch({ type: ActionTypes.FETCH_LOCATION, payload: { location: response.data.results[0].formatted_address } });
+      }).catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
 
 // ------------------------- SONG actions--------------------------------- //
 // Referenced https://developer.spotify.com/documentation/web-api/reference/tracks/get-track/
