@@ -11,6 +11,7 @@ import {
   ImageBackground,
   ListView,
   TouchableHighlight,
+  ScrollView,
 } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -126,9 +127,9 @@ class AddSong extends Component {
               style={styles.input}
             />
           </View>
-          <View id="results" style={styles.results}>
+          <ScrollView id="results" style={styles.results}>
             {this.renderListView()}
-          </View>
+          </ScrollView>
           <Ionicons name="ios-search" onPress={this.onAddClick} size={20} />
         </ImageBackground>
       </View>
