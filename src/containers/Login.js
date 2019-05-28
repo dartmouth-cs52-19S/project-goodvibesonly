@@ -8,7 +8,7 @@ import {
   StyleSheet, Text, View, TouchableOpacity, ImageBackground, WebView, Image,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { authenticate } from '../actions';
+import { authenticate, fetchPlaylists } from '../actions';
 
 class Login extends React.Component {
   webview = null;
@@ -54,6 +54,7 @@ class Login extends React.Component {
       console.log('userid', userid);
 
       this.props.authenticate(token, userid);
+      this.props.fetchPlaylists();
       this.webview.stopLoading();
     }
   }
@@ -155,6 +156,7 @@ function mapStateToProps(reduxState) {
 
 const mapDispatchToProps = {
   authenticate,
+  fetchPlaylists,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
