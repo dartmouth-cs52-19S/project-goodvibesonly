@@ -93,11 +93,13 @@ export function createPlaylist(spotifyPlaylistId, title, userId, lat, lng) {
   };
 }
 
-export function addToPlaylist(playlistId, spotifyTrackId, name, artist) {
+export function addToPlaylist(playlistId, spotifyTrackId, name, artist, duration) {
   // this will add the track specified (by spotify track id)
   // to the playlist specified with the mongo playlist id
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/playlists/${playlistId}`, { trackId: spotifyTrackId, name, artist }).then((response) => {
+    axios.put(`${ROOT_URL}/playlists/${playlistId}`, {
+      trackId: spotifyTrackId, name, artist, duration,
+    }).then((response) => {
       dispatch({ type: ActionTypes.ADD_TO_PLAYLIST, payload: { message: response.data } });
     }).catch((error) => {
       console.log(error);
