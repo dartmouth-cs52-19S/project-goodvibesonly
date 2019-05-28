@@ -5,7 +5,6 @@ export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
   FETCH_PLAYLISTS: 'FETCH_PLAYLISTS',
   FETCH_PLAYLIST: 'FETCH_PLAYLIST',
-  FETCH_SONG: 'FETCH_SONG',
   FETCH_LOCATION: 'FETCH_LOCATION',
   ACTIVATE_PLAYLIST: 'ACTIVATE_PLAYLIST',
   DELETE_PLAYLIST: 'DELETE_PLAYLIST',
@@ -16,6 +15,7 @@ export const ActionTypes = {
   PAUSE: 'PAUSE',
   LOCATION: 'LOCATION',
   PLAYSONG: 'PLAYSONG',
+  PLAYPLAYLIST: 'PLAYPLAYLIST',
 };
 
 const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
@@ -46,21 +46,6 @@ export function fetchLocation(latlng) {
     axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${API_KEY}&result_type=street_address`)
       .then((response) => {
         dispatch({ type: ActionTypes.FETCH_LOCATION, payload: { location: response.data.results[0].formatted_address } });
-      }).catch((error) => {
-        console.log(error);
-      });
-  };
-}
-
-
-// ------------------------- SONG actions--------------------------------- //
-// Referenced https://developer.spotify.com/documentation/web-api/reference/tracks/get-track/
-// to figure out the API call for getting a specific song
-export function fetchSong(id, token) {
-  return (dispatch) => {
-    axios.get(`https://api.spotify.com/v1/tracks/${id}`, { headers: { authorization: `Bearer ${token}` } })
-      .then((response) => {
-        dispatch({ type: ActionTypes.FETCH_SONG, payload: { song: response.data } });
       }).catch((error) => {
         console.log(error);
       });
@@ -179,6 +164,16 @@ export function sendPlaySong(token, song_id) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/playsong/${token}/${song_id}`).then((response) => {
       dispatch({ type: ActionTypes.PLAYSONG, payload: {} });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
+export function sendPlayPlaylist(token, playlistid) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/playplaylist/${token}/${playlistid}`).then((response) => {
+      dispatch({ type: ActionTypes.PLAYPLAYLIST, payload: {} });
     }).catch((error) => {
       console.log(error);
     });
