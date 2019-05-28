@@ -94,13 +94,14 @@ class Playlist extends Component {
     console.log('current id', this.props.currentId);
     return (
       <View style={styles.container}>
-        <Text style={styles.top}>
-          {this.props.current.title}
-        </Text>
-        <Text style={styles.loc}>
-          TODO: FILL IN LOCATION INFORMATION
-        </Text>
-
+        <View style={styles.topBar}>
+          <Text style={styles.top}>
+            {this.props.current.title}
+          </Text>
+          <Text style={styles.loc}>
+            TODO: FILL IN LOCATION INFORMATION
+          </Text>
+        </View>
         {this.renderSongs()}
         <TouchableOpacity onPress={this.onAddClick} style={styles.bottomButton}>
           <Text style={styles.bottomButtonText}>add a song</Text>
@@ -135,18 +136,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  topBar: {
+    width: 330,
+    marginTop: 30,
+  },
   allSongs: {
+    width: 330,
+    marginTop: 15,
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
   },
   top: {
     flex: 0,
-    width: 300,
+    width: '100%',
     height: 50,
-    borderColor: '#000000',
-    borderWidth: 1,
-    margin: 15,
     backgroundColor: '#E31688',
     shadowColor: 'black',
     shadowOffset: { height: 5, width: -5 },
@@ -158,6 +161,8 @@ const styles = StyleSheet.create({
   },
   loc: {
     textAlign: 'left',
+    marginTop: 5,
+    fontWeight: 'bold',
   },
   song: {
     backgroundColor: 'white',
@@ -169,23 +174,26 @@ const styles = StyleSheet.create({
   },
   artistTitle: {
     fontSize: 10,
+    marginBottom: 5,
   },
   bottomButton: {
     flex: 0,
-    width: 300,
+    width: 130,
     height: 40,
-    borderColor: '#000000',
-    borderWidth: 1,
     margin: 15,
+    marginBottom: 0,
     backgroundColor: '#1DB5E5',
     shadowColor: 'black',
     shadowOffset: { height: 3, width: -3 },
     shadowOpacity: 1,
     shadowRadius: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   bottomButtonText: {
     textAlign: 'center',
     fontSize: 15,
+    fontWeight: 'bold',
     padding: 5,
   },
 });
