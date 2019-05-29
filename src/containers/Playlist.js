@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     width: 330,
-    marginTop: 30,
+    marginTop: '10%',
   },
   allSongs: {
     width: 330,
