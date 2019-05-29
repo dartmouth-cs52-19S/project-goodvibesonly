@@ -90,11 +90,11 @@ class Home extends React.Component {
     this.props.navigation.navigate('Playlist');
   }
 
-  renderPlaylist = (playlist, key, id) => {
+  renderPlaylist = (playlist, key, id, i) => {
     const colors = ['#1DB5E5', '#E31688', '#F7EB58', '#907CFD'];
     const rotate = [
       styles.playlistButton,
-      { backgroundColor: colors[(key % 4)] },
+      { backgroundColor: colors[(i % 4)] },
     ];
     // console.log(`styles.playlistButton${(key % 4) + 1}`);
     return (
@@ -107,6 +107,7 @@ class Home extends React.Component {
   }
 
   renderAllPlaylists = () => {
+    let i = 0;
     if (this.props.all === null || this.props.location === null) {
       return <Text>Loading</Text>;
     } else if (this.props.all.length === 0) {
@@ -117,7 +118,8 @@ class Home extends React.Component {
       return (
         this.props.all.map((playlist, key) => {
           if (this.distanceBetweenCoords(this.props.location, playlist.location) < 30) {
-            return this.renderPlaylist(playlist, key, playlist.id);
+            i += 1;
+            return this.renderPlaylist(playlist, key, playlist.id, i);
           } else {
             return <View key={playlist.id} />;
           }

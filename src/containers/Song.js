@@ -87,8 +87,8 @@ class AddSong extends Component {
     return (
       <TouchableOpacity onPress={() => { this.selectTrack(track); }}>
         <View>
-          <Text>{track.name}</Text>
-          <Text>{track.artists[0].name}</Text>
+          <Text style={styles.buttontext}>{track.name}</Text>
+          <Text style={styles.artistTitle}>{track.artists[0].name}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -125,19 +125,21 @@ class AddSong extends Component {
               Add a Song
             </Text>
           </View>
-          <View id="searchbar" style={styles.info}>
-            <TextInput
-              placeholder="Search for a song"
-              value={this.state.search}
-              onChangeText={this.onSearchChange}
-              style={styles.input}
-            />
-            <Ionicons style={styles.icon} name="ios-search" onPress={this.onSearchPress} size={30} />
+          <View id="info" style={styles.info}>
+            <View style={styles.iconinput}>
+              <TextInput
+                placeholder="search for a song"
+                value={this.state.search}
+                onChangeText={this.onSearchChange}
+                style={styles.inputinside}
+              />
+              <Ionicons style={styles.icon} name="ios-search" onPress={this.onSearchPress} size={30} />
+            </View>
+            <ScrollView id="results" style={styles.results}>
+              {this.renderListView()}
+            </ScrollView>
+            {this.renderFormValidation()}
           </View>
-          <ScrollView id="results" style={styles.results}>
-            {this.renderListView()}
-          </ScrollView>
-          {this.renderFormValidation()}
           <TouchableOpacity onPress={this.onAddClick} style={styles.button}>
             <Text style={styles.buttontext}>add</Text>
           </TouchableOpacity>
@@ -151,6 +153,8 @@ const styles = StyleSheet.create({
   top: {
     fontSize: 30,
     fontWeight: 'bold',
+    marginTop: '20%',
+    marginBottom: 0,
   },
   container: {
     flex: 1,
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignContent: 'center',
   },
   button: {
@@ -180,11 +184,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 0,
   },
-  buttonText: {
-    margin: 5,
+  buttontext: {
     textAlign: 'justify',
     fontWeight: 'bold',
-    fontSize: 22,
+    fontSize: 16,
   },
   searchButton: {
     backgroundColor: '#1DB5E5',
@@ -208,13 +211,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 0,
   },
-  info: {
-    padding: 30,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   results: {
-    height: 200,
+    backgroundColor: 'white',
+    width: '100%',
   },
   listView: {
     flex: 2,
@@ -235,6 +234,36 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 0,
     zIndex: 1,
+  },
+  iconinput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    marginTop: 0,
+  },
+  inputinside: {
+    flex: 1,
+    height: 60,
+    borderColor: '#000000',
+    borderWidth: 3,
+    marginTop: 40,
+    backgroundColor: 'white',
+    textAlign: 'center',
+    shadowColor: '#E31688',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    zIndex: 3,
+  },
+  info: {
+    width: '70%',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  artistTitle: {
+    fontSize: 10,
+    marginBottom: 3,
   },
 });
 

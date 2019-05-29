@@ -25,11 +25,11 @@ class Profile extends Component {
     this.props.navigation.navigate('Playlist');
   }
 
-  renderPlaylist = (playlist, key) => {
+  renderPlaylist = (playlist, key, i) => {
     const colors = ['#1DB5E5', '#E31688', '#F7EB58', '#907CFD'];
     const rotate = [
       styles.playlistButton,
-      { backgroundColor: colors[(key % 4)] },
+      { backgroundColor: colors[(i % 4)] },
     ];
     // console.log(track);
     return (
@@ -44,10 +44,10 @@ class Profile extends Component {
   renderAllPlaylists = () => {
     this.state.playlists = [];
     let i = 0;
+    let j = 0;
     for (i = 0; i < this.props.all.length; i++) {
       if (this.props.all[i].author === this.props.userId) {
         this.state.playlists.push(this.props.all[i]);
-        console.log('here!');
       }
     }
 
@@ -58,7 +58,8 @@ class Profile extends Component {
     } else {
       return (
         this.state.playlists.map((playlist, key) => {
-          return this.renderPlaylist(playlist, key);
+          j += 1;
+          return this.renderPlaylist(playlist, key, j);
         })
       );
     }
