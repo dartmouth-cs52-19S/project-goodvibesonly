@@ -49,13 +49,32 @@ class Songbar extends React.Component {
     }
   }
 
+  renderString(playstate) {
+    if (playstate.length > 28) {
+      return (
+        <Text style={styles.text}>
+          {' '}
+          {playstate.substring(0, 28)}
+          {'...'}
+          {' '}
+        </Text>
+      );
+    } else {
+      return (
+        <Text style={styles.text}>
+          {' '}
+          {playstate}
+          {' '}
+        </Text>
+      );
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.text}>
-          {' '}
-          {this.props.playstate}
-          {' '}
+          {this.renderString(this.props.playstate)}
         </Text>
         {this.renderPlay()}
       </View>

@@ -138,13 +138,13 @@ class CreatePlaylist extends Component {
           </View>
           <View id="info" style={styles.info}>
             <TextInput
-              placeholder="playlistname"
+              placeholder="playlist name"
               onChangeText={this.onNameChange}
               style={styles.input}
             />
             <View style={styles.iconinput}>
               <TextInput
-                placeholder="playlistgenre"
+                placeholder="playlist genre"
                 onChangeText={this.onGenreChange}
                 style={styles.inputinside}
                 value={this.state.genre}
