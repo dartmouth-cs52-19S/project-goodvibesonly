@@ -7,7 +7,9 @@ import {
 } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
 import { connect } from 'react-redux';
-import { fetchPlaylists, updateLocation, fetchPlaylist } from '../actions';
+import {
+  fetchPlaylists, updateLocation, fetchPlaylist, sendIntervalId, sendPause,
+} from '../actions';
 import Songbar from './Songbar';
 
 
@@ -17,9 +19,11 @@ class Home extends React.Component {
 
     this.state = {
       errorMessage: null,
+      hasNearby: false,
     };
 
     setInterval(this.props.fetchPlaylists, 60000);
+    setInterval(this.checkNearby, 2000);
   }
 
   componentDidMount() {
@@ -30,8 +34,26 @@ class Home extends React.Component {
     } else {
       this.getLocation();
     }
+  }
 
-    this.props.fetchPlaylists();
+  checkNearby = () => {
+    this.setState({ hasNearby: false });
+    if (this.props.all !== null && this.props.location !== null && this.props.all.length > 0) {
+      this.props.all.map((p) => {
+        if (this.distanceBetweenCoords(this.props.location, p.location) < 30) {
+          return this.setState({ hasNearby: true });
+        }
+        return '';
+      });
+    }
+  }
+
+  stopPlayback = () => {
+    if (this.props.intervalId !== null) {
+      clearInterval(this.props.intervalId);
+      this.props.sendIntervalId(null);
+      this.props.sendPause(this.props.token);
+    }
   }
 
   getLocation = () => {
@@ -71,15 +93,15 @@ class Home extends React.Component {
 
   selectPlaylist = (playlist) => {
     // pass in video into this.props.navigation.state.params.video in navigated view
-    this.props.fetchPlaylist(playlist._id);
-    this.props.navigation.navigate('Playlist');
+    // await this.props.fetchPlaylist(playlist._id);
+    this.props.navigation.navigate('Playlist', { id: playlist._id });
   }
 
-  renderPlaylist = (playlist, key, id, i) => {
+  renderPlaylist = (playlist, key, id) => {
     const colors = ['#1DB5E5', '#E31688', '#F7EB58', '#907CFD'];
     const rotate = [
       styles.playlistButton,
-      { backgroundColor: colors[(i % 4)] },
+      { backgroundColor: colors[(key % 4)] },
     ];
     // console.log(`styles.playlistButton${(key % 4) + 1}`);
     return (
@@ -92,17 +114,17 @@ class Home extends React.Component {
   }
 
   renderAllPlaylists = () => {
-    let i = 0;
     if (this.props.all === null || this.props.location === null) {
       return <Text>Loading</Text>;
     } else if (this.props.all.length === 0) {
       return <Text>No Playlists Yet</Text>;
+    } else if (this.state.hasNearby === false) {
+      return <Text>No Playlists Nearby...</Text>;
     } else {
       return (
         this.props.all.map((playlist, key) => {
           if (this.distanceBetweenCoords(this.props.location, playlist.location) < 30) {
-            i += 1;
-            return this.renderPlaylist(playlist, key, playlist.id, i);
+            return this.renderPlaylist(playlist, key, playlist.id);
           } else {
             return <View key={playlist.id} />;
           }
@@ -129,6 +151,7 @@ class Home extends React.Component {
   }
 
   render() {
+    console.log('HOME interval id', this.props.intervalId);
     return (
       <View style={styles.container}>
         <View style={styles.top}>
@@ -202,6 +225,7 @@ function mapStateToProps(reduxState) {
     location: reduxState.user.location,
     current: reduxState.playlists.current,
     currentId: reduxState.playlists.currentId,
+    intervalId: reduxState.player.intervalId,
   };
 }
 
@@ -209,6 +233,8 @@ const mapDispatchToProps = {
   fetchPlaylists,
   updateLocation,
   fetchPlaylist,
+  sendIntervalId,
+  sendPause,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

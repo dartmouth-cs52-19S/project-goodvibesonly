@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
-  fetchPlaylist, sendPlaySong, fetchLocation, fetchPlaylists,
+  fetchPlaylist, sendPlaySong, fetchLocation, fetchPlaylists, sendIntervalId, sendPause, sendProcessId,
 } from '../actions';
 import Songbar from './Songbar';
 
@@ -19,30 +19,25 @@ class Playlist extends Component {
   constructor(props) {
     super();
     this.state = {
-      songs: [],
       processID: null,
       index: null,
+      intervalId: setInterval(() => {
+        this.props.fetchPlaylist(this.props.navigation.getParam('id'));
+      }, 1000 * 120),
     };
 
     this.fillInLocation = this.fillInLocation.bind(this);
     this.onAddClick = this.onAddClick.bind(this);
     this.onSongClick = this.onSongClick.bind(this);
     this.renderSongs = this.renderSongs.bind(this);
-
-    setInterval(() => {
-      this.props.fetchPlaylist(this.props.currentId);
-    }, 1000 * 2);
   }
 
   componentDidMount() {
     console.log('component did mount called');
     console.log('current id', this.props.currentId);
     this.props.fetchPlaylists();
-  }
-
-  onBackClick() {
-    console.log('onBackClick');
-    console.log(this.state.songs);
+    console.log('did mount interval id', this.state.intervalId);
+    this.checkIntervalId();
   }
 
   onAddClick() {
@@ -71,8 +66,18 @@ class Playlist extends Component {
         this.onSongClick(new_key);
       }, duration);
 
-      this.setState({ processID });
+      this.props.sendProcessId(processID);
     });
+  }
+
+  checkIntervalId = () => {
+    if (this.state.intervalId !== this.props.intervalId) {
+      clearInterval(this.props.intervalId);
+      this.props.sendIntervalId(this.state.intervalId);
+      this.props.sendPause(this.props.token);
+      clearTimeout(this.props.processId);
+      this.props.sendProcessId(null);
+    }
   }
 
   resetIndex = () => {
@@ -85,6 +90,13 @@ class Playlist extends Component {
       resolve();
     });
   }
+
+  // onBackClick = () => {
+  //   clearInterval(this.state.intervalId);
+  //   this.props.sendIntervalId(null);
+  //   this.props.sendPause(this.props.token);
+  //   this.props.navigation.pop();
+  // }
 
   fillInLocation() {
     console.log('current playlist loc', this.props.current.location);
@@ -141,10 +153,7 @@ class Playlist extends Component {
   // comment
 
   render() {
-    console.log('current playlist', this.props.current);
-    // console.log(this.songs);
-    console.log('current id', this.props.currentId);
-    console.log('index', this.state.index);
+    console.log('interval id in playlist', this.props.intervalId);
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
@@ -174,11 +183,13 @@ function mapStateToProps(reduxState) {
     token: reduxState.auth.token,
     location: reduxState.playlists.location,
     play: reduxState.isplaying.play,
+    intervalId: reduxState.player.intervalId,
+    processId: reduxState.player.processId,
   };
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist, sendPlaySong, fetchLocation, fetchPlaylists,
+  fetchPlaylist, sendPlaySong, fetchLocation, fetchPlaylists, sendIntervalId, sendPause, sendProcessId,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
