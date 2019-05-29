@@ -53,7 +53,7 @@ class CreatePlaylist extends Component {
             this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
             this.props.fetchPlaylists();
             this.props.navigation.dispatch(StackActions.popToTop());
-            this.props.navigation.navigate('Playlist');
+            this.props.navigation.navigate('Playlist', { id: this.state.selected });
           }
         }).catch((error) => {
           console.log('error in onAddClick');

@@ -15,6 +15,8 @@ export const ActionTypes = {
   PAUSE: 'PAUSE',
   LOCATION: 'LOCATION',
   PLAYSONG: 'PLAYSONG',
+  INTERVAL_ID: 'INTERVAL_ID',
+  PROCESS_ID: 'PROCESS_ID',
 };
 
 const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
@@ -62,15 +64,14 @@ export function fetchPlaylists() {
   };
 }
 
-export function fetchPlaylist(id, navigation) {
+export function fetchPlaylist(id) {
   console.log('id within actions', id);
   // this will fetch a specific playlist with the id passed in
   // can reference lab4 fetchPost(id)
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/playlists/${id}`).then(async (response) => {
-      console.log('should log something', response.data);
-      await dispatch({ type: ActionTypes.FETCH_PLAYLIST, payload: { current: response.data.playlist } });
-      navigation.navigate('Playlist');
+    axios.get(`${ROOT_URL}/playlists/${id}`).then((response) => {
+      console.log('dispatching new playlist');
+      dispatch({ type: ActionTypes.FETCH_PLAYLIST, payload: { current: response.data.playlist } });
     }).catch((error) => {
       console.log('error fetching playlist', error);
     });
@@ -171,5 +172,17 @@ export function sendPlaySong(token, song_id, key) {
       console.log(error);
     });
     dispatch({ type: ActionTypes.PLAYSONG, payload: { key } });
+  };
+}
+
+export function sendIntervalId(id) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.INTERVAL_ID, payload: { intervalId: id } });
+  };
+}
+
+export function sendProcessId(id) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.PROCESS_ID, payload: { processId: id } });
   };
 }
