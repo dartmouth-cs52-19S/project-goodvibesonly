@@ -21,6 +21,7 @@ class Playlist extends Component {
     this.state = {
       songs: [],
       processID: null,
+      index: null,
     };
 
     this.fillInLocation = this.fillInLocation.bind(this);
@@ -50,13 +51,28 @@ class Playlist extends Component {
       const duration = parseInt(this.props.current.songs[key_value].duration, 10);
       const id = this.props.current.songs[key_value].songid;
       this.props.sendPlaySong(this.props.token, id);
+      if (this.props.play === 'true') {
+        this.setState({ index: key_value });
+      } else {
+        this.setState({ index: null });
+      }
 
       const processID = setTimeout(() => {
-        this.onSongClick(key_value + 1);
+        let new_key = key_value;
+        if (key_value >= this.props.current.songs.length - 1) {
+          new_key = 0;
+        } else {
+          new_key++;
+        }
+        this.onSongClick(new_key);
       }, duration);
 
       this.setState({ processID });
     });
+  }
+
+  resetIndex = () => {
+    this.setState({ index: null });
   }
 
   clear = (processID) => {
@@ -67,7 +83,7 @@ class Playlist extends Component {
   }
 
   fillInLocation() {
-    console.log('current playlist', this.props.current.location);
+    console.log('current playlist loc', this.props.current.location);
 
     if (this.props.current.location) {
       console.log(this.props.current.location[0]);
@@ -88,13 +104,20 @@ class Playlist extends Component {
           { this.props.current.songs.map((song, key) => {
             if (song) {
               key_value += 1;
+
+              let songStyle = styles.songTitle;
+              let artistStyle = styles.artistTitle;
+              if (this.state.index === key) {
+                songStyle = styles.songTitlePlaying;
+                artistStyle = styles.artistTitlePlaying;
+              }
               return (
                 // Referenced https://stackoverflow.com/questions/43017807/react-native-onpress-binding-with-an-argument to figure out how to pass an argument to my onPress function
                 <TouchableOpacity onPress={() => this.onSongClick(key)} key={key_value}>
-                  <Text style={styles.songTitle}>
+                  <Text style={songStyle}>
                     {song.name}
                   </Text>
-                  <Text style={styles.artistTitle}>
+                  <Text style={artistStyle}>
                     {song.artist}
                   </Text>
                 </TouchableOpacity>
@@ -117,6 +140,7 @@ class Playlist extends Component {
     console.log('current playlist', this.props.current);
     // console.log(this.songs);
     console.log('current id', this.props.currentId);
+    console.log('index', this.state.index);
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
@@ -133,7 +157,7 @@ class Playlist extends Component {
         <TouchableOpacity onPress={this.onAddClick} style={styles.bottomButton}>
           <Text style={styles.bottomButtonText}>add a song</Text>
         </TouchableOpacity>
-        <Songbar processID={this.state.processID} />
+        <Songbar processID={this.state.processID} resetIndex={this.resetIndex} fromPlaylist />
       </View>
     );
   }
@@ -145,6 +169,7 @@ function mapStateToProps(reduxState) {
     current: reduxState.playlists.current,
     token: reduxState.auth.token,
     location: reduxState.playlists.location,
+    play: reduxState.isplaying.play,
   };
 }
 
@@ -206,6 +231,17 @@ const styles = StyleSheet.create({
   artistTitle: {
     fontSize: 10,
     marginBottom: 5,
+  },
+  songTitlePlaying: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    color: '#907CFD',
+  },
+  artistTitlePlaying: {
+    fontSize: 10,
+    marginBottom: 5,
+    color: '#907CFD',
   },
   bottomButton: {
     flex: 0,

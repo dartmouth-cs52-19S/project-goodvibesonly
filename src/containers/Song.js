@@ -16,7 +16,7 @@ import {
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
-import { addToPlaylist } from '../actions';
+import { addToPlaylist, fetchPlaylist } from '../actions';
 
 
 class AddSong extends Component {
@@ -40,7 +40,7 @@ class AddSong extends Component {
     if (this.state.selectedTrack !== null) {
     // Real call
       this.props.addToPlaylist(this.props.playlistId, this.state.selectedTrack.id, this.state.selectedTrack.name, this.state.selectedTrack.artists[0].name, this.state.selectedTrack.duration_ms);
-
+      this.props.fetchPlaylist(this.props.playlistId);
       // Hardcoded call
       // this.props.addToPlaylist('5ce9c6668d16c400342d7241', this.state.selectedTrack.id);
       this.props.navigation.pop();
@@ -250,6 +250,7 @@ function mapStateToProps(reduxState) {
 
 const mapDispatchToProps = {
   addToPlaylist,
+  fetchPlaylist,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddSong);
