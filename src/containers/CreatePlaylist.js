@@ -24,6 +24,7 @@ class CreatePlaylist extends Component {
       results: null,
       selected: '',
       genreFound: true,
+      playlistSelected: false,
       // search: '',
     };
   }
@@ -43,9 +44,11 @@ class CreatePlaylist extends Component {
         }).then((location) => {
           console.log('creating playlist with location', location);
           // uri of selected playlist goes in below line
-          this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
-          this.props.fetchPlaylists();
-          this.props.navigation.navigate('Playlist');
+          if (this.state.playlistSelected && this.state.name.trim !== '') {
+            this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
+            this.props.fetchPlaylists();
+            this.props.navigation.navigate('Playlist');
+          }
         }).catch((error) => {
           console.log('error in onAddClick');
         });
@@ -62,15 +65,15 @@ class CreatePlaylist extends Component {
 
   onGenreChange = (text) => {
     const lower = text.toLowerCase();
-    this.setState({ genre: lower });
+    this.setState({ genre: lower, playlistSelected: false });
     console.log(this.state.genre);
   }
 
   onPlaylistPress = (id, name) => {
     // console.log('on Playlist Press');
-    this.setState({ selected: id, genre: name }, () => {
-      console.log(`on Playlist Press name ${name}`);
-      console.log(`on Playlist Press genre ${this.state.genre}`);
+    this.setState({ selected: id, genre: name, playlistSelected: true }, () => {
+      // console.log(`on Playlist Press name ${name}`);
+      // console.log(`on Playlist Press genre ${this.state.genre}`);
     });
 
     // this.setState({
