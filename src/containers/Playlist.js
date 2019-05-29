@@ -28,6 +28,10 @@ class Playlist extends Component {
     this.onAddClick = this.onAddClick.bind(this);
     this.onSongClick = this.onSongClick.bind(this);
     this.renderSongs = this.renderSongs.bind(this);
+
+    setInterval(() => {
+      this.props.fetchPlaylist(this.props.currentId);
+    }, 1000 * 2);
   }
 
   componentDidMount() {
