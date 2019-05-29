@@ -11,6 +11,9 @@ A mobile app for creating location-based collaborative playlists.
 * Users can create a playlist and select a starting genre/vibe, which will populate the initial playlist
 * This playlist will be location-based, in that users in the vicinity of a playlist will automatically be able to add to it, and once they leave, they no longer have access
 
+![](/assets/home.png)
+![](/assets/login.png)
+
 **The playlist-creation flow:**
 
 When users create a playlist, they can search through Spotify's pre-set playlists by genre to choose an initial "vibe." The user's current location is automatically stored with their new playlist, and other users in the vicinity can immediately start contributing.
