@@ -34,6 +34,9 @@ class Songbar extends React.Component {
     // this.setState({ isPlaying: false });
     this.props.sendPause(this.props.token);
     clearTimeout(this.props.processID);
+    if (this.props.fromPlaylist === true) {
+      this.props.resetIndex();
+    }
   }
 
   renderPlay() {

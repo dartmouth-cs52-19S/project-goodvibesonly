@@ -1,4 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/no-array-index-key */
 
 import React from 'react';
 import {
@@ -17,6 +18,8 @@ class Home extends React.Component {
     this.state = {
       errorMessage: null,
     };
+
+    setInterval(this.props.fetchPlaylists, 60000);
   }
 
   componentDidMount() {
@@ -62,6 +65,8 @@ class Home extends React.Component {
         console.log(error);
       });
     }
+
+    this.props.fetchPlaylists();
   }
 
   selectPlaylist = (playlist) => {
@@ -70,7 +75,7 @@ class Home extends React.Component {
     this.props.navigation.navigate('Playlist');
   }
 
-  renderPlaylist = (playlist, key) => {
+  renderPlaylist = (playlist, key, id) => {
     const colors = ['#1DB5E5', '#E31688', '#F7EB58', '#907CFD'];
     const rotate = [
       styles.playlistButton,
@@ -78,7 +83,7 @@ class Home extends React.Component {
     ];
     // console.log(`styles.playlistButton${(key % 4) + 1}`);
     return (
-      <TouchableOpacity key={key} style={rotate} onPress={() => { this.selectPlaylist(playlist); }}>
+      <TouchableOpacity key={id} style={rotate} onPress={() => { this.selectPlaylist(playlist); }}>
         <View>
           <Text style={styles.buttonText}>{playlist.title}</Text>
         </View>
@@ -86,61 +91,42 @@ class Home extends React.Component {
     );
   }
 
-  renderPlaylistsInRange = () => {
-    // will check playlists in this.props.all and render the ones in range of
-    // this.state.location
-    // OR
-    // will show all the Playlists
-    // Playlist page will determine if user is in range (affects adding songs only)
-    // OR
-    // we can have both options, just in different sections
-  }
-
   renderAllPlaylists = () => {
-    if (this.props.all === null) {
+    if (this.props.all === null || this.props.location === null) {
       return <Text>Loading</Text>;
     } else if (this.props.all.length === 0) {
       return <Text>No Playlists Yet</Text>;
     } else {
       return (
         this.props.all.map((playlist, key) => {
-          return this.renderPlaylist(playlist, key);
+          if (this.distanceBetweenCoords(this.props.location, playlist.location) < 30) {
+            return this.renderPlaylist(playlist, key, playlist.id);
+          } else {
+            return <View key={playlist.id} />;
+          }
         })
       );
     }
   }
 
+  toRadians = (deg) => {
+    return deg * Math.PI / 180.0;
+  }
+
   // Pair1 is the user location in form { lat, lng }, pair2 is the playlist
   // location in form [lat, lng]
   distanceBetweenCoords = (pair1, pair2) => {
-    console.log('pair1', pair1);
-    console.log('pair2', pair2);
+    const dlat = this.toRadians(pair2[0] - pair1.lat);
+    const dlon = this.toRadians(pair2[1] - pair1.lng);
 
-    const dlat = pair2[0] - pair1.lat;
-    console.log('dlat', dlat);
-    const dlon = pair2[1] - pair1.lng;
-    console.log('dlon', dlon);
-
-    const a = (Math.sin(dlat / 2.0) ** 2.0) + Math.cos(pair1.lat) * Math.cos(pair2[0]) * (Math.sin(dlon / 2.0) ** 2.0);
-    console.log('a', a);
+    const a = (Math.sin(dlat / 2.0) ** 2.0) + Math.cos(this.toRadians(pair1.lat)) * Math.cos(this.toRadians(pair2[0])) * (Math.sin(dlon / 2.0) ** 2.0);
     const c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0 - a));
-    console.log('c', c);
-    const d = 6371.0 * c;
-    console.log('d', d);
+    const d = 6371e3 * c;
 
-    return d * 1000.0;
+    return d;
   }
 
   render() {
-    if (this.props.location !== null) {
-      console.log('location', this.props.location);
-    }
-
-    if (this.props.all !== null && this.props.location !== null && this.props.all.length > 0) {
-      // console.log('all playlists', this.props.all);
-      console.log('distance calc', this.distanceBetweenCoords(this.props.location, this.props.all[0].location));
-    }
-
     return (
       <View style={styles.container}>
         <View style={styles.top}>

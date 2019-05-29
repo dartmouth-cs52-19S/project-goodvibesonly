@@ -8,6 +8,8 @@ import Main from './src/containers/Main';
 
 import reducers from './src/reducers';
 
+console.disableYellowBox = true;
+
 const store = createStore(reducers, {}, compose(
   applyMiddleware(thunk),
   window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
