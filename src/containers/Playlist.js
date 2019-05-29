@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
-  fetchPlaylist, sendPlaySong, fetchLocation,
+  fetchPlaylist, sendPlaySong, fetchLocation, fetchPlaylists,
 } from '../actions';
 import Songbar from './Songbar';
 
@@ -32,6 +32,7 @@ class Playlist extends Component {
   componentDidMount() {
     console.log('component did mount called');
     console.log('current id', this.props.currentId);
+    this.props.fetchPlaylists();
   }
 
   onBackClick() {
@@ -104,6 +105,10 @@ class Playlist extends Component {
       }
         </ScrollView>
       );
+    } else {
+      return (
+        <Text>Loading songs...</Text>
+      );
     }
   }
   // comment
@@ -144,7 +149,7 @@ function mapStateToProps(reduxState) {
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist, sendPlaySong, fetchLocation,
+  fetchPlaylist, sendPlaySong, fetchLocation, fetchPlaylists,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);

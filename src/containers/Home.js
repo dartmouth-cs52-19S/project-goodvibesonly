@@ -27,6 +27,8 @@ class Home extends React.Component {
     } else {
       this.getLocation();
     }
+
+    this.props.fetchPlaylists();
   }
 
   getLocation = () => {
