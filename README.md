@@ -4,6 +4,10 @@
 
 A mobile app for creating location-based collaborative playlists.
 
+## Features
+![](https://media.giphy.com/media/88iHmg1CBKvqw00Zke/giphy.gif)
+![](https://media.giphy.com/media/XtdOgcnmJXk6oHL7qk/giphy.gif)
+
 ## Architecture
 
 Framework:
