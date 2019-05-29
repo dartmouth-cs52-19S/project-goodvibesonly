@@ -10,7 +10,7 @@ import {
   StyleSheet,
   ImageBackground,
   ListView,
-  TouchableHighlight,
+  TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import axios from 'axios';
@@ -29,31 +29,35 @@ class AddSong extends Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
+      addClicked: false,
     };
   }
 
   onAddClick = () => {
     console.log('onAddClick');
-    console.log('playlist id', this.props.playlistId);
-    console.log('track id', this.state.selectedTrack.id);
-    console.log('artist', this.state.selectedTrack.artists);
+    this.setState({ addClicked: true });
 
+    if (this.state.selectedTrack !== null) {
     // Real call
-    this.props.addToPlaylist(this.props.playlistId, this.state.selectedTrack.id, this.state.selectedTrack.name, this.state.selectedTrack.artists[0].name, this.state.selectedTrack.duration_ms);
+      this.props.addToPlaylist(this.props.playlistId, this.state.selectedTrack.id, this.state.selectedTrack.name, this.state.selectedTrack.artists[0].name, this.state.selectedTrack.duration_ms);
 
-    // Hardcoded call
-    // this.props.addToPlaylist('5ce9c6668d16c400342d7241', this.state.selectedTrack.id);
-    this.props.navigation.pop();
+      // Hardcoded call
+      // this.props.addToPlaylist('5ce9c6668d16c400342d7241', this.state.selectedTrack.id);
+      this.props.navigation.pop();
+    }
   }
 
   onSearchChange = (text) => {
     console.log('onSearchChange');
     this.setState({ search: text });
+  }
 
+  onSearchPress = () => {
+    this.setState({ addClicked: false });
     const API_TRACK_URL = 'https://api.spotify.com/v1/search';
 
     const params = {
-      q: text,
+      q: this.state.search,
       type: 'track',
       market: 'US',
       limit: 5,
@@ -76,18 +80,19 @@ class AddSong extends Component {
     this.setState({
       search: track.name,
       selectedTrack: track,
+      addClicked: false,
     });
   }
 
   renderTrack = (track) => {
     // console.log(track);
     return (
-      <TouchableHighlight onPress={() => { this.selectTrack(track); }}>
+      <TouchableOpacity onPress={() => { this.selectTrack(track); }}>
         <View>
           <Text>{track.name}</Text>
           <Text>{track.artists[0].name}</Text>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 
@@ -105,12 +110,15 @@ class AddSong extends Component {
     }
   }
 
-  render() {
-    if (this.state.results !== null) {
-      console.log(this.state.results);
+  renderFormValidation = () => {
+    if (this.state.selectedTrack === null && this.state.addClicked) {
+      return <Text>Please search for and select a song.</Text>;
+    } else {
+      return <View />;
     }
+  }
 
-    console.log('playlist id', this.props.playlistId);
+  render() {
     return (
       <View>
         <ImageBackground source={require('../img/background.png')} style={styles.backgroundImage}>
@@ -126,11 +134,15 @@ class AddSong extends Component {
               onChangeText={this.onSearchChange}
               style={styles.input}
             />
+            <Ionicons style={styles.icon} name="ios-search" onPress={this.onSearchPress} size={30} />
           </View>
           <ScrollView id="results" style={styles.results}>
             {this.renderListView()}
           </ScrollView>
-          <Ionicons name="ios-search" onPress={this.onAddClick} size={20} />
+          {this.renderFormValidation()}
+          <TouchableOpacity onPress={this.onAddClick} style={styles.button}>
+            <Text style={styles.buttontext}>add</Text>
+          </TouchableOpacity>
         </ImageBackground>
       </View>
     );
@@ -164,6 +176,17 @@ const styles = StyleSheet.create({
     width: 130,
     height: 40,
     padding: 10,
+    marginTop: 30,
+    shadowColor: 'black',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+  },
+  buttonText: {
+    margin: 5,
+    textAlign: 'justify',
+    fontWeight: 'bold',
+    fontSize: 22,
   },
   searchButton: {
     backgroundColor: '#1DB5E5',
@@ -198,6 +221,22 @@ const styles = StyleSheet.create({
   listView: {
     flex: 2,
     flexDirection: 'column',
+  },
+  icon: {
+    width: 'auto',
+    height: 60,
+    paddingLeft: 5,
+    paddingRight: 9,
+    paddingTop: 12,
+    marginTop: 40,
+    color: 'white',
+    backgroundColor: 'black',
+    alignItems: 'center',
+    shadowColor: '#E31688',
+    shadowOffset: { height: 5, width: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    zIndex: 1,
   },
 });
 

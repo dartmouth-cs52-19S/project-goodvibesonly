@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import {
-  fetchPlaylist, sendPlaySong, sendPlayPlaylist, fetchLocation,
+  fetchPlaylist, sendPlaySong, sendPlayPlaylist, fetchLocation, fetchPlaylists,
 } from '../actions';
 import Songbar from './Songbar';
 
@@ -31,6 +31,7 @@ class Playlist extends Component {
   componentDidMount() {
     console.log('component did mount called');
     console.log('current id', this.props.currentId);
+    this.props.fetchPlaylists();
   }
 
   onBackClick() {
@@ -92,6 +93,10 @@ class Playlist extends Component {
       }
         </ScrollView>
       );
+    } else {
+      return (
+        <Text>Loading songs...</Text>
+      );
     }
   }
   // comment
@@ -133,7 +138,7 @@ function mapStateToProps(reduxState) {
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist, sendPlaySong, sendPlayPlaylist, fetchLocation,
+  fetchPlaylist, sendPlaySong, sendPlayPlaylist, fetchLocation, fetchPlaylists,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
