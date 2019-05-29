@@ -62,14 +62,15 @@ export function fetchPlaylists() {
   };
 }
 
-export function fetchPlaylist(id) {
+export function fetchPlaylist(id, navigation) {
   console.log('id within actions', id);
   // this will fetch a specific playlist with the id passed in
   // can reference lab4 fetchPost(id)
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/playlists/${id}`).then((response) => {
+    axios.get(`${ROOT_URL}/playlists/${id}`).then(async (response) => {
       console.log('should log something', response.data);
-      dispatch({ type: ActionTypes.FETCH_PLAYLIST, payload: { current: response.data.playlist } });
+      await dispatch({ type: ActionTypes.FETCH_PLAYLIST, payload: { current: response.data.playlist } });
+      navigation.navigate('Playlist');
     }).catch((error) => {
       console.log('error fetching playlist', error);
     });

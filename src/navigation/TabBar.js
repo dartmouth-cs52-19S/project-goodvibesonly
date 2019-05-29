@@ -1,9 +1,12 @@
 import { createAppContainer, createBottomTabNavigator, customTabs } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import ProfileNav from './ProfileNav';
-import CreatePlaylistNav from './CreatePlaylistNav';
+// import ProfileNav from './ProfileNav';
+// import CreatePlaylistNav from './CreatePlaylistNav';
 import HomeNav from './HomeNav';
+// import Home from '../containers/Home';
+import CreatePlaylist from '../containers/CreatePlaylist';
+import Profile from '../containers/Profile';
 
 const TabBar = createBottomTabNavigator({
   HomeNav: {
@@ -14,13 +17,13 @@ const TabBar = createBottomTabNavigator({
 
   },
   CreatePlaylistNav: {
-    screen: CreatePlaylistNav,
+    screen: CreatePlaylist,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => <Ionicons size={40} color={tintColor} name="ios-add" />,
     },
   },
   ProfileNav: {
-    screen: ProfileNav,
+    screen: Profile,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => <Ionicons size={30} color={tintColor} name="ios-person" />,
     },

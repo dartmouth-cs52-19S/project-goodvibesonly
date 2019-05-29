@@ -11,8 +11,8 @@ import { connect } from 'react-redux';
 import { Location, Permissions } from 'expo';
 import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
+import { StackActions } from 'react-navigation';
 import { createPlaylist, fetchPlaylists, fetchPlaylist } from '../actions';
-
 
 class CreatePlaylist extends Component {
   constructor(props) {
@@ -25,6 +25,7 @@ class CreatePlaylist extends Component {
       selected: '',
       genreFound: true,
       playlistSelected: false,
+      loading: false,
       // search: '',
     };
   }
@@ -35,6 +36,10 @@ class CreatePlaylist extends Component {
 
   onAddClick = (playlist) => {
     // console.log('onAddClick');
+    if (this.state.playlistSelected && this.state.name.trim !== '') {
+      this.setState({ loading: true });
+    }
+
     Permissions.askAsync(Permissions.LOCATION).then((response) => {
       // if location services permissions are on, start watching position
       // else, set error message state
@@ -47,6 +52,7 @@ class CreatePlaylist extends Component {
           if (this.state.playlistSelected && this.state.name.trim !== '') {
             this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
             this.props.fetchPlaylists();
+            this.props.navigation.dispatch(StackActions.popToTop());
             this.props.navigation.navigate('Playlist');
           }
         }).catch((error) => {
@@ -118,6 +124,22 @@ class CreatePlaylist extends Component {
       });
   }
 
+  renderLoading = () => {
+    if (this.state.loading) {
+      return <Text>Creating playlist...</Text>;
+    } else {
+      return <View />;
+    }
+  }
+
+  renderFormValidation = () => {
+    if (!this.state.playlistSelected || this.state.name === '') {
+      return <Text>Please search for and select a genre.</Text>;
+    } else {
+      return <View />;
+    }
+  }
+
   render() {
     if (this.state.results !== null) {
       // console.log(this.state.results);
@@ -126,7 +148,7 @@ class CreatePlaylist extends Component {
       console.log('message', this.props.message);
     }
 
-    console.log(this.state.errorMessage);
+    console.log('loading', this.state.loading);
 
     return (
       <View style={styles.container}>
@@ -160,6 +182,7 @@ class CreatePlaylist extends Component {
           <TouchableOpacity onPress={this.onAddClick} style={styles.button}>
             <Text style={styles.buttontext}>add</Text>
           </TouchableOpacity>
+          {this.renderLoading()}
         </ImageBackground>
       </View>
     );

@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
 import { connect } from 'react-redux';
+import { StackActions } from 'react-navigation';
 import { fetchPlaylists, updateLocation, fetchPlaylist } from '../actions';
 import Songbar from './Songbar';
 
@@ -17,9 +18,11 @@ class Home extends React.Component {
 
     this.state = {
       errorMessage: null,
+      hasNearby: false,
     };
 
     setInterval(this.props.fetchPlaylists, 60000);
+    setInterval(this.checkNearby, 2000);
   }
 
   componentDidMount() {
@@ -31,7 +34,19 @@ class Home extends React.Component {
       this.getLocation();
     }
 
-    this.props.fetchPlaylists();
+    this.props.navigation.dispatch(StackActions.popToTop());
+  }
+
+  checkNearby = () => {
+    this.setState({ hasNearby: false });
+    if (this.props.all !== null && this.props.location !== null && this.props.all.length > 0) {
+      this.props.all.map((p) => {
+        if (this.distanceBetweenCoords(this.props.location, p.location) < 30) {
+          return this.setState({ hasNearby: true });
+        }
+        return '';
+      });
+    }
   }
 
   getLocation = () => {
@@ -96,6 +111,8 @@ class Home extends React.Component {
       return <Text>Loading</Text>;
     } else if (this.props.all.length === 0) {
       return <Text>No Playlists Yet</Text>;
+    } else if (this.state.hasNearby === false) {
+      return <Text>No Playlists Nearby...</Text>;
     } else {
       return (
         this.props.all.map((playlist, key) => {
