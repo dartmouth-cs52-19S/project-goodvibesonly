@@ -80,23 +80,27 @@ export function createPlaylist(spotifyPlaylistId, title, userId, lat, lng) {
   // this will create a new playlist in our DB using the spotify id of
   // an existing spotify playlist, and we'll grab the first 15 songs
   // in our backend call.
+  console.log('entered create playlist');
   return (dispatch) => {
     axios.post(`${ROOT_URL}/playlists`, {
       spotifyId: spotifyPlaylistId, title, userId, lat, lng,
     }).then((response) => {
-      console.log('create playlist response', response);
-      dispatch({ type: ActionTypes.CREATE_PLAYLIST, payload: { message: response.data.message, playlistId: response.data.playlistId, current: response.data.playlist } });
+      console.log('create playlist response', response.data.playlist);
+      dispatch({ type: ActionTypes.CREATE_PLAYLIST, payload: { message: response.data.message, playlistId: response.data.playlistId, currentPlaylist: response.data.playlist } });
     }).catch((error) => {
+      console.log('in error');
       console.log(error);
     });
   };
 }
 
-export function addToPlaylist(playlistId, spotifyTrackId, name, artist) {
+export function addToPlaylist(playlistId, spotifyTrackId, name, artist, duration) {
   // this will add the track specified (by spotify track id)
   // to the playlist specified with the mongo playlist id
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/playlists/${playlistId}`, { trackId: spotifyTrackId, name, artist }).then((response) => {
+    axios.put(`${ROOT_URL}/playlists/${playlistId}`, {
+      trackId: spotifyTrackId, name, artist, duration,
+    }).then((response) => {
       dispatch({ type: ActionTypes.ADD_TO_PLAYLIST, payload: { message: response.data } });
     }).catch((error) => {
       console.log(error);

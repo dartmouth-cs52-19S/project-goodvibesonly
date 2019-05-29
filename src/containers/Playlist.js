@@ -109,10 +109,9 @@ class Playlist extends Component {
   // comment
 
   render() {
-    // console.log('current playlist', this.props.current);
+    console.log('current playlist', this.props.current);
     // console.log(this.songs);
-    // console.log('current playlist', this.props.current);
-    // console.log('current id', this.props.currentId);
+    console.log('current id', this.props.currentId);
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
