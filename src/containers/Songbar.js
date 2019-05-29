@@ -12,7 +12,7 @@ class Songbar extends React.Component {
     super(props);
 
     this.state = {
-      isPlaying: false,
+      // isPlaying: false,
     };
   }
 
@@ -25,21 +25,24 @@ class Songbar extends React.Component {
 
   onPlay = () => {
     console.log('play press');
-    this.setState({ isPlaying: true });
+    // this.setState({ isPlaying: true });
     this.props.sendPlay(this.props.token);
   }
 
-  onPause = () => {
+  onStop = () => {
     console.log('pause press');
-    this.setState({ isPlaying: false });
+    // this.setState({ isPlaying: false });
     this.props.sendPause(this.props.token);
+    clearTimeout(this.props.processID);
   }
 
   renderPlay() {
-    if (this.state.isPlaying) {
-      return (<Ionicons style={styles.button} name="ios-pause" onPress={this.onPause} />);
+    console.log(this.props.play);
+    if (this.props.play === 'true') {
+      return (<Ionicons style={styles.button} name="ios-hand" onPress={this.onStop} />);
     } else {
-      return (<Ionicons style={styles.button} name="ios-play" onPress={this.onPlay} />);
+      // return (<Ionicons style={styles.button} name="ios-play" onPress={this.onPlay} />);
+      return (<View />);
     }
   }
 
@@ -88,6 +91,7 @@ function mapStateToProps(reduxState) {
   return {
     playstate: reduxState.player.playstate,
     token: reduxState.auth.token,
+    play: reduxState.isplaying.play,
   };
 }
 
