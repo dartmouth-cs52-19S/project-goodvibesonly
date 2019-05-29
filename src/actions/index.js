@@ -15,7 +15,6 @@ export const ActionTypes = {
   PAUSE: 'PAUSE',
   LOCATION: 'LOCATION',
   PLAYSONG: 'PLAYSONG',
-  PLAYPLAYLIST: 'PLAYPLAYLIST',
 };
 
 const ROOT_URL = 'https://good-vibes-only.herokuapp.com/api';
@@ -143,39 +142,29 @@ export function getPlayState(token) {
 export function sendPlay(token) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/play/${token}`).then((response) => {
-      dispatch({ type: ActionTypes.PLAY, payload: {} });
     }).catch((error) => {
       console.log(error);
     });
+    dispatch({ type: ActionTypes.PLAY, payload: { } });
   };
 }
 
 export function sendPause(token) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/pause/${token}`).then((response) => {
-      dispatch({ type: ActionTypes.PAUSE, payload: {} });
     }).catch((error) => {
       console.log(error);
     });
+    dispatch({ type: ActionTypes.PAUSE, payload: { } });
   };
 }
 
-export function sendPlaySong(token, song_id) {
+export function sendPlaySong(token, song_id, key) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/playsong/${token}/${song_id}`).then((response) => {
-      dispatch({ type: ActionTypes.PLAYSONG, payload: {} });
     }).catch((error) => {
       console.log(error);
     });
-  };
-}
-
-export function sendPlayPlaylist(token, playlistid) {
-  return (dispatch) => {
-    axios.put(`${ROOT_URL}/playplaylist/${token}/${playlistid}`).then((response) => {
-      dispatch({ type: ActionTypes.PLAYPLAYLIST, payload: {} });
-    }).catch((error) => {
-      console.log(error);
-    });
+    dispatch({ type: ActionTypes.PLAYSONG, payload: { key } });
   };
 }

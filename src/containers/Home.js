@@ -134,7 +134,7 @@ class Home extends React.Component {
       console.log('location', this.props.location);
     }
 
-    if (this.props.all !== null && this.props.location !== null) {
+    if (this.props.all !== null && this.props.location !== null && this.props.all.length > 0) {
       // console.log('all playlists', this.props.all);
       console.log('distance calc', this.distanceBetweenCoords(this.props.location, this.props.all[0].location));
     }

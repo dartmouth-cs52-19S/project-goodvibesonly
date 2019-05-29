@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
 /* eslint-disable camelcase */
@@ -10,7 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
-  fetchPlaylist, sendPlaySong, sendPlayPlaylist, fetchLocation,
+  fetchPlaylist, sendPlaySong, fetchLocation,
 } from '../actions';
 import Songbar from './Songbar';
 
@@ -19,6 +20,7 @@ class Playlist extends Component {
     super();
     this.state = {
       songs: [],
+      processID: null,
     };
 
     this.fillInLocation = this.fillInLocation.bind(this);
@@ -42,8 +44,25 @@ class Playlist extends Component {
     this.props.navigation.navigate('Song');
   }
 
-  onSongClick(songid) {
-    this.props.sendPlaySong(this.props.token, songid);
+  onSongClick(key_value) {
+    this.clear(this.state.processID).then(() => {
+      const duration = parseInt(this.props.current.songs[key_value].duration, 10);
+      const id = this.props.current.songs[key_value].songid;
+      this.props.sendPlaySong(this.props.token, id);
+
+      const processID = setTimeout(() => {
+        this.onSongClick(key_value + 1);
+      }, duration);
+
+      this.setState({ processID });
+    });
+  }
+
+  clear = (processID) => {
+    return new Promise((resolve, reject) => {
+      clearTimeout(processID);
+      resolve();
+    });
   }
 
   fillInLocation() {
@@ -65,12 +84,12 @@ class Playlist extends Component {
       let key_value = 0;
       return (
         <ScrollView style={styles.allSongs}>
-          { this.props.current.songs.map((song) => {
+          { this.props.current.songs.map((song, key) => {
             if (song) {
               key_value += 1;
               return (
                 // Referenced https://stackoverflow.com/questions/43017807/react-native-onpress-binding-with-an-argument to figure out how to pass an argument to my onPress function
-                <TouchableOpacity onPress={() => this.onSongClick(song.songid)} key={key_value}>
+                <TouchableOpacity onPress={() => this.onSongClick(key)} key={key_value}>
                   <Text style={styles.songTitle}>
                     {song.name}
                   </Text>
@@ -110,7 +129,7 @@ class Playlist extends Component {
         <TouchableOpacity onPress={this.onAddClick} style={styles.bottomButton}>
           <Text style={styles.bottomButtonText}>add a song</Text>
         </TouchableOpacity>
-        <Songbar />
+        <Songbar processID={this.state.processID} />
       </View>
     );
   }
@@ -121,14 +140,12 @@ function mapStateToProps(reduxState) {
     currentId: reduxState.playlists.currentId,
     current: reduxState.playlists.current,
     token: reduxState.auth.token,
-    artist: reduxState.song.artist,
-    name: reduxState.song.name,
     location: reduxState.playlists.location,
   };
 }
 
 const mapDispatchToProps = {
-  fetchPlaylist, sendPlaySong, sendPlayPlaylist, fetchLocation,
+  fetchPlaylist, sendPlaySong, fetchLocation,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
