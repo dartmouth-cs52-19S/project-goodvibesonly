@@ -84,14 +84,17 @@ export function createPlaylist(spotifyPlaylistId, title, userId, lat, lng) {
   // in our backend call.
   console.log('entered create playlist');
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/playlists`, {
-      spotifyId: spotifyPlaylistId, title, userId, lat, lng,
-    }).then((response) => {
-      console.log('create playlist response', response.data.playlist);
-      dispatch({ type: ActionTypes.CREATE_PLAYLIST, payload: { message: response.data.message, playlistId: response.data.playlistId, currentPlaylist: response.data.playlist } });
-    }).catch((error) => {
-      console.log('in error');
-      console.log(error);
+    return new Promise((resolve, reject) => {
+      axios.post(`${ROOT_URL}/playlists`, {
+        spotifyId: spotifyPlaylistId, title, userId, lat, lng,
+      }).then((response) => {
+        console.log('create playlist response', response.data.playlist);
+        dispatch({ type: ActionTypes.CREATE_PLAYLIST, payload: { message: response.data.message, playlistId: response.data.playlistId, currentPlaylist: response.data.playlist } });
+        resolve(response.data.playlist._id);
+      }).catch((error) => {
+        console.log('in error');
+        console.log(error);
+      });
     });
   };
 }
