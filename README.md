@@ -46,12 +46,19 @@ Linter/Testing:
 
 ## Setup
 
-To run locally:
-1. Clone the repository and `cd good-vibes-frontend`
+To publish to expo (for best app performance and experience):
+1. Clone the repository and `cd project-goodvibesonly`
 2. `yarn`
-3. `expo start` (install expo if not yet installed with `yarn add expo-cli -g`)
+3. Download Expo Client from the app store on iPhone or Google Play store on Android and create a new expo account or log in
+4. `expo publish` in terminal (install expo if not yet installed with `yarn add expo-cli -g`)
+5. In Expo Client on your smartphone, 'Good Vibes' should appear in 'Projects'. 
+
+To run locally using expo tunnel:
+1. Clone the repository and `cd project-goodvibesonly`
+2. `yarn`
+3. `expo start --tunnel` (install expo if not yet installed with `yarn add expo-cli -g`)
 4. Press `i` to open up iPhone simulator on macOS
-5. Download Expo Client from the app store on iPhone or Android and scan the QR code
+5. Download Expo Client from the app store on iPhone or Android and scan the QR code to run on smartphone
 
 ## Deployment
 

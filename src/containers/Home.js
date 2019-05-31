@@ -48,14 +48,6 @@ class Home extends React.Component {
     }
   }
 
-  stopPlayback = () => {
-    if (this.props.intervalId !== null) {
-      clearInterval(this.props.intervalId);
-      this.props.sendIntervalId(null);
-      this.props.sendPause(this.props.token);
-    }
-  }
-
   getLocation = () => {
     Permissions.askAsync(Permissions.LOCATION).then((response) => {
       // if location services permissions are on, start watching position
@@ -91,9 +83,9 @@ class Home extends React.Component {
     this.props.fetchPlaylists();
   }
 
-  selectPlaylist = (playlist) => {
+  selectPlaylist = async (playlist) => {
     // pass in video into this.props.navigation.state.params.video in navigated view
-    // await this.props.fetchPlaylist(playlist._id);
+    await this.props.fetchPlaylist(playlist._id);
     this.props.navigation.navigate('Playlist', { id: playlist._id });
   }
 

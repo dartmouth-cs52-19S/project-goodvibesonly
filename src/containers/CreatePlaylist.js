@@ -46,13 +46,14 @@ class CreatePlaylist extends Component {
       if (response.status === 'granted') {
         Location.getCurrentPositionAsync({
           accuracy: Location.Accuracy.High,
-        }).then((location) => {
+        }).then(async (location) => {
           console.log('creating playlist with location', location);
           // uri of selected playlist goes in below line
           if (this.state.playlistSelected && this.state.name.trim !== '') {
             this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
             this.props.fetchPlaylists();
-            this.props.navigation.dispatch(StackActions.popToTop());
+            await this.props.fetchPlaylist(this.state.selected);
+            await this.props.navigation.dispatch(StackActions.popToTop());
             this.props.navigation.navigate('Playlist', { id: this.state.selected });
           }
         }).catch((error) => {

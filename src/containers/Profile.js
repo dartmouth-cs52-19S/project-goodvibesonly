@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { StackActions } from 'react-navigation';
 import Songbar from './Songbar';
 import { fetchPlaylist, fetchPlaylists } from '../actions';
 
@@ -20,9 +21,11 @@ class Profile extends Component {
     };
   }
 
-  selectPlaylist = (playlist) => {
-    this.props.fetchPlaylist(playlist._id);
-    this.props.navigation.navigate('Playlist');
+  selectPlaylist = async (playlist) => {
+    console.log('PROFILE', playlist.title);
+    await this.props.fetchPlaylist(playlist._id);
+    this.props.navigation.dispatch(StackActions.popToTop());
+    this.props.navigation.navigate('Playlist', { id: playlist._id });
   }
 
   renderPlaylist = (playlist, key, i) => {
