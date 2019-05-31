@@ -142,7 +142,6 @@ class Home extends React.Component {
   }
 
   render() {
-    console.log('HOME interval id', this.props.intervalId);
     return (
       <View style={styles.container}>
         <View style={styles.top}>
