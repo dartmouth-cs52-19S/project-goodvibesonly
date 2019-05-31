@@ -25,11 +25,6 @@ class Playlist extends Component {
         this.props.fetchPlaylist(this.props.navigation.getParam('id'));
       }, 1000 * 120),
     };
-
-    this.fillInLocation = this.fillInLocation.bind(this);
-    this.onAddClick = this.onAddClick.bind(this);
-    this.onSongClick = this.onSongClick.bind(this);
-    this.renderSongs = this.renderSongs.bind(this);
   }
 
   componentWillMount() {
@@ -37,19 +32,15 @@ class Playlist extends Component {
   }
 
   componentDidMount() {
-    console.log('component did mount called');
-    console.log('PLAYLIST current title', this.props.current.title);
     this.props.fetchPlaylists();
-    console.log('did mount interval id', this.state.intervalId);
     this.checkIntervalId();
   }
 
-  onAddClick() {
-    console.log('onAddClick');
+  onAddClick = () => {
     this.props.navigation.navigate('Song');
   }
 
-  onSongClick(key_value) {
+  onSongClick = (key_value) => {
     this.clear(this.state.processID).then(() => {
       const duration = parseInt(this.props.current.songs[key_value].duration, 10);
       const id = this.props.current.songs[key_value].songid;
@@ -75,7 +66,6 @@ class Playlist extends Component {
   }
 
   checkIntervalId = () => {
-    console.log('CHECKING INTERVAL ID');
     if (this.state.intervalId !== this.props.intervalId) {
       clearInterval(this.props.intervalId);
       this.props.sendIntervalId(this.state.intervalId);
@@ -96,28 +86,15 @@ class Playlist extends Component {
     });
   }
 
-  // onBackClick = () => {
-  //   clearInterval(this.state.intervalId);
-  //   this.props.sendIntervalId(null);
-  //   this.props.sendPause(this.props.token);
-  //   this.props.navigation.pop();
-  // }
-
-  fillInLocation() {
-    console.log('current playlist loc', this.props.current.location);
-
+  fillInLocation = () => {
     if (this.props.current.location) {
-      console.log(this.props.current.location[0]);
-      console.log(this.props.current.location[1]);
-      console.log(`${this.props.current.location[0]}, ${this.props.current.location[1]}`);
-
       this.props.fetchLocation(`${this.props.current.location[0]}, ${this.props.current.location[1]}`);
       return this.props.location;
     }
   }
 
   // eslint-disable-next-line consistent-return
-  renderSongs() {
+  renderSongs= () => {
     if (this.props.current.songs && this.props.currentId === this.props.navigation.getParam('id')) {
       let key_value = 0;
       return (
@@ -158,7 +135,6 @@ class Playlist extends Component {
   // comment
 
   render() {
-    console.log('interval id in playlist', this.props.intervalId);
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
