@@ -82,13 +82,11 @@ export function createPlaylist(spotifyPlaylistId, title, userId, lat, lng) {
   // this will create a new playlist in our DB using the spotify id of
   // an existing spotify playlist, and we'll grab the first 15 songs
   // in our backend call.
-  console.log('entered create playlist');
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       axios.post(`${ROOT_URL}/playlists`, {
         spotifyId: spotifyPlaylistId, title, userId, lat, lng,
       }).then((response) => {
-        console.log('create playlist response', response.data.playlist);
         dispatch({ type: ActionTypes.CREATE_PLAYLIST, payload: { message: response.data.message, playlistId: response.data.playlistId, currentPlaylist: response.data.playlist } });
         resolve(response.data.playlist._id);
       }).catch((error) => {

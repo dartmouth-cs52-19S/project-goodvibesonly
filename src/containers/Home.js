@@ -83,9 +83,8 @@ class Home extends React.Component {
     this.props.fetchPlaylists();
   }
 
-  selectPlaylist = async (playlist) => {
-    // pass in video into this.props.navigation.state.params.video in navigated view
-    await this.props.fetchPlaylist(playlist._id);
+  selectPlaylist = (playlist) => {
+    this.props.fetchPlaylist(playlist._id);
     this.props.navigation.navigate('Playlist', { id: playlist._id });
   }
 
@@ -95,7 +94,6 @@ class Home extends React.Component {
       styles.playlistButton,
       { backgroundColor: colors[(key % 4)] },
     ];
-    // console.log(`styles.playlistButton${(key % 4) + 1}`);
     return (
       <TouchableOpacity key={id} style={rotate} onPress={() => { this.selectPlaylist(playlist); }}>
         <View>
@@ -131,6 +129,7 @@ class Home extends React.Component {
 
   // Pair1 is the user location in form { lat, lng }, pair2 is the playlist
   // location in form [lat, lng]
+  // Used Haversine's distance equations
   distanceBetweenCoords = (pair1, pair2) => {
     const dlat = this.toRadians(pair2[0] - pair1.lat);
     const dlon = this.toRadians(pair2[1] - pair1.lng);

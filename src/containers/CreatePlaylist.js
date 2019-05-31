@@ -157,7 +157,7 @@ class CreatePlaylist extends Component {
 
   renderLoading = () => {
     if (this.state.loading) {
-      return <Text>Creating playlist...</Text>;
+      return <Text style={styles.loadingMsg}>Creating playlist...</Text>;
     } else {
       return <View />;
     }
@@ -352,5 +352,9 @@ const styles = StyleSheet.create({
   results: {
     backgroundColor: 'white',
     width: '100%',
+  },
+  loadingMsg: {
+    paddingTop: 20,
+    fontWeight: 'bold',
   },
 });
