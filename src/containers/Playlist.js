@@ -32,9 +32,13 @@ class Playlist extends Component {
     this.renderSongs = this.renderSongs.bind(this);
   }
 
+  componentWillMount() {
+    this.props.fetchPlaylist(this.props.navigation.getParam('id'));
+  }
+
   componentDidMount() {
     console.log('component did mount called');
-    console.log('current id', this.props.currentId);
+    console.log('PLAYLIST current title', this.props.current.title);
     this.props.fetchPlaylists();
     console.log('did mount interval id', this.state.intervalId);
     this.checkIntervalId();
@@ -71,6 +75,7 @@ class Playlist extends Component {
   }
 
   checkIntervalId = () => {
+    console.log('CHECKING INTERVAL ID');
     if (this.state.intervalId !== this.props.intervalId) {
       clearInterval(this.props.intervalId);
       this.props.sendIntervalId(this.state.intervalId);
@@ -113,7 +118,7 @@ class Playlist extends Component {
 
   // eslint-disable-next-line consistent-return
   renderSongs() {
-    if (this.props.current.songs) {
+    if (this.props.current.songs && this.props.currentId === this.props.navigation.getParam('id')) {
       let key_value = 0;
       return (
         <ScrollView style={styles.allSongs}>
@@ -159,7 +164,7 @@ class Playlist extends Component {
         <View style={styles.topBar}>
           <View style={styles.top}>
             <Text style={styles.topfont}>
-              {this.props.current.title}
+              {this.props.currentId === this.props.navigation.getParam('id') ? this.props.current.title : 'Loading...'}
             </Text>
           </View>
           <Text style={styles.loc}>

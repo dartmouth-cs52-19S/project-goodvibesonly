@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { Location, Permissions } from 'expo';
 import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
-import { StackActions } from 'react-navigation';
+// import { StackActions } from 'react-navigation';
 import { createPlaylist, fetchPlaylists, fetchPlaylist } from '../actions';
 
 class CreatePlaylist extends Component {
@@ -34,6 +34,26 @@ class CreatePlaylist extends Component {
     console.log('onBackClick');
   }
 
+  resetState = () => {
+    this.setState({
+      name: '',
+      genre: '',
+      errorMessage: null,
+      results: null,
+      selected: '',
+      genreFound: true,
+      playlistSelected: false,
+      loading: false,
+    });
+  }
+
+  waitForCreatePlaylist = (location) => {
+    return new Promise((resolve, reject) => {
+      this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
+      resolve();
+    });
+  }
+
   onAddClick = (playlist) => {
     // console.log('onAddClick');
     if (this.state.playlistSelected && this.state.name.trim !== '') {
@@ -50,10 +70,21 @@ class CreatePlaylist extends Component {
           console.log('creating playlist with location', location);
           // uri of selected playlist goes in below line
           if (this.state.playlistSelected && this.state.name.trim !== '') {
-            this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
-            this.props.fetchPlaylists();
-            this.props.navigation.dispatch(StackActions.popToTop());
-            this.props.navigation.navigate('Playlist', { id: this.state.selected });
+            // await this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
+            // this.waitForCreatePlaylist(location).then(() => {
+            //   this.resetState();
+            //   this.props.fetchPlaylists();
+            //   console.log('CREATE PLAYLIST id to fetch', this.props.currentId);
+            //   this.props.fetchPlaylist(this.props.currentId);
+            //   this.props.navigation.navigate('Playlist', { id: this.props.currentId });
+            // });
+            this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude).then((playlistId) => {
+              this.resetState();
+              this.props.fetchPlaylists();
+              console.log('CREATE PLAYLIST id to fetch', playlistId);
+              this.props.fetchPlaylist(playlistId);
+              this.props.navigation.navigate('Playlist', { id: playlistId });
+            });
           }
         }).catch((error) => {
           console.log('error in onAddClick');
@@ -162,6 +193,7 @@ class CreatePlaylist extends Component {
             <TextInput
               placeholder="playlist name"
               onChangeText={this.onNameChange}
+              value={this.state.name}
               style={styles.input}
             />
             <View style={styles.iconinput}>
@@ -194,6 +226,7 @@ function mapStateToProps(reduxState) {
     message: reduxState.playlists.message,
     userId: reduxState.auth.userId,
     token: reduxState.auth.token,
+    currentId: reduxState.playlists.currentId,
   };
 }
 
