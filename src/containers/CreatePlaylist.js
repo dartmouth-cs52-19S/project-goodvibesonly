@@ -31,7 +31,7 @@ class CreatePlaylist extends Component {
   }
 
   onBackClick = () => {
-    console.log('onBackClick');
+
   }
 
   resetState = () => {
@@ -55,7 +55,6 @@ class CreatePlaylist extends Component {
   }
 
   onAddClick = (playlist) => {
-    // console.log('onAddClick');
     if (this.state.playlistSelected && this.state.name.trim !== '') {
       this.setState({ loading: true });
     }
@@ -67,21 +66,10 @@ class CreatePlaylist extends Component {
         Location.getCurrentPositionAsync({
           accuracy: Location.Accuracy.High,
         }).then((location) => {
-          console.log('creating playlist with location', location);
-          // uri of selected playlist goes in below line
           if (this.state.playlistSelected && this.state.name.trim !== '') {
-            // await this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude);
-            // this.waitForCreatePlaylist(location).then(() => {
-            //   this.resetState();
-            //   this.props.fetchPlaylists();
-            //   console.log('CREATE PLAYLIST id to fetch', this.props.currentId);
-            //   this.props.fetchPlaylist(this.props.currentId);
-            //   this.props.navigation.navigate('Playlist', { id: this.props.currentId });
-            // });
             this.props.createPlaylist(this.state.selected, this.state.name, this.props.userId, location.coords.latitude, location.coords.longitude).then((playlistId) => {
               this.resetState();
               this.props.fetchPlaylists();
-              console.log('CREATE PLAYLIST id to fetch', playlistId);
               this.props.fetchPlaylist(playlistId);
               this.props.navigation.navigate('Playlist', { id: playlistId });
             });
@@ -90,7 +78,6 @@ class CreatePlaylist extends Component {
           console.log('error in onAddClick');
         });
       } else {
-        console.log('permission denied');
         this.setState({ errorMessage: 'app does not have location permissions' });
       }
     });
@@ -103,20 +90,11 @@ class CreatePlaylist extends Component {
   onGenreChange = (text) => {
     const lower = text.toLowerCase();
     this.setState({ genre: lower, playlistSelected: false });
-    console.log(this.state.genre);
   }
 
   onPlaylistPress = (id, name) => {
-    // console.log('on Playlist Press');
     this.setState({ selected: id, genre: name, playlistSelected: true }, () => {
-      // console.log(`on Playlist Press name ${name}`);
-      // console.log(`on Playlist Press genre ${this.state.genre}`);
     });
-
-    // this.setState({
-    //   selected: id,
-    //   genre: name,
-    // });
   }
 
   // eslint-disable-next-line consistent-return
@@ -144,8 +122,6 @@ class CreatePlaylist extends Component {
       country: 'US',
       limit: 5,
     };
-
-    // console.log('bout to do genre search api call');
     axios.get(`${API_PLAYLIST_URL}/${this.state.genre}/playlists`, { headers: { authorization: `Bearer ${this.props.token}` }, params })
       .then((response) => {
         this.setState({ results: response.data.playlists.items });
@@ -172,15 +148,6 @@ class CreatePlaylist extends Component {
   }
 
   render() {
-    if (this.state.results !== null) {
-      // console.log(this.state.results);
-    }
-    if (this.props.message !== undefined) {
-      console.log('message', this.props.message);
-    }
-
-    console.log('loading', this.state.loading);
-
     return (
       <View style={styles.container}>
         <ImageBackground source={require('../img/background.png')} style={styles.backgroundImage}>
