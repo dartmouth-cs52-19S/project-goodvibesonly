@@ -8,14 +8,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { getPlayState, sendPlay, sendPause } from '../actions';
 
 class Songbar extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // isPlaying: false,
-    };
-  }
-
   componentDidMount() {
     this.props.getPlayState(this.props.token);
     setInterval(() => {
@@ -24,14 +16,10 @@ class Songbar extends React.Component {
   }
 
   onPlay = () => {
-    console.log('play press');
-    // this.setState({ isPlaying: true });
     this.props.sendPlay(this.props.token);
   }
 
   onStop = () => {
-    console.log('pause press');
-    // this.setState({ isPlaying: false });
     this.props.sendPause(this.props.token);
     clearTimeout(this.props.processID);
     if (this.props.fromPlaylist === true) {
@@ -40,11 +28,9 @@ class Songbar extends React.Component {
   }
 
   renderPlay() {
-    console.log(this.props.play);
     if (this.props.play === 'true') {
       return (<Ionicons style={styles.button} name="ios-hand" onPress={this.onStop} />);
     } else {
-      // return (<Ionicons style={styles.button} name="ios-play" onPress={this.onPlay} />);
       return (<View />);
     }
   }

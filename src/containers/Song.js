@@ -1,6 +1,5 @@
 /* eslint-disable global-require */
 /* eslint-disable react/destructuring-assignment */
-// add song component
 
 import React, { Component } from 'react';
 import {
@@ -34,11 +33,9 @@ class AddSong extends Component {
   }
 
   onAddClick = () => {
-    console.log('onAddClick');
     this.setState({ addClicked: true });
 
     if (this.state.selectedTrack !== null) {
-    // Real call
       this.props.addToPlaylist(this.props.playlistId, this.state.selectedTrack.id, this.state.selectedTrack.name, this.state.selectedTrack.artists[0].name, this.state.selectedTrack.duration_ms);
       this.props.fetchPlaylist(this.props.playlistId);
       this.props.navigation.pop();
@@ -46,7 +43,6 @@ class AddSong extends Component {
   }
 
   onSearchChange = (text) => {
-    console.log('onSearchChange');
     this.setState({ search: text });
   }
 
@@ -61,7 +57,6 @@ class AddSong extends Component {
       limit: 5,
     };
 
-    console.log('bout to do search api call');
     axios.get(`${API_TRACK_URL}`, { headers: { authorization: `Bearer ${this.props.token}` }, params })
       .then((response) => {
         this.setState(prevState => ({
@@ -83,7 +78,6 @@ class AddSong extends Component {
   }
 
   renderTrack = (track) => {
-    // console.log(track);
     return (
       <TouchableOpacity onPress={() => { this.selectTrack(track); }}>
         <View>
